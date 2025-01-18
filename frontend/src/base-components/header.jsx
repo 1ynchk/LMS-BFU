@@ -5,6 +5,8 @@ import { NavLink } from 'react-router-dom'
 
 import search from '../common-static/images/search.png'
 import logo from '../common-static/images/logo.png'
+import bell from '../common-static/images/bell.png'
+import message from '../common-static/images/message.png'
 
 const Header = () => {
 
@@ -33,6 +35,21 @@ const Header = () => {
                     </button>
                 </form>
             </div>    
+            <Profile /> 
+        </div>
+    )
+}
+
+const Profile = () => {
+    return (
+        <div className='profile'>
+            <div className='profile__section'>
+                <img src={bell} className='profile__img' alt='bell'/>
+                <img src={message} className='profile__img' alt='messages'/>
+            </div>
+            <div className='profile__section'>
+                <img />
+            </div>
         </div>
     )
 }
@@ -55,7 +72,5 @@ const StudentNavigation = () => {
         </div>
     )
 }
-
-
 
 export default Header

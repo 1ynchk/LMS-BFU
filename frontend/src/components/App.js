@@ -7,6 +7,7 @@ import StudentRoot from './Student/StudentRoot';
 import NotFound from '../base-components/main-page/404-not-found';
 
 function App() {
+
   return (
     <BrowserRouter>
       <div className="App"> 

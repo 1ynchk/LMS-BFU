@@ -10,7 +10,7 @@ const StudentRoot = () => {
 
     useEffect(() => {
         navigate('/student/main-page')
-    }, [])
+    }, [navigate])
     
     return (
         <div className='container'>
