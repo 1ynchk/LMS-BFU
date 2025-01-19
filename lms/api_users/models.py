@@ -1,18 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+
+import os
+from django.conf import settings
+
 # Create your models here.
 class Users(AbstractUser):
 
     role_choices = [
-        ('AD', "Admin"),
-        ('MOD', "Moderator"),
-        ('TCH', 'Teacher'),
-        ('ST', 'Student'),
-        ('AP', 'Applicant')
+        ('admin', "Admin"),
+        ('moderator', "Moderator"),
+        ('teacher', 'Teacher'),
+        ('student', 'Student'),
+        ('applicant', 'Applicant')
     ]
-    
-    email = models.CharField(null=False, blank=False)
+
+    email = models.CharField(blank=False, null=False, unique=True)    
+    avatar = models.ImageField(default=os.path.join(settings.BASE_DIR, 'api_users/images/avatar.png'))
     role = models.CharField(max_length=30, choices=role_choices)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return self.email
