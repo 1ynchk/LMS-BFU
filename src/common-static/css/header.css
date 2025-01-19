@@ -1,6 +1,7 @@
+
 .header {
     position: absolute;
-    height: 50px;
+    min-height: 50px;
     width: 95%;
     top: -50px;
     left: 0;
@@ -20,6 +21,7 @@
 
 .header__nav {
     width: 45%;
+    text-align: center;
     display: flex;
     justify-content: space-between;
 }
@@ -65,9 +67,25 @@
 }
 
 .profile__section {
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 130px;
 }
 
 .profile__img {
+    cursor: pointer;
     width: 30px;
+}
+
+.profile__avatar {
+    width: 40px;
+    border-radius: 100px;
+    border: 1px solid rgb(32, 30, 94);
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+.profile__avatar:hover {
+    transform: scale(1.05);
 }

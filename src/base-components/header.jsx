@@ -7,6 +7,7 @@ import search from '../common-static/images/search.png'
 import logo from '../common-static/images/logo.png'
 import bell from '../common-static/images/bell.png'
 import message from '../common-static/images/message.png'
+import { useEffect } from 'react'
 
 const Header = () => {
 
@@ -16,10 +17,12 @@ const Header = () => {
     switch (true) {
         case role == 'student':
             content = <StudentNavigation />
+        case role == 'admin': 
+            content = <AdminNavigation />
     }
 
     return (
-        <div className='header'>
+        <div  className='header'>
             <img src={logo} className='header__image' alt='logo'/>
             {content}
             <div className='header__search'>
@@ -41,15 +44,37 @@ const Header = () => {
 }
 
 const Profile = () => {
+
+    const avatar = useSelector(state => state.user.avatar)
+
+    console.log(avatar)
+
     return (
         <div className='profile'>
             <div className='profile__section'>
                 <img src={bell} className='profile__img' alt='bell'/>
                 <img src={message} className='profile__img' alt='messages'/>
+                <img src={avatar} className='profile__avatar'/>
             </div>
-            <div className='profile__section'>
-                <img />
-            </div>
+                
+        </div>
+    )
+}
+
+const AdminNavigation = () => {
+    const navBar = [
+        { "id": 1, 'to': '/admin/main-page/', 'title': 'Главная'},
+        { 'id': 2, 'to': '/admin/applicants/', 'title': 'Абитуриенты'},
+        { 'id': 3, 'to': '/admin/teachers/', 'title': 'Преподавательский состав'},
+        { 'id': 4, 'to': '/admin/schedule/', 'title': 'Расписание'},
+    ]
+    return (
+        <div className='header__nav'>
+           {navBar.map(el => {return <NavLink 
+            key={el.id} 
+            to={el.to}>
+                {el.title}
+            </NavLink>})} 
         </div>
     )
 }
