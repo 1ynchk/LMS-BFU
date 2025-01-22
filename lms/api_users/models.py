@@ -16,7 +16,7 @@ class Users(AbstractUser):
     ]
 
     email = models.CharField(blank=False, null=False, unique=True)    
-    avatar = models.ImageField(default=os.path.join(settings.BASE_DIR, 'api_users/images/avatar.png'))
+    avatar = models.CharField(default='https://t3.ftcdn.net/jpg/06/19/26/46/360_F_619264680_x2PBdGLF54sFe7kTBtAvZnPyXgvaRw0Y.jpg')
     role = models.CharField(max_length=30, choices=role_choices)
 
     USERNAME_FIELD = 'email'

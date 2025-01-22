@@ -30,13 +30,14 @@ def user_logout(request):
 def check_login(request):
     '''Проверка авторизирован пользователь или нет'''
 
-    print(request.user)
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
+        print(user.last_name)
         response = Response({
             'auth': True, 
             'role': user.role,
-            'name': user.last_name + user.first_name
+            'avatar': user.avatar,
+            'name': user.first_name 
             })
         return response
     else:
