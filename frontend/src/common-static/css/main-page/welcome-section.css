@@ -1,0 +1,17 @@
+
+.welcomeSection {
+    margin-left: -20px;
+    padding: 20px 15px;
+    background-color: rgba(240, 248, 255);
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.welcomeSection__title {
+    padding-left: 20px;
+    font-size: 22px;
+    color: grey;
+    font-weight: 200;
+}
+
+
