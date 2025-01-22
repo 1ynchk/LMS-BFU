@@ -1,9 +1,9 @@
 
 .header {
     position: absolute;
-    min-height: 50px;
+    min-height: 60px;
     width: 95%;
-    top: -50px;
+    top: -60px;
     left: 0;
     background-color: white;
     border-top-right-radius: 20px;
@@ -20,14 +20,34 @@
 }
 
 .header__nav {
+    height: 40px;
     width: 45%;
     text-align: center;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.header__nav::-webkit-scrollbar {
+    height: 6px;
+    background-color: grey;
+    width: 10px;
+    border-radius: 5px;
+}
+
+.header__nav::-webkit-scrollbar-thumb {
+    background-color: rgb(32, 30, 94);
+
+    border-radius: 10px;
+    width: 10px;
 }
 
 .header__nav > * {
     font-size: 18px;
+    margin-right: 13px;
 } 
 
 .header__search {
@@ -88,4 +108,53 @@
 
 .profile__avatar:hover {
     transform: scale(1.05);
+}
+
+.profile__list {
+    padding: 15px 10px;
+    width: fit-content;
+    position: absolute;
+    top: 60px;
+    border-radius: 15px;
+    border: 1px solid rgb(32, 30, 94);
+    background-color: aliceblue;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.profile__list:before{
+    content: '';
+    position: absolute;
+    transform: rotate(180deg);
+    top: -20px; 
+    right: 30px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: rgb(32, 30, 94) transparent transparent transparent; 
+}
+
+.list_child {
+    display: flex;
+    justify-content: space-between;
+    min-width: 130px;
+    height: fit-content;
+    background-color: transparent;
+    color: rgb(32, 30, 94);
+    align-items: center;
+    transition: .3s ease;
+}
+
+.list_child:hover {
+    color: rgb(125, 125, 125);
+}
+
+.list_child__profile_title {
+    font-size: 18px;
+}
+
+.list_child__icon {
+    transform: scale(1.5);
 }

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { fetchLogin } from "../queries/Login/Login.js";
 import { fetchCheckLogin } from './../queries/Login/CheckLogin';
+import { fetchLogout } from './../queries/Login/Logout';
 
 const UserSlice = createSlice(
     {
@@ -11,7 +12,8 @@ const UserSlice = createSlice(
             userName: '',
             isLogin: false,
             role: '',
-            avatar: null
+            avatar: null,
+            loading: false
         },
 
         reducers: {
@@ -44,13 +46,20 @@ const UserSlice = createSlice(
                             state.name = action.payload.name
                             state.avatar = action.payload.avatar 
                             state.role = action.payload.role
+                            state.loading = false
                         } else {
                             localStorage.clear()
                             state.isLogin = false
                             state.name = ''
                             state.avatar = ''
                             state.role = ''
+                            state.loading = false
                         }
+                    }
+                )
+                .addCase(
+                    fetchCheckLogin.pending, (state, action) => {
+                        state.loading = true
                     }
                 )
                 .addCase(
@@ -59,6 +68,19 @@ const UserSlice = createSlice(
                         state.name = ''
                         state.role = ''
                         state.isLogin = false
+                        state.loading = false
+                    }
+                )
+                .addCase(
+                    fetchLogout.fulfilled, (state, action) => {
+                        localStorage.clear()
+                        window.location.reload()
+                        state.isLogin = false
+                    }
+                )
+                .addCase(
+                    fetchLogout.rejected, (state, action) => {
+
                     }
                 )
         }

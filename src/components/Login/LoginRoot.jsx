@@ -14,9 +14,11 @@ const LoginRoot = () => {
 
     useEffect(() => {
         if (auth && role) {
-        navigate(`/${role}/main-page/`)
+            navigate(`/${role}/main-page/`)
         } 
-    }, [auth, role])
+    }, [role])
+
+    console.log(role)
 
     return (
         <div className="loginroot">

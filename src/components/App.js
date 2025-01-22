@@ -6,7 +6,7 @@ import AdminRoot from './Admin/AdminRoot';
 import StudentRoot from './Student/StudentRoot';
 import NotFound from '../base-components/main-page/404-not-found';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchCheckLogin } from './../store/queries/Login/CheckLogin';
 
@@ -15,14 +15,22 @@ function App() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const auth = localStorage.getItem('auth')
+  const isLogin = useSelector(state => state.user.isLogin)
 
   useEffect(() => {
+
+    if (isLogin) {
+      dispatch(fetchCheckLogin())
+      return 
+    }
+    
     if (auth) {
       dispatch(fetchCheckLogin())
     } else {
       navigate('/login')
     }
-  }, [auth]) 
+
+  }, [isLogin]) 
 
   return (
       <div className="App"> 

@@ -1,3 +1,73 @@
 .adminmainpage {
+}
 
+.adminmainpage__title {
+    margin-top: 20px;
+    font-size: 22px; 
+}
+
+.adminmainpage__section {
+    padding: 20px;
+    background-color: aliceblue;
+    width: 31%;
+    border-radius: 10px;
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    margin-top: 20px;
+}
+
+.adminmainpage__subsection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.adminmainpage__sections_wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.adminmainpage__sectionTitle {
+    font-size: 24px;
+    color: rgb(32, 20, 94);
+}
+
+.adminmainpage__sectionIcon {
+    font-size: 50px;
+    transition: .3s ease;
+}
+
+.adminmainpage__subsection.vertical {
+    margin-top: 15px;
+    height: 100px;
+    align-items: start;
+    display: flex;
+    flex-direction: column;
+}
+
+.adminmainpage__delimeter {
+    width: 7px;
+    height: 7px;
+    border-radius: 30px;
+    background-color: rgb(32, 20, 94);
+}
+
+.adminmainpage__nav {
+    display: flex;
+    align-items: center;
+}
+
+.adminmainpage__sectionSubtitle {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.adminpage__section_all {
+    margin-top: 10px;
+    font-size: 14px;
+    color: grey;
+}
+
+.adminmainpage__section:hover .adminmainpage__sectionIcon {
+    transform: scale(1.1);
 }
