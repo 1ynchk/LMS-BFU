@@ -68,6 +68,7 @@ const Profile = () => {
                 (
                     <motion.div 
                         initial='initial'
+                        exit={{opacity: 0, y: 5}}
                         animate='visible'
                         variants={profileListVars} 
                         className='profile__list'>
@@ -107,7 +108,10 @@ const Header = () => {
 
     return (
         <div  className='header'>
-            <img src={logo} className='header__image' alt='logo'/>
+            <NavLink to='/admin/main-page/'>
+                <img src={logo} className='header__image' alt='logo'/>
+            </NavLink>
+            
             {content}
             <div className='header__search'>
                 <form className='header__form'>

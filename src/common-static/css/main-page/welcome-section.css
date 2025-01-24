@@ -14,4 +14,16 @@
     font-weight: 200;
 }
 
+.welcomeSection__wrapper {
+    display: flex;
+    color: rgb(32, 20, 94)
+}
 
+.welcomeSection__subtitle{
+    color: rgb(32, 20, 94);
+    margin-right: 10px;
+}
+
+.welcomeSection__span {
+    
+}

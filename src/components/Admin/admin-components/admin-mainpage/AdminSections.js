@@ -8,7 +8,7 @@ import { LiaUsersCogSolid } from "react-icons/lia";
 export const sections = [
         {
             'title': 'Новости',
-            'link': '/admin/news/',
+            'link': '/admin/news/all/',
             'icon': <FaNewspaper/>,
             'lst': [
                 {
@@ -17,14 +17,14 @@ export const sections = [
                 },
                 {
                     'title': 'Все новости',
-                    'link': '/admin/news/'
+                    'link': '/admin/news/all'
                 },
                 {
                     'title': 'Архив',
                     'link': '/admin/news/archive/'
                 }
             ],
-            'link_all': '/admin/news/'    
+            'link_all': '/admin/news/all/'    
         },
         {
             'title': 'Расписание',

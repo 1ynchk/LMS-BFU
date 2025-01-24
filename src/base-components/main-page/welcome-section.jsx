@@ -12,13 +12,11 @@ const WelcomeSection = () => {
     const location = useLocation()
     let content = null
 
-    console.log(location)
-
     switch (true) {
         case String(location.pathname).slice(-10) == 'main-page/':
             content = `Добро пожаловать, ${name}!`
             break
-        case location.pathname == '/admin/news/':
+        case String(location.pathname).slice(0, 12) == '/admin/news/':
             content = <WelcomeType section={'Новости'} icon={<FaNewspaper/>} />
             break
     }
@@ -38,9 +36,9 @@ const WelcomeSection = () => {
 
 const WelcomeType = ({ section, icon }) => {
     return (
-        <div className='admincats__wrapper'>
-                <div className='admincats__title'>
-                    Секция: <span className='admincats__span'>{section}</span>
+        <div className='welcomeSection__wrapper'>
+                <div className='welcomeSection__subtitle'>
+                    Секция: <span className='welcomeSection__span'>{section}</span>
                 </div>
                 {icon}
         </div>

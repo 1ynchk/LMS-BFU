@@ -55,6 +55,16 @@ a {
     padding: 20px;
 } 
 
+.sections_container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.sections_wrapper {
+    width: 100%;
+}
+
 .container {
     padding: 30px 0;
     background: rgb(2,0,36);

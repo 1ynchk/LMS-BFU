@@ -1,30 +1,34 @@
-import '../../../../common-static/css/admin-common/admin-cat-common.css'
+import '../../admin-static/css/admin-news.css'
 
-import WelcomeSection from '../../../../base-components/main-page/welcome-section'
+import { Routes, Route, Outlet, useNavigate, useLocation } from 'react-router-dom'
 
-import { FaLongArrowAltRight } from "react-icons/fa";
+import WelcomeSection from "../../../../base-components/main-page/welcome-section"
+import Subsection from "../../../../base-components/Subsections"
+import { useEffect } from 'react'
 
 const AdminNews = () => {
+
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    useEffect(() => {
+        if (location.pathname === '/admin/news/') {
+            navigate('/admin/news/all/')
+        }
+    }, [location])
+    
     return (
-        <div className='admincats'>
-
-            <WelcomeSection />            
-
-            <div className='admincats__links'>
-
-                <div className='admincats__linkContainer'>
-                    <div className='adminmainpage__delimeter'></div>
-                    <div className='admincats__linkTitle'>
-                        Посмотреть все новости
-                    </div>
-                    <FaLongArrowAltRight className='admincats__arrow'/> 
-                    
+        <div className="adminnews-wrapper">
+            <WelcomeSection /> 
+            <div className="sections_container">
+                <Subsection />
+                <div className='sections_wrapper'>
+                    <Outlet /> 
                 </div>
-                
             </div>
-            
         </div>
     )
 }
+
 
 export default AdminNews
