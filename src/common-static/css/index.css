@@ -62,7 +62,12 @@ a {
 }
 
 .sections_wrapper {
-    width: 100%;
+    margin-top: 30px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .container {

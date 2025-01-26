@@ -48,9 +48,9 @@ const AdminSection = ({title, link, icon, lst, link_all, index}) => {
                 </div>
             </div>
             <div className='adminmainpage__subsection vertical'>
-                {lst.map(el => {
+                {lst.map((el, index ) => {
                     return (
-                        <NavLink to={el.link} className='adminmainpage__nav'>
+                        <NavLink key={index} to={el.link} className='adminmainpage__nav'>
                             <div className='adminmainpage__delimeter'/>
                             <div className='adminmainpage__sectionSubtitle'>
                                 {el.title} 

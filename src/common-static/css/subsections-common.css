@@ -37,9 +37,6 @@
     color: rgb(152, 132, 255);
 }
 
-.subsections__linkContainer:hover {
-    color: rgb(32, 20, 94);
-}
 
 .subsections__linkTitle {
     margin: 0 10px;
@@ -56,6 +53,9 @@
 
 .subsections__conceal {
    background-color: rgb(32, 20, 94); 
+   position: absolute;
+   top: 90px;
+   left: 20px;
    width: 40px;
    margin-left: -20px;
    height: 40px;
@@ -66,6 +66,38 @@
    align-items: center;
    justify-content: end;
    padding-right: 10px;
+}
+
+.subsection__name {
+    font-size: 25px;
+    margin-bottom: 20px;
+    color: rgb(32, 20, 94);
+}
+
+.subsection__container {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.subsection__subcontainer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+}
+
+.subsection__label.news_add {
+    text-align: center;
+}
+
+.subsection__label {
+    font-size: 18px;
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px 15px;
+    background-color: aliceblue;
+    margin-bottom: 10px;
 }
 
 .subsections__burger {
