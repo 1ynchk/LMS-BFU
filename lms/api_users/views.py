@@ -32,7 +32,6 @@ def check_login(request):
 
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
-        print(user.last_name)
         response = Response({
             'auth': True, 
             'role': user.role,
