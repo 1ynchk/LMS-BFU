@@ -26,10 +26,11 @@
 
 .adminnewsadd__file_wrapper {
     border: 2px dashed rgb(32, 20, 94);
+    height: 180px;
     border-radius: 5px;
-    height: 100px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     background: rgba(128, 128, 128, 0.1);
 }
@@ -43,19 +44,37 @@
     }
 }
 
+.adminnewsadd__fileName {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.adminnewsadd__fileName_cross {
+    cursor: pointer;
+    color: red;
+}
+
+
 .adminnewsadd__file_wrapper.dragover {
     background-color: rgb(32, 20, 94, 0.3);
     animation: file_drop 1s ease infinite;
 }
 
 .adminnewsadd__button {
+    background-color: grey;
     margin-top: 20px;
-    background-color: rgb(32, 20, 94);
     color: white;
     padding: 10px 30px;
     font-size: 16px;
     border-radius: 5px;
     margin-left: 15px;
+    cursor: default;
+}
+
+.adminnewsadd__button.active {
+    background-color: rgb(32, 20, 94);
+    cursor: pointer;
 }
 
 .adminnewsadd__icon {

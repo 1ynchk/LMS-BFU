@@ -7,16 +7,24 @@ import { host } from '../../../../store/root';
 import { getCSRFToken } from '../../../bll/cookies/getCSRF';
 
 import { RiFolderUploadLine } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 import { GoTriangleUp } from "react-icons/go";
-import { motion, AnimatePresence, easeIn } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const AdminNewsAdd = () => {
+    const [isUpload, setUpload] = useState(false)
+    const [selectedFile, setSelectedFile] = useState(null)
     const [categories, setCategories] = useState([])
     const [isActiveCats, setActiveCats] = useState(false)
     const [selected, setSelected] = useState(null)
+    const [typeSubmit, setTypeSubmit] = useState(null)
+    const [allowPub, setAllowPub] = useState(false)
+    const [isName, setName] = useState(null)
+    const [lengthContent, setLengthContent] = useState(false)
+
     const wrapperZone = useRef(null)
     const dropZone = useRef(null)
-    const listCats = useRef(null)
+    const filePicker = useRef(null)
 
     useEffect(() => {
         const token = getCSRFToken()
@@ -34,6 +42,21 @@ const AdminNewsAdd = () => {
             })
     }, [])
 
+    useEffect(() => {
+        const btns = document.querySelectorAll('.adminnewsadd__button')
+        if (isName && lengthContent) {
+            btns.forEach(e => {
+               e.classList.add('active') 
+            });
+            setAllowPub(true)
+        } else {
+            btns.forEach(e => {
+               e.classList.remove('active') 
+            });
+            setAllowPub(false)
+        }
+    }, [isName, lengthContent])
+    
     const handleDragOver = (e) => {
         e.preventDefault()
         dropZone.current.classList.add('dragover')
@@ -45,6 +68,11 @@ const AdminNewsAdd = () => {
 
     const handleDrop = (e) => {
         e.preventDefault()
+        const file = e.dataTransfer.files
+        if (file.length != 0) {
+            setUpload(true)
+            setSelectedFile(file[0])
+        }
         dropZone.current.classList.remove('dragover')
     }
 
@@ -52,96 +80,217 @@ const AdminNewsAdd = () => {
         setSelected(e.target.value)
     }
 
+    const changeName = (e) => {
+        const length = e.target.value.length
+        if (length > 10) {
+            setName(true)
+        } else {
+            setName(false)
+        }
+    }
+
+    const onSubmit = (e) => {
+        e.preventDefault()
+        if (typeSubmit == 'scratch') {
+
+        }
+        if (typeSubmit == 'publish') {
+
+        }
+    }
+
     return (
-        <div
+        <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ ease: 'easeIn', duration: 0.3 }}
             ref={wrapperZone}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             className="adminnewsadd">
-            <form>
-                <div className="subsection__name">Добавить новость</div>
-                <div className="subsection__container">
-                    <div className="subsection__subcontainer">
-                        <div className="subsection__label">Категории</div>
-                        <div className='subsection__list_wrapper'>
-                            <div className="subsection__list">
-                                <div className='adminnewsadd__label'>Без категории</div>
-                                <input
-                                    onChange={handleSelected}
-                                    type='radio'
-                                    defaultChecked
-                                    name='cat' />
-                            </div>
-                            <div
-                                onClick={() => setActiveCats(!isActiveCats)}
-                                className="subsection__list open_btn">
-                                <button
-                                    type="button"
-                                    className='adminnewsadd__label'>Все категории</button>
-                                <motion.div
-                                    initial={false}
-                                    animate={{ rotate: isActiveCats ? 180 : 0 }}
-                                    transition={{ ease: 'easeOut' }}
-                                >
-                                    <GoTriangleUp className='adminnewsadd__icon' />
-                                </motion.div>
 
-                            </div>
-                            <AnimatePresence exitBeforeEnter>
+            <div className="subsection__name">Добавить новость</div>
+            <form onSubmit={(e) => onSubmit(e)}>
+                <div className="subsections__wrapper">
+                    <div>
+                        <div className="subsection__subcontainer">
+                            <div className="subsection__label">Название</div>
+                            <input
+                                onChange={(e) => changeName(e)}
+                                className="subsection__input" />
+                            <AnimatePresence>
                                 {
-                                    isActiveCats && (
-                                        <motion.div
-                                            variants={listVars}
-                                            initial='initial'
-                                            animate='visible'
-                                            exit={{
-                                                opacity: 0,
-                                                height: 0
-                                            }}
-                                            style={{ overflow: 'hidden' }}
-                                            className='adminnewsadd__listcats'>
-                                            {categories.map((el, index) => {
-                                                return (
-                                                    <div key={index} className='subsection__list'>
-                                                        <div className='adminnewsadd__cat'>{el.title}</div>
-                                                        <input
-                                                            value={'option' + index}
-                                                            checked={selected === 'option' + index}
-                                                            type='radio'
-                                                            name='cat'
-                                                            onChange={handleSelected}
-                                                        />
-                                                    </div>)
-                                            })}
+                                    isName == false && (
+                                        <motion.div 
+                                            initial={{opacity: 0, y: 10}}
+                                            animate={{opacity: 1, y: 0}}
+                                            exit={{opacity: 0, y: 10}}
+                                            style={{overflow: 'hidden'}}
+                                            className="subsection__warn">
+                                            Название должно быть длинее 10 символов
                                         </motion.div>
                                     )
                                 }
                             </AnimatePresence>
                         </div>
+                        <Categories
+                            selected={selected}
+                            handleSelected={handleSelected}
+                            isActiveCats={isActiveCats}
+                            setActiveCats={setActiveCats}
+                            categories={categories}
+                        />
                     </div>
-                    <div className="subsection__subcontainer">
-                        <div className="subsection__label">Фотография</div>
-                        <div
-                            ref={dropZone}
-                            className='adminnewsadd__file_wrapper'>
-                            <button className='adminnewsadd__filePicker'>
-                                Загрузить
-                                <RiFolderUploadLine />
-                            </button>
-                        </div>
-                        <input className='adminnewsadd__input'
-                            type='file'
-                            accept='image/*,.png,.jpg' />
-                    </div>
+                    <Photo
+                        filePicker={filePicker}
+                        isUpload={isUpload}
+                        setUpload={setUpload}
+                        setSelectedFile={setSelectedFile}
+                        selectedFile={selectedFile}
+                        dropZone={dropZone}
+                    />
                 </div>
+
                 <div className='subsection__label news_add'>Содержимое новости</div>
-                <NewsEditor />
+                <NewsEditor setLengthContent={setLengthContent} lengthContent={lengthContent}/>
                 <div className="adminnewsadd__btn_container">
-                    <button className='adminnewsadd__button'>Добавить в черновики</button>
-                    <button className='adminnewsadd__button'>Опубликовать</button>
+                    <button
+                        onClick={() => {
+                            setTypeSubmit('scratch')
+                        }}
+                        type="submit"
+                        disabled={!allowPub}
+                        className='adminnewsadd__button'>
+                        Добавить в черновики
+                    </button>
+                    <button
+                        onClick={() => {
+                            setTypeSubmit('publish')
+                        }}
+                        type="submit"
+                        disabled={!allowPub}
+                        className='adminnewsadd__button'>
+                        Опубликовать
+                    </button>
                 </div>
             </form>
+        </motion.div>
+    )
+}
+
+const Photo = (
+    { dropZone, selectedFile, setSelectedFile, isUpload, setUpload, filePicker }) => {
+
+    const handlePickFile = (e) => {
+        filePicker.current.click()
+    }
+
+    const handleOnChange = (e) => {
+        setUpload(true)
+        setSelectedFile(e.target.files[0])
+    }
+
+    return (
+        <div className="subsections__container photo_container">
+            <div className="subsection__label">Фотография</div>
+            <div
+                ref={dropZone}
+                className='adminnewsadd__file_wrapper'>
+                <button
+                    type="button"
+                    onClick={handlePickFile}
+                    className='adminnewsadd__filePicker'>
+                    Загрузить
+                    <RiFolderUploadLine />
+                </button>
+                {
+                    isUpload && (
+                        <div className="adminnewsadd__fileName">
+                            {
+                                String(selectedFile.name).slice(0, 20) + (
+                                    String(selectedFile.name).length > 20 ? '...' : '')
+                            }
+                            <span
+                                onClick={() => {
+                                    setUpload(false)
+                                    setSelectedFile(null)
+                                }}
+                                className="adminnewsadd__fileName_cross">
+                                <RxCross2 />
+                            </span>
+                        </div>
+                    )
+                }
+            </div>
+            <input
+                ref={filePicker}
+                onChange={handleOnChange}
+                className='adminnewsadd__input'
+                type='file'
+                accept='image/*,.png,.jpg' />
+        </div>
+    )
+}
+
+const Categories = (
+    { handleSelected, isActiveCats, setActiveCats, categories, selected }) => {
+    return (
+        <div className="subsection__subcontainer">
+            <div className="subsection__label">Категории</div>
+            <div className="subsection__list">
+                <div className='adminnewsadd__label'>Без категории</div>
+                <input
+                    onChange={handleSelected}
+                    type='radio'
+                    defaultChecked
+                    name='cat' />
+            </div>
+            <div
+                onClick={() => setActiveCats(!isActiveCats)}
+                className="subsection__list open_btn">
+                <button
+                    type="button"
+                    className='adminnewsadd__label'>Все категории</button>
+                <motion.div
+                    initial={false}
+                    animate={{ rotate: isActiveCats ? 180 : 0 }}
+                    transition={{ ease: 'easeOut' }}
+                >
+                    <GoTriangleUp className='adminnewsadd__icon' />
+                </motion.div>
+
+            </div>
+            <AnimatePresence exitBeforeEnter>
+                {
+                    isActiveCats && (
+                        <motion.div
+                            variants={listVars}
+                            initial='initial'
+                            animate='visible'
+                            exit={{
+                                opacity: 0,
+                                height: 0
+                            }}
+                            style={{ overflow: 'hidden' }}
+                            className='adminnewsadd__listcats'>
+                            {categories.map((el, index) => {
+                                return (
+                                    <div key={index} className='subsection__list'>
+                                        <div className='adminnewsadd__cat'>{el.title}</div>
+                                        <input
+                                            value={'option' + index}
+                                            checked={selected === 'option' + index}
+                                            type='radio'
+                                            name='cat'
+                                            onChange={handleSelected}
+                                        />
+                                    </div>)
+                            })}
+                        </motion.div>
+                    )
+                }
+            </AnimatePresence>
         </div>
     )
 }

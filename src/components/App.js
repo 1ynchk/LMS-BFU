@@ -1,5 +1,5 @@
 import '../common-static/css/index.css'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
 import LoginRoot from './Login/LoginRoot';
 import AdminRoot from './Admin/AdminRoot';
@@ -12,6 +12,7 @@ import { fetchCheckLogin } from './../store/queries/Login/CheckLogin';
 
 function App() {
 
+  const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const auth = localStorage.getItem('auth')
@@ -31,6 +32,12 @@ function App() {
     }
 
   }, [isLogin]) 
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      navigate('/login')
+    }
+  }, [])
 
   return (
       <div className="App"> 

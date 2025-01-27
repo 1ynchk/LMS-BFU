@@ -2,19 +2,33 @@ import '../../common-static/css/news-editor.css'
 
 import { EditorState } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
-import { useRef, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 
-const NewsEditor = () => {
+const NewsEditor = ({setLengthContent, lengthContent}) => {
 
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
     const [isMounted, setIsMounted] = useState(false)
+    const [symbolsCount, setSymbolsCount] = useState(0)
+
     useEffect(() => {
         setIsMounted(true)
         return () => {
             setIsMounted(false)
         }
     }, [])
+
+    useEffect(() => {
+        const contentStateLength = editorState.getCurrentContent().getPlainText().length
+
+       setSymbolsCount(contentStateLength) 
+
+       if(contentStateLength >= 300) {
+            setLengthContent(true)
+       } else {
+            setLengthContent(false)
+       }
+    }, [editorState])
 
     return (
         <div className='newseditor'>
@@ -24,6 +38,7 @@ const NewsEditor = () => {
                 wrapperClassName="wrapper-class"
                 editorClassName="editor-class"
                 toolbarClassName="toolbar-class"
+                stripPastedStyles={true}
                 toolbar={{
                     options: [
                         "inline",
@@ -50,6 +65,16 @@ const NewsEditor = () => {
                     },
                 }}
             />}
+            <SymbolsCount symbolsCount={symbolsCount}/>
+        </div>
+    )
+}
+
+const SymbolsCount = ({ symbolsCount }) => {
+
+    return (
+        <div className='symbolscount'>
+            <div className='symbolscount__container'>{symbolsCount}/300</div>
         </div>
     )
 }

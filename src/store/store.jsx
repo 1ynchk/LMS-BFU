@@ -1,10 +1,12 @@
 import { configureStore, combineReducers} from '@reduxjs/toolkit'
 
 import UserReducer from './slices/UserSlice'
+import NewsSlice from './slices/NewsSlice'
 
 const reducers = combineReducers(
     {
-        user: UserReducer 
+        user: UserReducer,
+        news: NewsSlice 
     }
 )
 
