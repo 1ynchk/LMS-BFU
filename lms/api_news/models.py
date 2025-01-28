@@ -2,6 +2,8 @@ from django.db import models
 
 # Create your models here.
 
+# CATEGORIES
+
 class NewsCategories(models.Model): 
     title = models.CharField(max_length=50, unique=True)
     slug = models.CharField(
@@ -12,6 +14,8 @@ class NewsCategories(models.Model):
     def __str__(self):
         return self.title
 
+# RATES
+
 class NewsRates(models.Model):
     rates = models.BooleanField(null=True, )
     news = models.ForeignKey('News', on_delete=models.CASCADE)
@@ -19,6 +23,8 @@ class NewsRates(models.Model):
 
     def __str__(self):
         return f'{self.user} | {self.news} | {self.rate}'
+
+# COMMENTS
 
 class NewsComments(models.Model):
     user = models.ForeignKey('api_users.Users', on_delete=models.CASCADE) 
@@ -28,12 +34,20 @@ class NewsComments(models.Model):
     def __str__(self):
         return self.user
 
-class News(models.Model): 
+# BASE
+
+class NewsAbstract(models.Model): 
     title = models.CharField(max_length=155)
     cats = models.ManyToManyField(NewsCategories)
     value = models.CharField(max_length=5000)
     rates = models.ManyToManyField(NewsRates, related_name='news_rates')
-    reviews = models.ManyToManyField(NewsComments)
+    comments = models.ManyToManyField(NewsComments, )
 
     def __str__(self):
         return self.title
+    
+class News(NewsAbstract):
+    pass
+
+class Scratch(NewsAbstract):
+    pass

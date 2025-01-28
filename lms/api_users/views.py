@@ -2,7 +2,14 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
 
+from django.middleware.csrf import get_token
+from django.http import JsonResponse
+
 from .models import Users
+
+@api_view(['GET'])
+def csrf_token_view(request):
+    return JsonResponse({'csrfToken': get_token(request)})
 
 @api_view(http_method_names=['POST'])
 def user_login(request):
@@ -11,10 +18,11 @@ def user_login(request):
     email = request.data.get('email')
     password = request.data.get('password')
     user = authenticate(request, email=email, password=password)
-    print(user)
     if user is not None: 
+        
         login(request, user)
         response = Response({'status': 'ok', 'comment': 'success'}) 
+        response.set_cookie('sessionid', request.session.session_key)
         return response 
     else:
         return Response({'status': 'error', 'comment': 'there is not such a user'}, status=401)

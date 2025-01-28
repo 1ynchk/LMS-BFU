@@ -28,6 +28,14 @@ class Users(AbstractUser):
     class Meta: 
         db_table = 'api_users__users'
 
+class UsersPermissions(models.Model): 
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    change_news = models.BooleanField(default=False)
+    make_courses = models.BooleanField(default=False)
+
+    def __str__(self): 
+        return self.user.email
+
 # class Applicants(models.Model): 
 
 #     type_exam_choices = [

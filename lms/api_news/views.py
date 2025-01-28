@@ -8,6 +8,7 @@ from .decorators import only_admin
 
 @api_view(http_method_names=['GET'])
 def get_news(request):
+    '''Возвращает все новости'''
     queryset = News.objects.prefetch_related('cats', 'rates').all()
 
     return Response({'status': 'ok', 'data': NewsSerializer(queryset, many=True).data}) 
@@ -23,4 +24,9 @@ def get_categories(request):
 
     return Response({'status': 'ok', 
         'data': NewsCategoriesSerializer(queryset, many=True).data})
+    
+# POST
 
+@api_view(http_method_names=['POST'])
+def post_scratch(request):
+    pass

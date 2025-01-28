@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api_users',
     'api_news',
-    'corsheaders'
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -53,19 +53,21 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CSRF_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SAMESITE = 'None'
-CSRF_COOKIE_SECURE = True 
+
+CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True 
+SESSION_COOKIE_SAMESITE = 'None' 
+CSRF_COOKIE_SAMESITE = 'None' 
 
-CSRF_COOKIE_HTTPONLY = True
-SESSION_COOKIE_HTTPONLY = True
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1']
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000', 
+    'http://127.0.0.1'
+    ]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
