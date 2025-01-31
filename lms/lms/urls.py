@@ -17,11 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from api_users.urls import urlpatterns as users_patterns
-<<<<<<< Updated upstream
-from api_news.urls import urlpatterns as news_patterns
-=======
 from api_news.urls import urlpatterns as news_patterns 
->>>>>>> Stashed changes
 
 urlpatterns = [
     path('admin/', admin.site.urls),
