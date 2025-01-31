@@ -2,10 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 import { host } from "../../root";
-import { getCSRFToken } from "../../../components/bll/cookies/getCSRF";
 
-export const fetchLogout = createAsyncThunk('user/fetchLogout', async () => {
-    const token = getCSRFToken()
+export const fetchLogout = createAsyncThunk('user/fetchLogout', async (token) => {
     const data = await axios.post(`${host}/api_users/logout/`, {}, 
     {headers: {'X-CSRFToken': token}} 
     )

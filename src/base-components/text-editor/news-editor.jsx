@@ -1,13 +1,13 @@
 import '../../common-static/css/news-editor.css'
 
-import { EditorState } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import { useEffect, useState } from 'react'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 
-const NewsEditor = ({setLengthContent, lengthContent}) => {
+const NewsEditor = (
+    { setLengthContent, setEditorState, editorState }) => {
 
-    const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+    
     const [isMounted, setIsMounted] = useState(false)
     const [symbolsCount, setSymbolsCount] = useState(0)
 
@@ -21,13 +21,13 @@ const NewsEditor = ({setLengthContent, lengthContent}) => {
     useEffect(() => {
         const contentStateLength = editorState.getCurrentContent().getPlainText().length
 
-       setSymbolsCount(contentStateLength) 
+        setSymbolsCount(contentStateLength)
 
-       if(contentStateLength >= 300) {
+        if (contentStateLength >= 300) {
             setLengthContent(true)
-       } else {
+        } else {
             setLengthContent(false)
-       }
+        }
     }, [editorState])
 
     return (
@@ -65,7 +65,7 @@ const NewsEditor = ({setLengthContent, lengthContent}) => {
                     },
                 }}
             />}
-            <SymbolsCount symbolsCount={symbolsCount}/>
+            <SymbolsCount symbolsCount={symbolsCount} />
         </div>
     )
 }

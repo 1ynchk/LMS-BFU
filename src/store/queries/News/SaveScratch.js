@@ -2,16 +2,21 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'
 
 import { host } from '../../root';
-import { getCSRFToken } from '../../../components/bll/cookies/getCSRF';
 
-export const fetchScratch = createAsyncThunk('news/fetchScratch', async () => {
-    const token = getCSRFToken
-    
-    const data = await axios.post(
-        `${host}/api_news/post-scratch/`,
-        {},
-        {headers: {'X-CSRFToken': token}, withCredentials: true}
-    )
+export const fetchScratch = createAsyncThunk('news/fetchScratch',
+    async (form, token) => {
+        
+        const data = await axios.post(
+            `${host}/api_news/post-scratch/`,
+            form, 
+            { 
+                headers: { 
+                    'X-CSRFToken': token,
+                    'Content-Type': 'multipart/form-data' 
+                }, 
+                withCredentials: true,
+            }
+        )
 
-    return data.data
-})
+        return data.data
+    })

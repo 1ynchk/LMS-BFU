@@ -5,13 +5,13 @@ import LoginRoot from './Login/LoginRoot';
 import AdminRoot from './Admin/AdminRoot';
 import StudentRoot from './Student/StudentRoot';
 import NotFound from '../base-components/main-page/404-not-found';
+
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchCheckLogin } from './../store/queries/Login/CheckLogin';
 
 function App() {
-
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -20,18 +20,12 @@ function App() {
 
   useEffect(() => {
 
-    if (isLogin) {
-      dispatch(fetchCheckLogin())
-      return 
-    }
-    
     if (auth) {
       dispatch(fetchCheckLogin())
     } else {
       navigate('/login')
     }
-
-  }, [isLogin]) 
+  }, [isLogin])
 
   useEffect(() => {
     if (location.pathname === '/') {
@@ -40,14 +34,14 @@ function App() {
   }, [])
 
   return (
-      <div className="App"> 
-          <Routes>
-              <Route exact path='/login' element={<LoginRoot />} />
-              <Route exact path='/admin/*' element={<AdminRoot />} />
-              <Route exact path='/student/*' element={<StudentRoot />} />   
-              <Route path='*' element={<NotFound/>}/>
-            </Routes>
-      </div>
+    <div className="App">
+      <Routes>
+        <Route exact path='/login' element={<LoginRoot />} />
+        <Route exact path='/admin/*' element={<AdminRoot />} />
+        <Route exact path='/student/*' element={<StudentRoot />} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
+    </div>
   )
 }
 

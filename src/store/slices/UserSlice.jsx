@@ -41,15 +41,14 @@ const UserSlice = createSlice(
                 .addCase(
                     fetchCheckLogin.fulfilled, (state, action) => {
                         if (action.payload.auth) {
+
                             localStorage.setItem('auth', 'True')
-                            state.isLogin = true
                             state.name = action.payload.name
                             state.avatar = action.payload.avatar 
                             state.role = action.payload.role
                             state.loading = false
                         } else {
                             localStorage.clear()
-                            state.isLogin = false
                             state.name = ''
                             state.avatar = ''
                             state.role = ''

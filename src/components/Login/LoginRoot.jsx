@@ -18,8 +18,6 @@ const LoginRoot = () => {
         } 
     }, [role])
 
-    console.log(role)
-
     return (
         <div className="loginroot">
             <LoginPanel />

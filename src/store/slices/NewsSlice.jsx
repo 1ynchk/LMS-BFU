@@ -17,7 +17,10 @@ const NewsSlice = createSlice(
             builder 
                 .addCase(
                     fetchScratch.fulfilled, (state, action) => {
-
+                    }
+                )
+                .addCase(
+                    fetchScratch.rejected, (state, aciton) => {
                     }
                 )
         }

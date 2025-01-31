@@ -7,14 +7,18 @@ import { Provider } from 'react-redux'
 import { store } from './store/store';
 import { BrowserRouter } from 'react-router-dom';
 
+import { CSRFProvider } from './components/contexts/csrf-context'
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
+    <CSRFProvider>
       <BrowserRouter>
-            <App />
+        <App />
       </BrowserRouter>
-    </Provider>
-  
+    </CSRFProvider>
+  </Provider>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

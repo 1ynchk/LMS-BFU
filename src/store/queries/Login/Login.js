@@ -1,21 +1,20 @@
-import { createAsyncThunk } from '@reduxjs/toolkit' 
+import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 import { host } from '../../root'
-import { getCSRFToken } from '../../../components/bll/cookies/getCSRF'
 
 export const fetchLogin = createAsyncThunk('user/fetchLogin', async (
-    {email, pswrd}) => {
-        const token = getCSRFToken()
+    { email, pswrd, csrftoken }) => {
 
-        const data = await axios.post(
+    console.log(csrftoken)
+        
+    const data = await axios.post(
         `${host}/api_users/login/`,
-        {'email': email, 'password': pswrd},
+        { 'email': email, 'password': pswrd },
         {
-            headers: {'X-CSRFToken': token},
-            // withCredentials: true,
-        } 
-        )
+            headers: { 'X-CSRFToken': csrftoken },
+        }
+    )
 
-        return data.data
+    return data.data
 })

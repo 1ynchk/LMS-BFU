@@ -1,10 +1,13 @@
 
 import NewsEditor from "../../../../base-components/text-editor/news-editor"
 import { useEffect, useRef, useState } from "react"
+import { useDispatch } from 'react-redux';
 
 import axios from 'axios';
 import { host } from '../../../../store/root';
-import { getCSRFToken } from '../../../bll/cookies/getCSRF';
+import { fetchScratch } from './../../../../store/queries/News/SaveScratch';
+
+import { EditorState, convertToRaw } from 'draft-js'
 
 import { RiFolderUploadLine } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
@@ -12,28 +15,33 @@ import { GoTriangleUp } from "react-icons/go";
 import { motion, AnimatePresence } from "framer-motion";
 
 const AdminNewsAdd = () => {
-    const [isUpload, setUpload] = useState(false)
-    const [selectedFile, setSelectedFile] = useState(null)
-    const [categories, setCategories] = useState([])
-    const [isActiveCats, setActiveCats] = useState(false)
-    const [selected, setSelected] = useState(null)
-    const [typeSubmit, setTypeSubmit] = useState(null)
-    const [allowPub, setAllowPub] = useState(false)
-    const [isName, setName] = useState(null)
-    const [lengthContent, setLengthContent] = useState(false)
 
+    // hooks
+    const dispatch = useDispatch()
+
+    // fetch data
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+    const [selectedFile, setSelectedFile] = useState(null)
+    const [selected, setSelected] = useState(null)
+
+    // conditions
+    const [allowPub, setAllowPub] = useState(false)
+    const [isName, setName] = useState('')
+    const [lengthContent, setLengthContent] = useState(false)
+    const [isUpload, setUpload] = useState(false)
+    const [isActiveCats, setActiveCats] = useState(false)
+    const [typeSubmit, setTypeSubmit] = useState(null)
+    const [categories, setCategories] = useState([])
+
+    // refs
     const wrapperZone = useRef(null)
     const dropZone = useRef(null)
     const filePicker = useRef(null)
 
     useEffect(() => {
-        const token = getCSRFToken()
         axios.get(
             `${host}/api_news/get-cats/`,
             {
-                headers: {
-                    'X-CSRFToken': token,
-                },
                 withCredentials: true
             }
         )
@@ -44,7 +52,7 @@ const AdminNewsAdd = () => {
 
     useEffect(() => {
         const btns = document.querySelectorAll('.adminnewsadd__button')
-        if (isName && lengthContent) {
+        if (isName.length > 10 && lengthContent) {
             btns.forEach(e => {
                e.classList.add('active') 
             });
@@ -81,18 +89,24 @@ const AdminNewsAdd = () => {
     }
 
     const changeName = (e) => {
-        const length = e.target.value.length
-        if (length > 10) {
-            setName(true)
-        } else {
-            setName(false)
-        }
+        const value = e.target.value
+        setName(value)
     }
 
     const onSubmit = (e) => {
         e.preventDefault()
-        if (typeSubmit == 'scratch') {
 
+        const newsValueState = editorState.getCurrentContent()
+        const value = JSON.stringify(convertToRaw(newsValueState))
+
+        const form = new FormData()
+        form.append('title', isName)
+        form.append('category', selected)
+        form.append('image', selectedFile)
+        form.append('value', value)
+
+        if (typeSubmit == 'scratch') {
+            dispatch(fetchScratch(form))
         }
         if (typeSubmit == 'publish') {
 
@@ -121,7 +135,7 @@ const AdminNewsAdd = () => {
                                 className="subsection__input" />
                             <AnimatePresence>
                                 {
-                                    isName == false && (
+                                    isName.length < 10 && (
                                         <motion.div 
                                             initial={{opacity: 0, y: 10}}
                                             animate={{opacity: 1, y: 0}}
@@ -153,7 +167,11 @@ const AdminNewsAdd = () => {
                 </div>
 
                 <div className='subsection__label news_add'>Содержимое новости</div>
-                <NewsEditor setLengthContent={setLengthContent} lengthContent={lengthContent}/>
+                <NewsEditor
+                    setEditorState={setEditorState}
+                    editorState={editorState}
+                    setLengthContent={setLengthContent} 
+                />
                 <div className="adminnewsadd__btn_container">
                     <button
                         onClick={() => {
@@ -279,8 +297,8 @@ const Categories = (
                                     <div key={index} className='subsection__list'>
                                         <div className='adminnewsadd__cat'>{el.title}</div>
                                         <input
-                                            value={'option' + index}
-                                            checked={selected === 'option' + index}
+                                            value={el.slug}
+                                            checked={selected === el.slug}
                                             type='radio'
                                             name='cat'
                                             onChange={handleSelected}
