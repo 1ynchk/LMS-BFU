@@ -159,7 +159,8 @@ STORAGES = {
         'secret_key': os.getenv('AWS_SECRET_ACCESS_KEY'),
         'bucket_name': os.getenv('AWS_STORAGE_BUCKET_NAME'),
         'endpoint_url': os.getenv('AWS_S3_ENDPOINT_URL'),
-        'signature_version': 's3' 
+        'signature_version': 's3',
+        'file_overwrite': True 
         },
     },
     'staticfiles': {
