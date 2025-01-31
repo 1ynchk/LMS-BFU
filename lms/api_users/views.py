@@ -1,15 +1,24 @@
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
-
-from django.middleware.csrf import get_token
 from django.http import JsonResponse
+from django.middleware.csrf import get_token
 
 from .models import Users
 
-@api_view(['GET'])
-def csrf_token_view(request):
-    return JsonResponse({'csrfToken': get_token(request)})
+@api_view(http_method_names=['GET'])
+def csrf(request): 
+    token = get_token(request)
+    response = JsonResponse({'csrftoken': token}) 
+    response.set_cookie(
+        'csrftoken',
+        token,
+        httponly=True,
+        secure=True,
+        path='/',
+        samesite='None'
+    ) 
+    return response
 
 @api_view(http_method_names=['POST'])
 def user_login(request):
@@ -22,7 +31,7 @@ def user_login(request):
         
         login(request, user)
         response = Response({'status': 'ok', 'comment': 'success'}) 
-        response.set_cookie('sessionid', request.session.session_key)
+         
         return response 
     else:
         return Response({'status': 'error', 'comment': 'there is not such a user'}, status=401)

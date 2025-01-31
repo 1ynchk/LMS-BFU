@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,30 +54,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
+CSRF_USE_SESSIONS = True
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True 
-SESSION_COOKIE_SAMESITE = 'None' 
-CSRF_COOKIE_SAMESITE = 'None' 
-
-SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
-
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000', 
-    'http://127.0.0.1'
-    ]
-
-CORS_ORIGIN_ALLOW_ALL = True
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
 
 CORS_ALLOWED_ORIGINS = [
   'http://localhost:3000',
-  'http://127.0.0.1:3000', 
 ]
-
-CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -161,3 +148,31 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'api_users.Users'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  
+
+STORAGES = {
+    'default': {
+    'BACKEND': 'storages.backends.s3.S3Storage',
+    'OPTIONS': {
+        'access_key': os.getenv('AWS_ACCESS_KEY_ID'),
+        'secret_key': os.getenv('AWS_SECRET_ACCESS_KEY'),
+        'bucket_name': os.getenv('AWS_STORAGE_BUCKET_NAME'),
+        'endpoint_url': os.getenv('AWS_S3_ENDPOINT_URL'),
+        'signature_version': 's3' 
+        },
+    },
+    'staticfiles': {
+    'BACKEND': 'storages.backends.s3.S3Storage',
+    'OPTIONS': {
+        'access_key': os.getenv('AWS_ACCESS_KEY_ID'),
+        'secret_key': os.getenv('AWS_SECRET_ACCESS_KEY'),
+        'bucket_name': os.getenv('AWS_STORAGE_BUCKET_NAME'),
+        'endpoint_url': os.getenv('AWS_S3_ENDPOINT_URL'),
+        'signature_version': 's3' 
+    },
+    } 
+}
+
+MEDIA_URL = f'{os.getenv('AWS_S3_ENDPOINT_URL')}/{os.getenv('AWS_STORAGE_BUCKET_NAME')}/media/'
+STATIC_URL = f'{os.getenv('AWS_S3_ENDPOINT_URL')}/{os.getenv('AWS_STORAGE_BUCKET_NAME')}/static/'

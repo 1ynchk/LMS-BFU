@@ -1,13 +1,8 @@
 from django.urls import path 
 
-from .views import (
-    get_news, 
-    get_categories,
-    post_scratch
-    )
+
+from .views import get_cats
 
 urlpatterns = [
-    path('get-news/', get_news),
-    path('get-cats/', get_categories),
-    path('post-scratch/', post_scratch)
+    path('get-cats/', get_cats)
 ]
