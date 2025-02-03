@@ -23,8 +23,6 @@ const LoginPanel = () => {
         }
     }
 
-    console.log(csrftoken)
-
     const sendQuery = (e) => {
         e.preventDefault()
         const email = document.getElementById('loginpanel_email').value
@@ -59,11 +57,11 @@ const LoginPanel = () => {
                         <input
                             onChange={() => correlateData()}
                             id='loginpanel_pswrd'
-                            className='loginpanel__input'
+                            className='loginpanel__input login_input'
                             type='password'
                             placeholder='Введите пароль' />
                         <img
-                            onClick={() => ConcealPswr()}
+                            onClick={() => ConcealPswr(`.loginpanel__input.login_input`)}
                             src={eye}
                             alt='show password'
                             className='show-password' />

@@ -121,6 +121,9 @@
     margin-bottom: 10px;
 }
 
+.subsection__input:disabled {
+    background-color: rgba(128, 128, 128, 0.258);
+}
 
 .subsection__warn {
     color: red;

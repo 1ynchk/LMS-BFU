@@ -1,10 +1,11 @@
+import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import '../../common-static/css/main-page/welcome-section.css'
 
-import { motion } from 'framer-motion'
 
 import { FaNewspaper } from 'react-icons/fa'
-import { useLocation } from 'react-router-dom'
+import { PiStudent } from "react-icons/pi";
+import { motion } from 'framer-motion'
 
 const WelcomeSection = () => {
     
@@ -18,6 +19,9 @@ const WelcomeSection = () => {
             break
         case String(location.pathname).slice(0, 12) == '/admin/news/':
             content = <WelcomeType section={'Новости'} icon={<FaNewspaper/>} />
+            break
+        case String(location.pathname).slice(0, 16) == '/admin/students/':
+            content = <WelcomeType section={'Студенты'} icon={<PiStudent/>} />
             break
     }
     

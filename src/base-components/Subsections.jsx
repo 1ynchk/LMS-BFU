@@ -7,20 +7,9 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import { AnimatePresence, motion } from 'framer-motion';
 
-const Subsection = () => {
+const Subsection = ({links}) => {
 
     const [isConcealed, setConcealed] = useState(false)
-
-    const links = [
-        { title: 'Посмотреть все новости', link: '/admin/news/all/' },
-        { title: 'Создать новость', link: '/admin/news/add/' },
-        { title: 'Модераторы новостей', link: '/admin/news/moderators/' },
-        { title: 'Сектор новостей', link: '/admin/news/sector/' },
-        { title: 'Статистика по новостям', link: '/admin/news/statistics/' },
-        { title: 'Рассылка', link: '/admin/news/newsletter/' },
-        { title: 'Подписчики рассылки', link: '/admin/news/subscribers/' },
-        { title: 'Архив', link: '/admin/news/archive/' }
-    ]
 
     return (
         <div>

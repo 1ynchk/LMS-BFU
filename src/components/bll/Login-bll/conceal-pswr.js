@@ -1,6 +1,8 @@
 
-export const ConcealPswr = () => {
-    const pswrInput = document.getElementById("loginpanel_pswrd")
+export const ConcealPswr = (class_name) => {
 
-    pswrInput.type === 'text' ? pswrInput.type = 'password' : pswrInput.type = 'text'
+    const inputs = document.querySelectorAll(class_name)
+    inputs.forEach(el => {
+        el.type === 'text' ? el.type = 'password' : el.type = 'text'
+    })
 }

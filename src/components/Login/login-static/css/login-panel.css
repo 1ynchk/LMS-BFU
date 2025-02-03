@@ -84,3 +84,10 @@
 .loginpanel__bar > * {
     margin-right: 40px;
 }
+
+.show-password {
+    position: absolute;
+    width: 30px;
+    top: 40px;
+    right: 10px;
+}

@@ -1,0 +1,79 @@
+.adminenrollment {
+    width: 100%;
+}
+
+.adminenrollment__form {
+    width: fit-content;
+}
+
+.adminenrollment__container {
+    position: relative;
+    width: 350px;
+}
+
+.adminenrollment__wrapper {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.adminenrollment__wrapper.row {
+    flex-direction: row;
+}
+
+.adminenrollment__wrapper > * {
+    margin-right: 30px;
+}
+
+.adminenrollment__section {
+    text-align: center;
+    background-color: rgba(128, 128, 128, 0.114);
+    padding: 10px 15px;
+    margin-right: 20px;
+}
+
+.adminenrollment__stages {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.adminenrollment__section.choisen {
+    background-color: rgb(32, 20, 94);
+    color: white;
+}
+
+.adminenrollment__subsection {
+    display: flex;
+}
+
+.adminenrollment__photo {
+    width: 350px;
+}
+
+.subsections__subtitle {
+    font-size: 20px;
+    color: grey;
+    margin: 20px 0;
+}
+
+.show-password-adminenrollment {
+    cursor: pointer;
+    position: absolute;
+    width: 30px;
+    top: 53px;
+    right: 10px;
+}
+
+.cat_otchestvo {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+}
+
+.generate-password {
+    cursor: pointer;
+    position: absolute;
+    font-size: 20px;
+    right: 45px;
+    top: 60px;
+}

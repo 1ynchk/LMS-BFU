@@ -36,12 +36,7 @@ a {
     text-decoration: none;
 }
 
-.show-password {
-    position: absolute;
-    width: 30px;
-    top: 40px;
-    right: 10px;
-}
+
 
 .common__container {
     margin-top: 50px;
@@ -63,7 +58,7 @@ a {
 
 .sections_wrapper {
     margin-top: 30px;
-    width: 80%;
+    width: 75%;
     display: flex;
     justify-content: center;
     margin-right: auto;

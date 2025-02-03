@@ -9,10 +9,11 @@ import { fetchScratch } from './../../../../store/queries/News/SaveScratch';
 
 import { EditorState, convertToRaw } from 'draft-js'
 
-import { RiFolderUploadLine } from "react-icons/ri";
-import { RxCross2 } from "react-icons/rx";
 import { GoTriangleUp } from "react-icons/go";
 import { motion, AnimatePresence } from "framer-motion";
+
+import { PhotoBLL } from "../../../bll/Common-bll/Photo";
+import { Photo } from "../../../../base-components/Photo";
 
 const AdminNewsAdd = () => {
 
@@ -21,22 +22,30 @@ const AdminNewsAdd = () => {
 
     // fetch data
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
-    const [selectedFile, setSelectedFile] = useState(null)
     const [selected, setSelected] = useState(null)
 
     // conditions
     const [allowPub, setAllowPub] = useState(false)
     const [isName, setName] = useState('')
     const [lengthContent, setLengthContent] = useState(false)
-    const [isUpload, setUpload] = useState(false)
     const [isActiveCats, setActiveCats] = useState(false)
     const [typeSubmit, setTypeSubmit] = useState(null)
     const [categories, setCategories] = useState([])
 
     // refs
     const wrapperZone = useRef(null)
-    const dropZone = useRef(null)
     const filePicker = useRef(null)
+
+    // photo bll component
+    const {
+        dropZone,
+        isUpload, 
+        setUpload, 
+        selectedFile, 
+        setSelectedFile, 
+        handleDragLeave, 
+        handleDragOver, 
+        handleDrop} = PhotoBLL()
 
     useEffect(() => {
         axios.get(
@@ -65,25 +74,6 @@ const AdminNewsAdd = () => {
         }
     }, [isName, lengthContent])
     
-    const handleDragOver = (e) => {
-        e.preventDefault()
-        dropZone.current.classList.add('dragover')
-    }
-
-    const handleDragLeave = () => {
-        dropZone.current.classList.remove('dragover')
-    }
-
-    const handleDrop = (e) => {
-        e.preventDefault()
-        const file = e.dataTransfer.files
-        if (file.length != 0) {
-            setUpload(true)
-            setSelectedFile(file[0])
-        }
-        dropZone.current.classList.remove('dragover')
-    }
-
     const handleSelected = (e) => {
         setSelected(e.target.value)
     }
@@ -114,10 +104,7 @@ const AdminNewsAdd = () => {
     }
 
     return (
-        <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ ease: 'easeIn', duration: 0.3 }}
+        <div
             ref={wrapperZone}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -193,60 +180,6 @@ const AdminNewsAdd = () => {
                     </button>
                 </div>
             </form>
-        </motion.div>
-    )
-}
-
-const Photo = (
-    { dropZone, selectedFile, setSelectedFile, isUpload, setUpload, filePicker }) => {
-
-    const handlePickFile = (e) => {
-        filePicker.current.click()
-    }
-
-    const handleOnChange = (e) => {
-        setUpload(true)
-        setSelectedFile(e.target.files[0])
-    }
-
-    return (
-        <div className="subsections__container photo_container">
-            <div className="subsection__label">Фотография</div>
-            <div
-                ref={dropZone}
-                className='adminnewsadd__file_wrapper'>
-                <button
-                    type="button"
-                    onClick={handlePickFile}
-                    className='adminnewsadd__filePicker'>
-                    Загрузить
-                    <RiFolderUploadLine />
-                </button>
-                {
-                    isUpload && (
-                        <div className="adminnewsadd__fileName">
-                            {
-                                String(selectedFile.name).slice(0, 20) + (
-                                    String(selectedFile.name).length > 20 ? '...' : '')
-                            }
-                            <span
-                                onClick={() => {
-                                    setUpload(false)
-                                    setSelectedFile(null)
-                                }}
-                                className="adminnewsadd__fileName_cross">
-                                <RxCross2 />
-                            </span>
-                        </div>
-                    )
-                }
-            </div>
-            <input
-                ref={filePicker}
-                onChange={handleOnChange}
-                className='adminnewsadd__input'
-                type='file'
-                accept='image/*,.png,.jpg' />
         </div>
     )
 }

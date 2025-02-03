@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { delay, motion } from 'framer-motion';
 
 import WelcomeSection from '../../../../base-components/main-page/welcome-section';
-import { sections } from './AdminSections';
+import { sectionsAdmin } from '../../../../data/AdminSections/AdminSections';
 
 const AdminMainPage = () => {
 
@@ -15,7 +15,7 @@ const AdminMainPage = () => {
                 <div className='adminmainpage__title'>Секции</div>
                 <div className='adminmainpage__sections_wrapper'>
                     {
-                        sections.map((el, index) => {
+                        sectionsAdmin.map((el, index) => {
                             return <AdminSection 
                                 key={index}
                                 title={el.title}
