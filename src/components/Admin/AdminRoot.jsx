@@ -11,7 +11,7 @@ import AdminNewsAll from './admin-components/admin-news/AdminNewsAll';
 import AdminNewsAdd from './admin-components/admin-news/AdminNewsAdd';
 
 import AdminSection from '../../base-components/admin/AdminSection';
-import AdminStudentsEnrollment from './admin-components/admin-students/AdminStudentsEnrollment';
+import AdminStudentsEnrollment from './admin-components/admin-students/Enrollment/AdminStudentsEnrollment';
 import { linksAdminStudents, linksAdminNews } from '../../data/AdminSections/subsections';
 
 const AdminRoot = () => {

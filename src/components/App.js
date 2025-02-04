@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchCheckLogin } from './../store/queries/Login/CheckLogin';
+import LoadingScreen from '../base-components/loading/loading-screen';
 
 function App() {
   const location = useLocation()
@@ -17,6 +18,7 @@ function App() {
   const dispatch = useDispatch()
   const auth = localStorage.getItem('auth')
   const isLogin = useSelector(state => state.user.isLogin)
+  const loading = useSelector(state => state.user.loading)
 
   useEffect(() => {
 
@@ -35,6 +37,10 @@ function App() {
 
   return (
     <div className="App">
+      {
+        loading && <LoadingScreen />
+      }
+      
       <Routes>
         <Route exact path='/login' element={<LoginRoot />} />
         <Route exact path='/admin/*' element={<AdminRoot />} />

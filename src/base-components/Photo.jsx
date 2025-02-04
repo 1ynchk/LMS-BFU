@@ -7,7 +7,7 @@ export const Photo = (
     const handlePickFile = (e) => {
         filePicker.current.click()
     }
-
+    
     const handleOnChange = (e) => {
         setUpload(true)
         setSelectedFile(e.target.files[0])
@@ -50,7 +50,7 @@ export const Photo = (
                 onChange={handleOnChange}
                 className='adminnewsadd__input'
                 type='file'
-                accept='image/*,.png,.jpg' />
+                accept='image/png' />
         </div>
     )
 }

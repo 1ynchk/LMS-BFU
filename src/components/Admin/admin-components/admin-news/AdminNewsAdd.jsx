@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { PhotoBLL } from "../../../bll/Common-bll/Photo";
 import { Photo } from "../../../../base-components/Photo";
+import { InputWarning } from "../../../../base-components/input-warning";
 
 const AdminNewsAdd = () => {
 
@@ -26,26 +27,26 @@ const AdminNewsAdd = () => {
 
     // conditions
     const [allowPub, setAllowPub] = useState(false)
-    const [isName, setName] = useState('')
+    const [isName, setName] = useState(null)
     const [lengthContent, setLengthContent] = useState(false)
     const [isActiveCats, setActiveCats] = useState(false)
     const [typeSubmit, setTypeSubmit] = useState(null)
     const [categories, setCategories] = useState([])
 
     // refs
-    const wrapperZone = useRef(null)
-    const filePicker = useRef(null)
+
 
     // photo bll component
     const {
+        filePicker,
         dropZone,
-        isUpload, 
-        setUpload, 
-        selectedFile, 
-        setSelectedFile, 
-        handleDragLeave, 
-        handleDragOver, 
-        handleDrop} = PhotoBLL()
+        isUpload,
+        setUpload,
+        selectedFile,
+        setSelectedFile,
+        handleDragLeave,
+        handleDragOver,
+        handleDrop } = PhotoBLL()
 
     useEffect(() => {
         axios.get(
@@ -61,19 +62,19 @@ const AdminNewsAdd = () => {
 
     useEffect(() => {
         const btns = document.querySelectorAll('.adminnewsadd__button')
-        if (isName.length > 10 && lengthContent) {
+        if (isName != null && isName.length > 10 && lengthContent) {
             btns.forEach(e => {
-               e.classList.add('active') 
+                e.classList.add('active')
             });
             setAllowPub(true)
         } else {
             btns.forEach(e => {
-               e.classList.remove('active') 
+                e.classList.remove('active')
             });
             setAllowPub(false)
         }
     }, [isName, lengthContent])
-    
+
     const handleSelected = (e) => {
         setSelected(e.target.value)
     }
@@ -105,7 +106,6 @@ const AdminNewsAdd = () => {
 
     return (
         <div
-            ref={wrapperZone}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
@@ -122,15 +122,9 @@ const AdminNewsAdd = () => {
                                 className="subsection__input" />
                             <AnimatePresence>
                                 {
-                                    isName.length < 10 && (
-                                        <motion.div 
-                                            initial={{opacity: 0, y: 10}}
-                                            animate={{opacity: 1, y: 0}}
-                                            exit={{opacity: 0, y: 10}}
-                                            style={{overflow: 'hidden'}}
-                                            className="subsection__warn">
-                                            Название должно быть длинее 10 символов
-                                        </motion.div>
+                                    isName == null || isName.length < 10 && (
+                                        <InputWarning 
+                                            text='Название должно быть длинее 10 символов' />
                                     )
                                 }
                             </AnimatePresence>
@@ -157,7 +151,7 @@ const AdminNewsAdd = () => {
                 <NewsEditor
                     setEditorState={setEditorState}
                     editorState={editorState}
-                    setLengthContent={setLengthContent} 
+                    setLengthContent={setLengthContent}
                 />
                 <div className="adminnewsadd__btn_container">
                     <button

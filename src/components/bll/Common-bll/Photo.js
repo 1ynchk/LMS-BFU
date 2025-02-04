@@ -5,6 +5,7 @@ export const PhotoBLL = () => {
     const [isUpload, setUpload] = useState(false)
     const [selectedFile, setSelectedFile] = useState(null)
 
+    const filePicker = useRef(null)
     const dropZone = useRef(null)
 
     const handleDragOver = (e) => {
@@ -27,12 +28,14 @@ export const PhotoBLL = () => {
     }
 
     return {
+        filePicker,
         dropZone,
-        isUpload, 
-        setUpload, 
-        selectedFile, 
-        setSelectedFile, 
-        handleDragLeave, 
-        handleDragOver, 
-        handleDrop}
+        isUpload,
+        setUpload,
+        selectedFile,
+        setSelectedFile,
+        handleDragLeave,
+        handleDragOver,
+        handleDrop
+    }
 }

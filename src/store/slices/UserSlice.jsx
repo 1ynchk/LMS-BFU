@@ -30,7 +30,7 @@ const UserSlice = createSlice(
                 ) 
                 .addCase(
                     fetchLogin.pending, (state, action) => {
-                        
+
                     }
                 )
                 .addCase(
@@ -40,6 +40,7 @@ const UserSlice = createSlice(
                 )
                 .addCase(
                     fetchCheckLogin.fulfilled, (state, action) => {
+                        state.loading = false
                         if (action.payload.auth) {
 
                             localStorage.setItem('auth', 'True')

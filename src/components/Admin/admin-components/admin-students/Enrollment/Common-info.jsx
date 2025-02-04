@@ -1,137 +1,95 @@
-import { NavLink, useLocation } from 'react-router-dom'
-import '../../admin-static/css/admin-enrollment.css'
 import { useEffect, useState, useRef } from 'react'
-import { Photo } from '../../../../base-components/Photo'
 
-import { ConcealPswr } from '../../../bll/Login-bll/conceal-pswr'
-import eye from '../../../../common-static/images/eye.png'
+import { Photo } from '../../../../../base-components/Photo'
+import { InputWarning } from '../../../../../base-components/input-warning'
 
-import { InputWarning } from '../../../../base-components/input-warning'
+import eye from '../../../../../common-static/images/eye.png'
 import { SlReload } from "react-icons/sl"
-import { generatePassword } from './../../../bll/Common-bll/GeneratePassword';
 
-const AdminStudentsEnrollment = () => {
+import { ConcealPswr } from '../../../../bll/Login-bll/conceal-pswr'
+import { generatePassword } from './../../../../bll/Common-bll/GeneratePassword';
 
-    const location = useLocation()
-    const [queryParams, setQueryParams] = useState(new URLSearchParams(location.search).get('stage'))
-    let content = null
-
-    const [commonInfo, setCommonInfo] = useState(false)
-
-    useEffect(() => {
-        const queryParams = new URLSearchParams(location.search)
-        const newStage = queryParams.get('stage')
-        setQueryParams(newStage)
-    }, [location.search])
-
-    useEffect(() => {
-        const set = document.querySelectorAll('.adminenrollment__section')
-        set.forEach(el => {
-            el.classList.remove('choisen')
-        })
-        switch (true) {
-            case queryParams == null:
-                set[0].classList.add('choisen')
-                break
-            case queryParams == 'documents':
-                set[0].classList.add('choisen')
-                set[1].classList.add('choisen')
-                break
-            case queryParams == 'confirm':
-                set[0].classList.add('choisen')
-                set[1].classList.add('choisen')
-                set[2].classList.add('choisen')
-                break
-        }
-    }, [queryParams])
-
-    switch (true) {
-        case queryParams == null:
-            content = <CommonInfo
-                commonInfo={commonInfo}
-                setCommonInfo={setCommonInfo} />
-            break
-        case queryParams == 'documents':
-            content = null
-            break
-        case queryParams == 'confirm':
-            content = null
-            break
-    }
-
-    return (
-        <div className="adminenrollment">
-
-            <div className="subsection__name">Зачисление</div>
-            <div className='adminenrollment__stages'>
-                <NavLink
-                    to='/admin/students/enrollment/'
-                    className='adminenrollment__section'>Общая информация</NavLink>
-                <NavLink
-                    to='/admin/students/enrollment/?stage=documents'
-                    className='adminenrollment__section'>Документы</NavLink>
-                <NavLink
-                    to='/admin/students/enrollment/?stage=confirm'
-                    className='adminenrollment__section'>Подтверждение</NavLink>
-            </div>
-            {content}
-
-        </div>
-    )
-}
-
-const CommonInfo = ({ commonInfo, setCommonInfo }) => {
-    const [isBtnActive, setBtnActive] = useState(false)
-
-    const [name, setName] = useState(null)
-    const [surname, setSurname] = useState(null)
-    const [otchestvo, setOtchesctvo] = useState(null)
-    const [number, setNumber] = useState('+7 ')
-    const [email, setEmail] = useState(null)
-    const [password, setPassword] = useState(generatePassword())
-
+const CommonInfo = (props) => {
     const numberRef = useRef(null)
     const otchestvoRef = useRef(null)
     const [isOtchestvoActive, setOtchestvoActive] = useState(true)
 
+    const {
+        filePicker,
+        dropZone,
+        isUpload,
+        setUpload,
+        selectedFile,
+        setSelectedFile,
+        name,
+        setName,
+        surname,
+        setSurname,
+        otchestvo,
+        setOtchesctvo,
+        number,
+        setNumber,
+        email,
+        setEmail,
+        password,
+        setPassword,
+        commonInfo,
+        setCommonInfo,
+        datebirth,
+        setDatebirth,
+    } = props
+
     const handleForm = (e) => {
         e.preventDefault()
+        console.log('completed')
     }
 
     useEffect(() => {
         if (
             name == null || otchestvo == null || surname == null
             || number == null || email == null || password == null
-            || name.length < 2 || otchestvo.length < 6
-            || surname.length < 2
+            || name.length < 2 || otchestvo.length < 5
+            || surname.length < 2 || number.lentgh > 12 || number.length < 12
+            || !(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email))
+            || !isUpload || datebirth == '' || new Date(datebirth) > new Date()
+            || new Date(datebirth) < new Date('1950-01-01')
         ) {
-            setCommonInfo(false)
-        } else {
             setCommonInfo(true)
+        } else {
+            setCommonInfo(false)
         }
-    }, [name, otchestvo])
+    }, [name, otchestvo, surname, email, isUpload, number])
 
-    useEffect(() => {
-        if (!isOtchestvoActive) {
-            setOtchesctvo(null)
-            otchestvoRef.current.value = ' '
-        }
-    }, [isOtchestvoActive])
+    console.log(password)
 
     return (
         <form onSubmit={(e) => handleForm(e)} className='adminenrollment__form'>
             <div className='subsections__subtitle'>Личная информация</div>
+            <div className='adminenrollment__photo'>
+                <Photo
+                    filePicker={filePicker}
+                    dropZone={dropZone}
+                    isUpload={isUpload}
+                    setUpload={setUpload}
+                    selectedFile={selectedFile}
+                    setSelectedFile={setSelectedFile} />
+                {
+                    selectedFile == null && <InputWarning
+                        text='Это обязательное поле' />
+                }
+            </div>
             <div className='adminenrollment__subsection'>
                 <div className='adminenrollment__wrapper'>
                     <div className='adminenrollment__container'>
                         <div className="subsection__label">Фамилия</div>
                         <input
+                            value={surname == null ? '' : surname}
                             onChange={(e) => setSurname(e.target.value)}
                             className="subsection__input" />
                         {
                             surname == null || surname.length < 2 && (
                                 <InputWarning
-                                    text='Фамилия должна быть длинее двух символов' />
+                                    text='Фамилия должна быть не менее двух символов' />
                             )
                         }
                     </div>
@@ -139,12 +97,13 @@ const CommonInfo = ({ commonInfo, setCommonInfo }) => {
                     <div className='adminenrollment__container'>
                         <div className="subsection__label">Имя</div>
                         <input
+                            value={name == null ? '' : name}
                             onChange={(e) => setName(e.target.value)}
                             className="subsection__input" />
                         {
                             name == null || name.length < 2 && (
                                 <InputWarning
-                                    text='Имя должно быть длинее двух символов' />
+                                    text='Имя должно быть не менее двух символов' />
                             )
                         }
                     </div>
@@ -155,26 +114,55 @@ const CommonInfo = ({ commonInfo, setCommonInfo }) => {
                             <input
                                 type='checkbox'
                                 className='cat_otchestvo'
-                                onChange={() => setOtchestvoActive(!isOtchestvoActive)}
+                                onChange={() => {
+                                    if (!isOtchestvoActive) {
+                                        setOtchesctvo(null)
+                                        setOtchestvoActive(true)
+                                        otchestvoRef.current.value = ''
+                                    } else {
+                                        setOtchesctvo('Отсутствует')
+                                        setOtchestvoActive(false)
+                                        otchestvoRef.current.value = 'Отсутствует'
+                                    }
+                                }}
                                 checked={isOtchestvoActive} />
                         </div>
                         <input
+                            value={otchestvo == null ? '' : otchestvo}
                             disabled={!isOtchestvoActive}
                             ref={otchestvoRef}
                             onChange={(e) => setOtchesctvo(e.target.value)}
                             className="subsection__input" />
                         {
-                            otchestvo == null || otchestvo.length < 6 && (
+                            otchestvo == null || otchestvo.length < 5 && (
                                 <InputWarning
-                                    text='Отчество должно быть длинее 5 символов' />
+                                    text='Отчество должно быть не менее 5 символов' />
                             )
                         }
                     </div>
-                </div>
-                <div className='adminenrollment__photo'>
-                    <Photo />
+                    <div className='adminenrollment__container'>
+                        <div className="subsection__label">Дата рождения</div>
+                        <input
+                            value={datebirth}
+                            type='date'
+                            onChange={(e) => setDatebirth(e.target.value)}
+                            className="subsection__input" />
+                        {
+                            datebirth == '' && <InputWarning
+                                text='Это обязательное поле' />
+                        }
+                        {
+                            new Date(datebirth) > new Date() && <InputWarning
+                                text='Слишком большая дата' />
+                        }
+                        {
+                            new Date(datebirth) < new Date('1950-01-01') && <InputWarning
+                                text='Слишком маленькая дата' />
+                        }
+                    </div>
                 </div>
             </div>
+
             <div className='subsections__subtitle'>Контактная информация</div>
             <div className='adminenrollment__wrapper row'>
                 <div className='adminenrollment__container'>
@@ -215,10 +203,11 @@ const CommonInfo = ({ commonInfo, setCommonInfo }) => {
                 <div className='adminenrollment__container'>
                     <div className="subsection__label">Почта</div>
                     <input
+                        value={email == null ? '' : email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="subsection__input" />
                     {
-                        email == null || !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) && (
+                        email == null || !(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) && (
                             <InputWarning text='Не валидная почта' />
                         )
                     }
@@ -232,9 +221,9 @@ const CommonInfo = ({ commonInfo, setCommonInfo }) => {
                         value={password}
                         disabled={true}
                         type='password'
-                        className="subsection__input adminenrollment" />
+                        className="subsection__input adminenroll" />
                     <img
-                        onClick={() => ConcealPswr('.subsection__input.adminenrollment')}
+                        onClick={() => ConcealPswr('.subsection__input.adminenroll')}
                         src={eye}
                         alt='show password'
                         className='show-password-adminenrollment' />
@@ -247,7 +236,8 @@ const CommonInfo = ({ commonInfo, setCommonInfo }) => {
 
             <div className='adminnewsadd__btn_container'>
                 <button
-                    className='adminnewsadd__button'
+                    disabled={commonInfo}
+                    className='subsection__btn'
                     type='submit'>
                     Продолжить
                 </button>
@@ -256,4 +246,4 @@ const CommonInfo = ({ commonInfo, setCommonInfo }) => {
     )
 }
 
-export default AdminStudentsEnrollment
+export default CommonInfo
