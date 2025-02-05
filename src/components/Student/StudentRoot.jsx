@@ -9,7 +9,7 @@ const StudentRoot = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        navigate('/student/main-page')
+        navigate('/student/main-page/')
     }, [navigate])
     
     return (

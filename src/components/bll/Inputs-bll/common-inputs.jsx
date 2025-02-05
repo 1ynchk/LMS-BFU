@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { generatePassword } from "../Common-bll/GeneratePassword"
 
-const CommonInputs = () => {
+export const CommonInputs = () => {
     const [name, setName] = useState(null)
     const [surname, setSurname] = useState(null)
     const [otchestvo, setOtchesctvo] = useState(null)
@@ -9,23 +9,51 @@ const CommonInputs = () => {
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(generatePassword())
     const [datebirth, setDatebirth] = useState('')
-    
+    const [accountPhoto, setAccountPhoto] = useState(null)
+    const [gender, setGender] = useState('Мужской')
+
     return {
-        name, 
-        setName, 
-        surname, 
+        gender,
+        setGender,
+        accountPhoto,
+        setAccountPhoto,
+        name,
+        setName,
+        surname,
         setSurname,
-        otchestvo, 
+        otchestvo,
         setOtchesctvo,
-        number, 
-        setNumber, 
-        email, 
+        number,
+        setNumber,
+        email,
         setEmail,
         password,
-        setPassword, 
-        datebirth, 
+        setPassword,
+        datebirth,
         setDatebirth,
     }
 }
 
-export default CommonInputs
+export const UseStudentDocuments = () => {
+    const [citizenship, setCitizenship] = useState(null)
+    const [issuedBy, setIssuedBy] = useState(null)
+    const [dateIssuance, setDateIssuence] = useState('')
+    const [codeSubDepartment, setCodeSubDepartment] = useState(null)
+    const [passportSerial, setPassportSerial] = useState(null)
+    const [passportNumber, setPassportNumber] = useState(null)
+
+    return {
+        citizenship,
+        setCitizenship,
+        issuedBy,
+        setIssuedBy,
+        dateIssuance,
+        setDateIssuence,
+        codeSubDepartment,
+        setCodeSubDepartment,
+        passportSerial,
+        setPassportSerial,
+        passportNumber,
+        setPassportNumber
+    }
+}

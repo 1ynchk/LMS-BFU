@@ -2,14 +2,13 @@ import { RiFolderUploadLine } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 
 export const Photo = (
-    { dropZone, selectedFile, setSelectedFile, isUpload, setUpload, filePicker }) => {
+    { dropZone, selectedFile, setSelectedFile, filePicker }) => {
 
     const handlePickFile = (e) => {
         filePicker.current.click()
     }
     
     const handleOnChange = (e) => {
-        setUpload(true)
         setSelectedFile(e.target.files[0])
     }
 
@@ -27,7 +26,7 @@ export const Photo = (
                     <RiFolderUploadLine />
                 </button>
                 {
-                    isUpload && (
+                    selectedFile != null && (
                         <div className="adminnewsadd__fileName">
                             {
                                 String(selectedFile.name).slice(0, 20) + (
@@ -35,7 +34,6 @@ export const Photo = (
                             }
                             <span
                                 onClick={() => {
-                                    setUpload(false)
                                     setSelectedFile(null)
                                 }}
                                 className="adminnewsadd__fileName_cross">

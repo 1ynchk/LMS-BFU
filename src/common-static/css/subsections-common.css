@@ -87,7 +87,6 @@
 }
 
 .subsections__container.photo_container {
-    height: 100%;
     width: 350px;
 }
 
@@ -125,7 +124,7 @@
 }
 
 .subsection__input:disabled {
-    background-color: rgba(128, 128, 128, 0.258);
+    background-color: rgba(128, 128, 128, 0.35);
 }
 
 .subsection__warn {
@@ -144,4 +143,12 @@
 .subsection__btn:disabled {
     cursor: pointer;
     background-color: grey;
+}
+
+.subsection__radio_label {
+    font-size: 16px;
+}
+
+.subsection__radio {
+    width: 20px;
 }

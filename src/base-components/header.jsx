@@ -102,8 +102,10 @@ const Header = () => {
     switch (true) {
         case role == 'student':
             content = <StudentNavigation />
+            break
         case role == 'admin': 
             content = <AdminNavigation />
+            break
     }
 
     return (

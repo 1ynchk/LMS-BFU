@@ -28,14 +28,14 @@
 
 .adminnewsadd__file_wrapper {
     border: 2px dashed rgb(32, 20, 94);
-    height: 130px;
+    height: 180px;
     /* height: 100%; */
     border-radius: 5px;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    background: rgba(128, 128, 128, 0.1);
+    background: rgba(128, 128, 128, 0.35);
     margin-bottom: 17px;
 }
 
