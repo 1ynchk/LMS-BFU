@@ -8,6 +8,8 @@ from .models import Users
 
 @api_view(http_method_names=['GET'])
 def csrf(request): 
+    '''Отправка csrf токена'''
+
     token = get_token(request)
     response = JsonResponse({'csrftoken': token}) 
     response.set_cookie(
@@ -17,12 +19,14 @@ def csrf(request):
         secure=True,
         path='/',
         samesite='None'
-    ) 
+    )
     return response
 
 @api_view(http_method_names=['POST'])
 def user_login(request):
     '''Авторизация пользователя'''
+
+    print('hello')
     
     email = request.data.get('email')
     password = request.data.get('password')
@@ -31,17 +35,20 @@ def user_login(request):
         
         login(request, user)
         response = Response({'status': 'ok', 'comment': 'success'}) 
-         
+        response.set_cookie('sessionid', request.session.session_key) 
         return response 
     else:
         return Response({'status': 'error', 'comment': 'there is not such a user'}, status=401)
     
 @api_view(http_method_names=['POST'])
 def user_logout(request):
-    '''Выход пользователя из аккаунты'''
+    '''Выход пользователя из аккаунта'''
     
     logout(request)
-    return Response({'status': 'ok', 'comment': 'success'})
+    request.session.flush()
+    response = Response({'status': 'ok', 'comment': 'success'})
+    response.delete_cookie('sessionid') 
+    return response
 
 @api_view(http_method_names=['GET'])
 def check_login(request):
@@ -52,8 +59,8 @@ def check_login(request):
         response = Response({
             'auth': True, 
             'role': user.role,
-            'avatar': user.avatar,
-            'name': user.first_name 
+            'avatar': user.avatar.url,
+            'name': user.name 
             })
         return response
     else:

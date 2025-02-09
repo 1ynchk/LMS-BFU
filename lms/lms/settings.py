@@ -40,8 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # apps     
     'api_users',
     'api_news',
+    
+    # 3rd party
     'corsheaders',
 ]
 
@@ -61,8 +65,28 @@ CSRF_USE_SESSIONS = True
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True
 
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
 CORS_ALLOWED_ORIGINS = [
   'http://localhost:3000',
+  'http://127.0.0.1:3000'
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+]
+
+CORS_ALLOWED_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",  # ✅ Разрешаем передачу CSRF-токена
+    "x-requested-with",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

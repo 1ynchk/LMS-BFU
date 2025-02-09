@@ -20,21 +20,6 @@ class Users(AbstractUser):
     role = models.CharField(max_length=30, choices=role_choices)
     last_name = None
     first_name = None
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
-
-    class Meta: 
-        db_table = 'api_users__users'
-
-class UsersInfo(models.Model): 
-
-    gender_choices = [
-        ('М', 'Мужской'),
-        ('Ж', 'Женский')
-    ]
-
-    user = models.ForeignKey(Users, on_delete=models.CASCADE, null=True, unique=True)
     name = models.CharField(max_length=155, null=False)
     surname = models.CharField(max_length=155, null=False)
     otchestvo = models.CharField(max_length=155, null=False)
@@ -42,12 +27,37 @@ class UsersInfo(models.Model):
         upload_to=change_file_name, 
         default='media/default_images/user_avatar.png',
         validators=[FileExtensionValidator(allowed_extensions=['png'])])
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
+    class Meta: 
+        db_table = 'api_users__users'
+        
+    def __str__(self): 
+        otchestvo = self.otchestvo if self.otchestvo != 'Отсутствует' else '' 
+        return f'{self.surname} {self.name} {otchestvo}'   
+
+class UsersPassport(models.Model): 
+
+    gender_choices = [
+        ('М', 'Мужской'),
+        ('Ж', 'Женский')
+    ]
+
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
     gender = models.CharField(max_length=7, choices=gender_choices, null=False)
     date_of_birth = models.DateField(null=False)
-    citizenship = models.CharField(max_length=200, null=False) 
-
+    citizenship = models.CharField(max_length=200, null=False)
+    issued_by = models.CharField(max_length=255, null=False)
+    date_issuance = models.DateField()
+    code_subdepartment = models.IntegerField()
+    serial = models.CharField(max_length=55)
+    number = models.CharField(max_length=55)
+    
     def __str__(self): 
-        return f'{self.surname} {self.name} {self.otchestvo}'
+        otchestvo = self.user.otchestvo if self.user.otchestvo != 'Отсутствует' else '' 
+        return f'{self.user.surname} {self.user.name} {otchestvo}'
 
 class UsersPermissions(models.Model): 
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
@@ -55,7 +65,8 @@ class UsersPermissions(models.Model):
     make_courses = models.BooleanField(default=False)
 
     def __str__(self): 
-        return self.user.email
+        otchestvo = self.user.otchestvo if self.user.otchestvo != 'Отсутствует' else '' 
+        return f'{self.user.surname} {self.user.name} {otchestvo}'
 
 # class Applicants(models.Model): 
 
