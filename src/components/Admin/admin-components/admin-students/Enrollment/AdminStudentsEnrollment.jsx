@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { CommonInputs } from '../../../../bll/Inputs-bll/common-inputs'
 import CommonInfo from './Common-info'
 import StudentDocuments from './Student-documents'
-import { UseStudentDocuments } from '../../../../bll/Inputs-bll/common-inputs'
+import { UseStudentDocuments, UseStudentRussianDocuments } from '../../../../bll/Inputs-bll/common-inputs'
 import { PhotoBLL } from '../../../../bll/Common-bll/Photo'
 
 import { FaLongArrowAltRight } from "react-icons/fa";
@@ -40,6 +40,9 @@ const AdminStudentsEnrollment = () => {
         setDatebirth,
     } = CommonInputs()
 
+    // documents
+    const [documentsInfo, setDocumentsInfo] = useState(false)
+    
     const {
         citizenship,
         setCitizenship,
@@ -54,6 +57,13 @@ const AdminStudentsEnrollment = () => {
         passportNumber,
         setPassportNumber
     } = UseStudentDocuments()
+
+    const {
+        snils, 
+        setSnils, 
+        INN, 
+        setINN
+    } = UseStudentRussianDocuments()
 
     const {
         handleDragLeave,
@@ -133,6 +143,10 @@ const AdminStudentsEnrollment = () => {
             break
         case queryParams == 'documents':
             content = <StudentDocuments
+                snils={snils}
+                setSnils={setSnils}
+                INN={INN}
+                setINN={setINN}
                 citizenship={citizenship}
                 setCitizenship={setCitizenship}
                 issuedBy={issuedBy}
@@ -144,7 +158,9 @@ const AdminStudentsEnrollment = () => {
                 passportSerial={passportSerial}
                 setPassportSerial={setPassportSerial}
                 passportNumber={passportNumber}
-                setPassportNumber={setPassportNumber} />
+                setPassportNumber={setPassportNumber}
+                documentsInfo={documentsInfo}
+                setDocumentsInfo={setDocumentsInfo}/>
             break
         case queryParams == 'confirm':
             content = null
