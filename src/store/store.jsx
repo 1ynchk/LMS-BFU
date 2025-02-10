@@ -1,12 +1,14 @@
 import { configureStore, combineReducers} from '@reduxjs/toolkit'
 
 import UserReducer from './slices/UserSlice'
-import NewsSlice from './slices/NewsSlice'
+import NewsSliceReducer from './slices/NewsSlice'
+import DirectionsReducer from './slices/DirectionsSlice';
 
 const reducers = combineReducers(
     {
         user: UserReducer,
-        news: NewsSlice 
+        news: NewsSliceReducer,
+        directions: DirectionsReducer
     }
 )
 

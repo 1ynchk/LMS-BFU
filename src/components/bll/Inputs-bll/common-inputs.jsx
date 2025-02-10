@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { generatePassword } from "../Common-bll/GeneratePassword"
 import { InputWarning } from "../../../base-components/input-warning"
+import { motion } from "framer-motion"
 
 export const CommonInputs = () => {
     const [name, setName] = useState(null)
@@ -45,6 +46,11 @@ export const UseStudentDocuments = () => {
     const [passportSerial, setPassportSerial] = useState(null)
     const [passportNumber, setPassportNumber] = useState(null)
 
+    // education
+    const [edNumber, setEdNumber] = useState(null)
+    const [edDateIssuance, setEdDateIssuance] = useState('')
+    const [edIssuedBy, setEdIssuedBy] = useState(null)
+    
     return {
         citizenship,
         setCitizenship,
@@ -57,7 +63,14 @@ export const UseStudentDocuments = () => {
         passportSerial,
         setPassportSerial,
         passportNumber,
-        setPassportNumber
+        setPassportNumber, 
+
+        edNumber,
+        setEdNumber, 
+        edDateIssuance, 
+        setEdDateIssuance,
+        edIssuedBy,
+        setEdIssuedBy
     }
 }
 
@@ -73,14 +86,56 @@ export const UseStudentRussianDocuments = () => {
     }
 }
 
+export const UseStudentForeignDocuments = () => {
+    const [fpNumber, setFpNumber] = useState(null)
+    const [fpDateIssuance, setFpDateIssuance] = useState('')
+    const [fpExpireDate, setFpExpireDate] = useState('')
+    const [fpIssuedBy, setFpIssuedBy] = useState(null)
+    const [mcNumber, setMcNumber] = useState(null)
+    const [mcDateEntry, setMcDateEntry] = useState('')
+
+    return {
+        fpNumber,
+        setFpNumber,
+        fpDateIssuance,
+        setFpDateIssuance,
+        fpExpireDate,
+        setFpExpireDate,
+        fpIssuedBy,
+        setFpIssuedBy,
+        mcNumber,
+        setMcNumber,
+        mcDateEntry,
+        setMcDateEntry
+    }
+}
+
 export const InputText = (props) => {
-    const { label, value, setter, max_length} = props
+    let { label, value, setter, max_length, isDisabled } = props
 
     return (
         <div className='adminenrollment__container'>
-            <div className="subsection__label">{label}</div>
+            {
+                isDisabled != undefined && (<motion.div
+                    animate={{
+                        backgroundColor: isDisabled ? '#ffff0033' : '#8080804c',
+                        color: isDisabled ? '#000000' : '#ffffff'
+                    }}
+                    transition={{ duration: 0.5 }}
+                    className="subsection__label">
+                    {label}
+                </motion.div>)
+            }
+            {
+                isDisabled == undefined && (
+                    <div
+                        className="subsection__label">
+                        {label}
+                    </div>)
+            }
             <input
-                maxLength={max_length} 
+                disabled={isDisabled == undefined ? false : !isDisabled}
+                maxLength={max_length}
                 value={value == null ? '' : value}
                 onChange={(e) => setter(e.target.value)}
                 className="subsection__input" />
@@ -171,12 +226,30 @@ export const NumberPhoneImput = (props) => {
 }
 
 export const DateInput = (props) => {
-    const { value, setter, label } = props
+    const { value, setter, label, isDisabled } = props
 
     return (
         <div className='adminenrollment__container'>
-            <div className="subsection__label">{label}</div>
+            {
+                isDisabled != undefined && (<motion.div
+                    animate={{
+                        backgroundColor: isDisabled ? '#ffff0033' : '#8080804c',
+                        color: isDisabled ? '#000000' : '#ffffff'
+                    }}
+                    transition={{ duration: 0.5 }}
+                    className="subsection__label">
+                    {label}
+                </motion.div>)
+            }
+            {
+                isDisabled == undefined && (
+                    <div
+                        className="subsection__label">
+                        {label}
+                    </div>)
+            }
             <input
+                disabled={isDisabled == undefined ? false : !isDisabled}
                 value={value}
                 type='date'
                 onChange={(e) => setter(e.target.value)}

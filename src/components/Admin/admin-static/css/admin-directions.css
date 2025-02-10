@@ -1,0 +1,88 @@
+.directions {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.directions_search {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background-color: rgb(32, 20, 94);
+    border-radius: 5px;
+}
+
+.directions__search_container {
+    position: relative;
+}
+
+.search_icon {
+    color: white;
+    font-size: 30px;
+}
+
+.directions__filters {
+    display: flex;
+    flex-direction: column;
+}
+
+.directions__dropdownlist_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: aliceblue;
+    padding: 15px 20px;
+}
+
+.directions__label {
+    cursor: pointer;
+    font-size: 20px;
+    margin-right: 10px;
+    color: black;
+}
+
+.directions__dropdown {
+    min-width: 100%;
+    background-color: aqua;
+    position: absolute;
+    top: 50px;
+    left: 0;
+}
+
+.directions__nav {
+    min-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 15px 20px;
+    background-color: rgba(128, 128, 128, 0.3);
+}
+
+.directions__wrapper {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.direction {
+    background-color: aqua;
+    
+    min-height: 40px;
+    min-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.direction__title {
+    color: rgb(32, 20, 94);
+}
+
+@media (max-width: 800px) {
+    .directions__wrapper {
+        overflow-x: scroll;
+    }
+}

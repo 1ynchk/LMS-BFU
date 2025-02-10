@@ -12,7 +12,8 @@
 }
 
 .adminenrollment__wrapper {
-    max-width: 900px;
+    padding: 20px 0px 0px 20px;
+    max-width: 740px;
     margin-bottom: 20px;
     display: flex;
     justify-content: start;
@@ -61,7 +62,7 @@
 }
 
 .subsections__subtitle {
-    font-size: 20px;
+    font-size: 24px;
     color: grey;
     margin: 20px 0;
 }

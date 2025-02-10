@@ -133,6 +133,7 @@
 }
 
 .subsection__btn {
+    margin-top: 20px;
     font-size: 16px;
     border-radius: 10px;
     color: white;
@@ -142,7 +143,7 @@
 
 .subsection__btn:disabled {
     cursor: pointer;
-    background-color: grey;
+    background-color: #808080;
 }
 
 .subsection__radio_label {
@@ -154,17 +155,18 @@
 }
 
 .subsections__unnecessary_form {
+    margin-top: 20px;
     position: relative;
     width: fit-content;
     padding: 10px 20px;
-    background-color: floralwhite;
+    background-color: #fffaf0;
 }
 
 .subsections__unnecessary_form 
 .adminenrollment__wrapper 
 .adminenrollment__container
 .subsection__label{
-    background-color: rgba(255, 255, 0, 0.2);
+    background-color: #ffff0033;
 }
 
 .subsections_unnecessary_form_btn {

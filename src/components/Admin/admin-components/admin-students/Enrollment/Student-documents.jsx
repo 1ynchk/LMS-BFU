@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from 'react';
 
 import { motion } from 'framer-motion';
 
-import { InputWarning } from '../../../../../base-components/input-warning';
 import {
     InputText,
     UnnecessaryInput,
@@ -20,24 +19,18 @@ const StudentDocuments = (props) => {
     const russianStudentRef = useRef(null)
 
     const {
-        setDocumentsInfo,
-        documentsInfo,
-        citizenship,
-        setCitizenship,
-        issuedBy,
-        setIssuedBy,
-        dateIssuance,
-        setDateIssuence,
-        codeSubDepartment,
-        setCodeSubDepartment,
-        passportSerial,
-        setPassportSerial,
-        passportNumber,
-        setPassportNumber,
-        snils,
-        setSnils,
-        INN,
-        setINN
+        fpNumber, setFpNumber, fpDateIssuance,
+        setFpDateIssuance, fpExpireDate, setFpExpireDate,
+        fpIssuedBy, setFpIssuedBy, mcNumber,
+        setMcNumber, mcDateEntry, setMcDateEntry,
+        setDocumentsInfo, documentsInfo,
+        citizenship, setCitizenship, issuedBy,
+        setIssuedBy, dateIssuance,
+        setDateIssuence, codeSubDepartment, setCodeSubDepartment,
+        passportSerial, setPassportSerial, passportNumber,
+        setPassportNumber, snils, setSnils,
+        INN, setINN, edNumber, setEdNumber, edDateIssuance,
+        setEdDateIssuance, edIssuedBy, setEdIssuedBy
     } = props
 
     const handleSubmit = (e) => {
@@ -46,22 +39,41 @@ const StudentDocuments = (props) => {
     }
 
     useEffect(() => {
-        if (citizenship == null || issuedBy == null || dateIssuance == ''
-            || codeSubDepartment == null || passportSerial == null
-            || passportNumber == null || citizenship.length < 2
-            || passportSerial.length < 2 || passportNumber.length < 6
-            || issuedBy.length < 6 || dateIssuance == ''
-            || new Date(dateIssuance) > new Date() ||
-            new Date(dateIssuance) < new Date('1950-01-01') || codeSubDepartment.length < 2) {
+        if (citizenship == null || issuedBy == null || dateIssuance == '' || edIssuedBy == null 
+            || codeSubDepartment == null || passportSerial == null 
+            || passportNumber == null || citizenship == '' || edNumber == null
+            || passportSerial == '' || passportNumber == '' || edNumber == ''
+            || edIssuedBy == '' || dateIssuance == '' || edDateIssuance == ''
+            || new Date(dateIssuance) > new Date() || new Date(edDateIssuance) > new Date() ||
+            new Date(dateIssuance) < new Date('1950-01-01')
+            || new Date(edDateIssuance) < new Date('1950-01-01') || codeSubDepartment == '') {
             setDocumentsInfo(false)
         } else {
-            setDocumentsInfo(true)
+            if (citizenshipType == 'russian') {
+                if (snils == null || INN == null || snils == '' || INN == '') {
+                    setDocumentsInfo(false)
+                } else {
+                    setDocumentsInfo(true)
+                }
+            } else {
+                console.log('hello')
+                if (fpNumber == null || fpNumber == '' || new Date(fpDateIssuance) > new Date()
+                    || new Date(dateIssuance) < new Date('1950-01-01') || fpDateIssuance == ''
+                    || new Date(fpExpireDate) > new Date() || new Date(fpExpireDate) < new Date('1950-01-01') 
+                    || fpExpireDate == '' || fpIssuedBy == null || fpIssuedBy == '' || mcNumber == null 
+                    || mcNumber == '' || new Date(mcDateEntry) > new Date()
+                    || new Date(mcDateEntry) < new Date('1950-01-01') || mcDateEntry == ''
+                ) {
+                    setDocumentsInfo(false)
+                } else {
+                    setDocumentsInfo(true)
+                }
+            }
         }
-    }, [citizenship, issuedBy,
-        dateIssuance, codeSubDepartment,
-        passportNumber, passportSerial])
-
-    console.log(citizenshipType)
+    }, [citizenshipType, citizenship, issuedBy, dateIssuance, codeSubDepartment, edNumber, 
+        passportNumber, passportSerial, snils, INN, edDateIssuance, edIssuedBy, fpNumber,
+        fpDateIssuance, fpExpireDate, fpIssuedBy, mcNumber, mcDateEntry
+    ])
 
     return (
         <motion.form
@@ -95,7 +107,15 @@ const StudentDocuments = (props) => {
                     setActive={setIsCodeSubDepartment}
                 />
             </div>
-            <div
+            <div className='subsections__subtitle'>Документ об образовании</div>
+            <div className='adminenrollment__wrapper'>
+                <InputText value={edNumber} setter={setEdNumber} label={'Номер'} />
+                <DateInput value={edDateIssuance} setter={setEdDateIssuance} label={'Дата выдачи'} />
+                <InputText value={edIssuedBy} setter={setEdIssuedBy} label={'Выдан'} />
+            </div>
+            <motion.div
+                animate={{ backgroundColor: citizenshipType == 'russian' ? '#fffaf0' : '#8080804c' }}
+                transition={{ duration: 0.5 }}
                 ref={russianStudentRef}
                 className='subsections__unnecessary_form'>
                 <input
@@ -110,19 +130,24 @@ const StudentDocuments = (props) => {
                 <div className='subsections__subtitle'>Для поступающих из РФ</div>
                 <div className='adminenrollment__wrapper'>
                     <InputText
+                        isDisabled={citizenshipType == 'russian' ? true : false}
                         value={snils}
                         setter={setSnils}
                         label={'Снилс'}
                         max_length={11} />
                     <InputText
+                        isDisabled={citizenshipType == 'russian' ? true : false}
                         value={INN}
                         setter={setINN}
                         label={'ИНН'}
                         max_length={12} />
                 </div>
-            </div>
+            </motion.div>
 
-            <div className='subsections__unnecessary_form'>
+            <motion.div
+                animate={{ backgroundColor: citizenshipType == 'foreign' ? '#fffaf0' : '#8080804c' }}
+                transition={{ duration: 0.5 }}
+                className='subsections__unnecessary_form'>
                 <input
                     checked={citizenshipType == 'foreign' ? true : false}
                     onChange={() => {
@@ -132,38 +157,44 @@ const StudentDocuments = (props) => {
                     name='citizenship_student'
                     className='subsections_unnecessary_form_btn'
                     type='radio' />
-                <div className='subsections__subtitle'>Для поступающих из РФ</div>
+                <div className='subsections__subtitle'>Для иностранных граждан</div>
+                <div className='subsections__subtitle'>Загран паспорт</div>
                 <div className='adminenrollment__wrapper'>
-                    <div className='adminenrollment__container'>
-                        <div className="subsection__label">Снилс</div>
-                        <input
-                            maxLength={11}
-                            value={snils == null ? '' : snils}
-                            onChange={(e) => setSnils(e.target.value)}
-                            className="subsection__input" />
-                        {
-                            snils == null || snils.length < 11 && (
-                                <InputWarning
-                                    text='Это обязательное поле' />
-                            )
-                        }
-                    </div>
-                    <div className='adminenrollment__container'>
-                        <div className="subsection__label">ИНН</div>
-                        <input
-                            maxLength={12}
-                            value={INN == null ? '' : INN}
-                            onChange={(e) => setINN(e.target.value)}
-                            className="subsection__input" />
-                        {
-                            INN == null || INN.length < 12 && (
-                                <InputWarning
-                                    text='Это обязательное поле' />
-                            )
-                        }
-                    </div>
+                    <InputText
+                        isDisabled={citizenshipType == 'foreign' ? true : false}
+                        value={fpNumber}
+                        setter={setFpNumber}
+                        label={'Номер'} />
+                    <DateInput
+                        isDisabled={citizenshipType == 'foreign' ? true : false}
+                        value={fpDateIssuance}
+                        setter={setFpDateIssuance}
+                        label={'Дата выдачи'} />
+                    <DateInput
+                        isDisabled={citizenshipType == 'foreign' ? true : false}
+                        value={fpExpireDate}
+                        setter={setFpExpireDate}
+                        label={'Срок действия'} />
+                    <InputText
+                        isDisabled={citizenshipType == 'foreign' ? true : false}
+                        value={fpIssuedBy}
+                        setter={setFpIssuedBy}
+                        label={'Выдан'} />
                 </div>
-            </div>
+                <div className='subsections__subtitle'>Миграционная карта</div>
+                <div className='adminenrollment__wrapper'>
+                    <InputText
+                        isDisabled={citizenshipType == 'foreign' ? true : false}
+                        value={mcNumber}
+                        setter={setMcNumber}
+                        label={'Номер'} />
+                    <DateInput
+                        isDisabled={citizenshipType == 'foreign' ? true : false}
+                        value={mcDateEntry}
+                        setter={setMcDateEntry}
+                        label={'Дата въезда'} />
+                </div>
+            </motion.div>
 
             <div className='adminnewsadd__btn_container'>
                 <button

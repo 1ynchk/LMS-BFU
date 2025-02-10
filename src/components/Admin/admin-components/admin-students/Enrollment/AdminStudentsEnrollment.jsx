@@ -5,7 +5,12 @@ import { useEffect, useState } from 'react'
 import { CommonInputs } from '../../../../bll/Inputs-bll/common-inputs'
 import CommonInfo from './Common-info'
 import StudentDocuments from './Student-documents'
-import { UseStudentDocuments, UseStudentRussianDocuments } from '../../../../bll/Inputs-bll/common-inputs'
+import DirectionsInfo from './directions-info'
+import {
+    UseStudentDocuments,
+    UseStudentRussianDocuments,
+    UseStudentForeignDocuments
+} from '../../../../bll/Inputs-bll/common-inputs'
 import { PhotoBLL } from '../../../../bll/Common-bll/Photo'
 
 import { FaLongArrowAltRight } from "react-icons/fa";
@@ -42,7 +47,7 @@ const AdminStudentsEnrollment = () => {
 
     // documents
     const [documentsInfo, setDocumentsInfo] = useState(false)
-    
+
     const {
         citizenship,
         setCitizenship,
@@ -55,15 +60,40 @@ const AdminStudentsEnrollment = () => {
         passportSerial,
         setPassportSerial,
         passportNumber,
-        setPassportNumber
+        setPassportNumber,
+
+        edNumber,
+        setEdNumber,
+        edDateIssuance,
+        setEdDateIssuance,
+        edIssuedBy,
+        setEdIssuedBy
     } = UseStudentDocuments()
 
     const {
-        snils, 
-        setSnils, 
-        INN, 
+        snils,
+        setSnils,
+        INN,
         setINN
     } = UseStudentRussianDocuments()
+
+    const {
+        fpNumber,
+        setFpNumber,
+        fpDateIssuance,
+        setFpDateIssuance,
+        fpExpireDate,
+        setFpExpireDate,
+        fpIssuedBy,
+        setFpIssuedBy,
+        mcNumber,
+        setMcNumber,
+        mcDateEntry,
+        setMcDateEntry
+    } = UseStudentForeignDocuments()
+
+    // choisen direction 
+    const [isDirection, setIsDirection] = useState()
 
     const {
         handleDragLeave,
@@ -80,7 +110,7 @@ const AdminStudentsEnrollment = () => {
         window.addEventListener("beforeunload", handleBeforeUnload)
 
         return () => {
-            window.addEventListener("beforeunload", handleBeforeUnload)
+            window.removeEventListener("beforeunload", handleBeforeUnload)
         }
     }, [])
 
@@ -120,6 +150,7 @@ const AdminStudentsEnrollment = () => {
     switch (true) {
         case queryParams == null:
             content = <CommonInfo
+                setEdIssuedBy
                 gender={gender}
                 setGender={setGender}
                 accountPhoto={accountPhoto}
@@ -143,6 +174,24 @@ const AdminStudentsEnrollment = () => {
             break
         case queryParams == 'documents':
             content = <StudentDocuments
+                edNumber={edNumber}
+                setEdNumber={setEdNumber}
+                edDateIssuance={edDateIssuance}
+                setEdDateIssuance={setEdDateIssuance}
+                edIssuedBy={edIssuedBy}
+                setEdIssuedBy={setEdIssuedBy}
+                fpNumber={fpNumber}
+                setFpNumber={setFpNumber}
+                fpDateIssuance={fpDateIssuance}
+                setFpDateIssuance={setFpDateIssuance}
+                fpExpireDate={fpExpireDate}
+                setFpExpireDate={setFpExpireDate}
+                fpIssuedBy={fpIssuedBy}
+                setFpIssuedBy={setFpIssuedBy}
+                mcNumber={mcNumber}
+                setMcNumber={setMcNumber}
+                mcDateEntry={mcDateEntry}
+                setMcDateEntry={setMcDateEntry}
                 snils={snils}
                 setSnils={setSnils}
                 INN={INN}
@@ -160,7 +209,10 @@ const AdminStudentsEnrollment = () => {
                 passportNumber={passportNumber}
                 setPassportNumber={setPassportNumber}
                 documentsInfo={documentsInfo}
-                setDocumentsInfo={setDocumentsInfo}/>
+                setDocumentsInfo={setDocumentsInfo} />
+            break
+        case queryParams == 'direction':
+            content = <DirectionsInfo />
             break
         case queryParams == 'confirm':
             content = null

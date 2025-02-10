@@ -6,8 +6,6 @@ import { host } from '../../root'
 export const fetchLogin = createAsyncThunk('user/fetchLogin', async (
     { email, pswrd, csrftoken }) => {
 
-    console.log(csrftoken)
-
     const data = await axios.post(
         `${host}/api_users/login/`,
         { 'email': email, 'password': pswrd },
