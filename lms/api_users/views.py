@@ -26,8 +26,6 @@ def csrf(request):
 def user_login(request):
     '''Авторизация пользователя'''
 
-    print('hello')
-    
     email = request.data.get('email')
     password = request.data.get('password')
     user = authenticate(request, email=email, password=password)
@@ -54,6 +52,7 @@ def user_logout(request):
 def check_login(request):
     '''Проверка авторизирован пользователь или нет'''
 
+    print(request.user)
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
         response = Response({

@@ -44,9 +44,13 @@ INSTALLED_APPS = [
     # apps     
     'api_users',
     'api_news',
+    'api_students',
+    'api_directions',
     
     # 3rd party
     'corsheaders',
+    'django_filters',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
