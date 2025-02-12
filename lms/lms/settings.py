@@ -89,13 +89,17 @@ CORS_ALLOWED_HEADERS = [
     "dnt",
     "origin",
     "user-agent",
-    "x-csrftoken",  # ✅ Разрешаем передачу CSRF-токена
+    "x-csrftoken",
     "x-requested-with",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'lms.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination'
+}
 
 TEMPLATES = [
     {

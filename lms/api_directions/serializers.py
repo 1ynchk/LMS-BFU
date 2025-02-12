@@ -1,24 +1,29 @@
 from rest_framework import serializers
-import django_filters
 
 from .models import (
     Directions,
     Subjects,
-    DirectionsSubjectsThroughBudget,
-    DirectionsSubjectsThroughPaid
+    DirectionsSubjectsThroughBudgetPaid,
     )
 
 class DirectionsSerializer(serializers.ModelSerializer):
 
-    subjects_budget = serializers.SerializerMethodField()
-    subjects_paid = serializers.SerializerMethodField()
+    subjects_budget_paid = serializers.SerializerMethodField()
     
     class Meta: 
         model = Directions
         fields = '__all__'
         
-    def get_subjects_budget(self, obj):
-        return [{"id": sub.id, "name": sub.name} for sub in obj.subjects_budget.all()]
+    def get_subjects_budget_paid(self, obj):
+        subjects_data = []
+        subjects = DirectionsSubjectsThroughBudgetPaid.objects.filter(direction=obj)
+        
+        for sub in subjects:
+            subjects_data.append({
+                "id": sub.subject.id,
+                "name": sub.subject.name,
+                "points": sub.points, 
+                'type': sub.type_points
+            })
 
-    def get_subjects_paid(self, obj):
-        return [{"id": sub.id, "name": sub.name} for sub in obj.subjects_paid.all()] 
+        return subjects_data 
