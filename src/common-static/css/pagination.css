@@ -1,0 +1,33 @@
+.pagination {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination__container {
+    color: grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination_page {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.pagination_page.pagination_active {
+    color: rgb(34, 20, 92);
+}
+
+.pagination__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 25px;
+}
+
+ 

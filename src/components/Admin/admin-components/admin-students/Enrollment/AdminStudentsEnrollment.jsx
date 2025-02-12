@@ -231,16 +231,13 @@ const AdminStudentsEnrollment = () => {
                 <NavLink
                     to='/admin/students/enrollment/'
                     className='adminenrollment__section'>Общая информация</NavLink>
-                <FaLongArrowAltRight />
                 <NavLink
                     // to={commonInfo ? '/admin/students/enrollment/?stage=documents' : undefined}
                     to='/admin/students/enrollment/?stage=documents'
                     className='adminenrollment__section'>Документы</NavLink>
-                <FaLongArrowAltRight />
                 <NavLink
                     to='/admin/students/enrollment/?stage=direction'
                     className='adminenrollment__section'>Направление</NavLink>
-                <FaLongArrowAltRight />
                 <NavLink
                     to='/admin/students/enrollment/?stage=confirm'
                     className='adminenrollment__section'>Подтверждение</NavLink>
