@@ -5,17 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchGetDirections } from './../../../../../store/queries/Directions/get-directions';
 
 import Pagination from '../../../../../base-components/pagination';
+import { getLinkPagination } from '../../../../../store/slices/DirectionsSlice';
 
-import { IoIosSearch } from "react-icons/io";
 import { motion } from 'framer-motion';
 import { GoTriangleUp } from "react-icons/go";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const DirectionsInfo = (props) => {
     const dispatch = useDispatch()
     const directions = useSelector(state => state.directions.directions)
     const loading = useSelector(state => state.directions.loading)
     const [sortedDirections, setSortedDirections] = useState([])
-    const [search, setSearch] = useState(null)
 
     // pagination
     const count = useSelector(state => state.directions.count)
@@ -23,8 +23,12 @@ const DirectionsInfo = (props) => {
     const next_page = useSelector(state => state.directions.next_page)
     const current_page = useSelector(state => state.directions.current_page)
 
+    // search
+    const [search, setSearch] = useState(null)
+    const searchDirections = useSelector(state => state.directions.searchDirections)
+
     useEffect(() => {
-        dispatch(fetchGetDirections(null))
+        dispatch(fetchGetDirections({ 'page': 1, 'search': null }))
     }, [])
 
     useEffect(() => {
@@ -33,9 +37,16 @@ const DirectionsInfo = (props) => {
         }
     }, [loading])
 
-    const handleSubmit = (e) => {
-
-    }
+    useEffect(() => {
+        const delayDebounce = setTimeout(
+            () => {
+                if (search != null && search.trim()) {
+                    dispatch(fetchGetDirections({ 'page': 1, 'search': search }))
+                }
+            }, 600
+        )
+        return () => clearTimeout(delayDebounce)
+    }, [search])
 
     return (
         <motion.div
@@ -44,19 +55,12 @@ const DirectionsInfo = (props) => {
             transition={{ delay: 0.2 }}
             className="directions">
             <div className='directions__search_container'>
-                <form onSubmit={() => handleSubmit}>
-                    <input
-                        className='subsection__input'
-                        type='text'
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                    <button
-                        className='directions_search'
-                        type='submit'
-                    >
-                        <IoIosSearch className='search_icon' />
-                    </button>
-                </form>
+                <input
+                    placeholder='Введите название направления или же название высшей школы...'
+                    className='subsection__input'
+                    type='text'
+                    onChange={(e) => setSearch(e.target.value)}
+                />
             </div>
             <div className='directions__filters'>
                 <Filter />
@@ -65,6 +69,7 @@ const DirectionsInfo = (props) => {
 
                 <div className='directions__nav'>
                     <div className='directions__nav_title_id'>ID</div>
+                    <div className='directions__nav_title_name'>Школа</div>
                     <div className='directions__nav_title_name'>Название</div>
                     <div className='directions__nav_title'>Предметы бюджет</div>
                     <div className='directions__nav_title'>Баллы бюджет</div>
@@ -72,19 +77,28 @@ const DirectionsInfo = (props) => {
                     <div className='directions__nav_title'>Баллы платн.</div>
                 </div>
                 {
-                    sortedDirections.map(el => {
+                    loading != true && sortedDirections.map(el => {
                         return <Direction
                             key={el.id}
                             id={el.id}
                             name={el.name}
                             subjects_budget_paid={el.subjects_budget_paid}
+                            school={el.school}
                         />
                     })
+                }
+                {
+                    loading && (
+                        <div className='directions__loading'>
+                            <AiOutlineLoading3Quarters className='loadingscreen__load' />
+                        </div>
+                    )
                 }
 
             </div>
             <div className='pagination__container'>
                 <Pagination
+                    search={search}
                     prev_page={prev_page}
                     next_page={next_page}
                     page_size={5}
@@ -101,6 +115,7 @@ const Direction = (props) => {
         id,
         name,
         subjects_budget_paid,
+        school
     } = props
 
     const [sortedSubjectsBudget, setSortedSubjectsBudget] = useState([])
@@ -114,6 +129,9 @@ const Direction = (props) => {
     return (
         <div className='direction'>
             <div className='direction__title_id'>{id}</div>
+            <div className='direction__title direction_name'>
+                {school}
+            </div>
             <div className='direction__title direction_name'>
                 {name}
             </div>

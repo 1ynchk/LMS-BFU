@@ -4,14 +4,16 @@ import axios from 'axios'
 import { host } from "../../root";
 
 export const fetchGetDirections = createAsyncThunk('directions/fetchGetDirections',
-    async (page) => {
+    async (params) => {
 
-        if (page == null) {
-            const response = await axios.get(`${host}/api_directions/get-directions/`)
-            return response.data
-        } else {
-            const response = await axios.get(page)
-            return response.data
-        }
-
+        const response = await axios.get(
+            `${host}/api_directions/get-directions/`,
+            {
+                params: {
+                    'search': params.search,
+                    'page': params.page
+                },
+            }
+        )
+        return response.data
     })

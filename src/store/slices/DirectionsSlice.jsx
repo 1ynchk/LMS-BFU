@@ -1,6 +1,7 @@
 import { createSlice, current } from '@reduxjs/toolkit';
 
 import { fetchGetDirections } from './../queries/Directions/get-directions';
+// import { fetchGetDirectionsSearch } from './../queries/Directions/get-directions-search';
 
 const DirectionsSlice = createSlice(
     {
@@ -10,10 +11,15 @@ const DirectionsSlice = createSlice(
             directions: [],
             loading: false,
 
+            // pagination
             count: 0,
             prev_page: null,
             next_page: null,
-            current_page: 1
+            current_page: 1,
+
+            // search
+            searchDirections: [],
+
         },
 
         reducers: {
@@ -24,16 +30,21 @@ const DirectionsSlice = createSlice(
             builder
                 .addCase(
                     fetchGetDirections.fulfilled, (state, action) => {
+                        console.log(action.payload)
                         state.directions = action.payload.results
                         state.count = action.payload.count
                         state.prev_page = action.payload.previous
                         state.next_page = action.payload.next
-                        if (state.prev_page == null) {
+                        if (state.prev_page == null && state.next_page == null) {
                             state.current_page = 1
                         }
-                        if (state.next_page == null) {
-                            let index = state.prev_page.indexOf('=')
-                            if (index == -1) {
+                        if (state.prev_page == null && state.next_page != null) {
+                            state.current_page = 1
+                        }
+                        if (state.next_page == null && state.prev_page != null) {
+                            const urlObj = new URL(state.prev_page)
+                            let pageParam = (urlObj.searchParams.get('page'))
+                            if (pageParam == null) {
                                 state.current_page = 2
                             } else {
                                 const urlObj = new URL(state.prev_page)
@@ -41,7 +52,6 @@ const DirectionsSlice = createSlice(
                             }
                         }
                         if (state.next_page != null && state.prev_page != null) {
-                            console.log('heello')
                             const urlObj = new URL(state.next_page)
                             state.current_page = +(urlObj.searchParams.get('page')) - 1
                         }

@@ -6,19 +6,17 @@ import { useEffect, useState } from "react"
 import { useDispatch } from 'react-redux';
 import { fetchGetDirections } from '../store/queries/Directions/get-directions';
 
-
 const Pagination = (props) => {
     const {
         count,
         page_size,
         prev_page,
         next_page,
-        current_page
+        current_page,
+        search
     } = props
     const [pages, setPages] = useState([1])
     const dispatch = useDispatch()
-    
-    console.log()
 
     useEffect(() => {
         let max_pages = Math.ceil(count / page_size)
@@ -34,11 +32,16 @@ const Pagination = (props) => {
     }, [count])
 
     const handlePrev = () => {
-        dispatch(fetchGetDirections(prev_page))
+        dispatch(fetchGetDirections({ 'page': current_page - 1, 'search': search }))
     }
 
     const hadnleNext = () => {
-        dispatch(fetchGetDirections(next_page))
+        dispatch(fetchGetDirections({ 'page': current_page + 1, 'search': search }))
+    }
+
+    const handleClickPage = (el) => {
+        dispatch(fetchGetDirections({ 'page': el, 'search': search }))
+        
     }
 
     return (
@@ -53,6 +56,7 @@ const Pagination = (props) => {
                 {
                     pages.map((el, index) => {
                         return <div
+                            onClick={() => handleClickPage(el)}
                             key={index}
                             className={`pagination_page  ${el == current_page ? 'pagination_active' : ''}`}>
                             {el}
