@@ -9,6 +9,7 @@ from .models import (
 class DirectionsSerializer(serializers.ModelSerializer):
 
     subjects_budget_paid = serializers.SerializerMethodField()
+    school = serializers.SerializerMethodField()
     
     class Meta: 
         model = Directions
@@ -27,3 +28,6 @@ class DirectionsSerializer(serializers.ModelSerializer):
             })
 
         return subjects_data 
+    
+    def get_school(self, obj): 
+        return obj.school.name if obj.school else None

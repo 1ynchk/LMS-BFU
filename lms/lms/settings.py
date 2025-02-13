@@ -97,8 +97,11 @@ CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'lms.urls'
 
+PAGE_SIZE = 5
+
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination'
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': PAGE_SIZE
 }
 
 TEMPLATES = [

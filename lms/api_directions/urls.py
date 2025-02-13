@@ -1,7 +1,8 @@
 from django.urls import path 
 
-from .views import DirectionsList
+from .views import DirectionsPagination, DirectionsSearch
 
 urlpatterns = [
-    path('get-directions/', DirectionsList.as_view())
+    
+    path('get-directions/', DirectionsPagination.as_view()),
 ]
