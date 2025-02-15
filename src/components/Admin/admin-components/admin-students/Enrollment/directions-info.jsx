@@ -3,11 +3,13 @@ import '../../../admin-static/css/admin-directions.css'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchGetDirections } from './../../../../../store/queries/Directions/get-directions';
+import { fetchGetSchools } from './../../../../../store/queries/Directions/get-schools';
 
 import Pagination from '../../../../../base-components/pagination';
-import { getLinkPagination } from '../../../../../store/slices/DirectionsSlice';
+import { IoIosSearch } from "react-icons/io";
+import { IoCloseOutline } from "react-icons/io5";
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { GoTriangleUp } from "react-icons/go";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
@@ -25,7 +27,6 @@ const DirectionsInfo = (props) => {
 
     // search
     const [search, setSearch] = useState(null)
-    const searchDirections = useSelector(state => state.directions.searchDirections)
 
     useEffect(() => {
         dispatch(fetchGetDirections({ 'page': 1, 'search': null }))
@@ -48,6 +49,11 @@ const DirectionsInfo = (props) => {
         return () => clearTimeout(delayDebounce)
     }, [search])
 
+    const handleClearSearch = () => {
+        setSearch(null)
+        dispatch(fetchGetDirections({ 'page': 1, 'search': null }))
+    }
+
     return (
         <motion.div
             initial={{ x: -20, opacity: 0 }}
@@ -56,14 +62,37 @@ const DirectionsInfo = (props) => {
             className="directions">
             <div className='directions__search_container'>
                 <input
+                    value={search == null ? '' : search}
                     placeholder='Введите название направления или же название высшей школы...'
                     className='subsection__input'
                     type='text'
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => {
+                        setSearch(e.target.value)
+                        if (e.target.value == '') {
+                            handleClearSearch()
+                        }
+                    }}
                 />
+                {
+                    search != null && search != '' && (
+                        <button
+                            disabled={search == null || search == '' ? true : false}
+                            onClick={() => handleClearSearch()}
+                            className='directions__search direction_close'>
+                            <IoCloseOutline />
+                        </button>
+
+                    )
+                }
+                <button
+                    disabled={search == null || search == '' ? true : false}
+                    className='directions__search'>
+                    <IoIosSearch />
+                </button>
+
             </div>
             <div className='directions__filters'>
-                <Filter />
+                <FilterSchools />
             </div>
             <div className='directions__wrapper'>
 
@@ -171,33 +200,90 @@ const Direction = (props) => {
     )
 }
 
-const Filter = () => {
+const FilterSchools = () => {
     const [isActive, setActive] = useState(false)
+    const dispatch = useDispatch()
+    const schools = useSelector(state => state.directions.schools)
+
+    useEffect(() => {
+        dispatch(fetchGetSchools())
+    }, [])
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (!e.target.closest('.directions__dropdown') &&
+                !e.target.closest('.directions__dropdownlist_container')) {
+                setActive(false)
+            }
+        }
+
+        document.addEventListener('click', handleClickOutside)
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside)
+        }
+
+    }, [])
 
     return (
-        <div
-            onClick={() => setActive(!isActive)}
-            className='directions__dropdownlist_container'>
-            <div className='directions__label'>Факультет</div>
-            <motion.div
-                initial={false}
-                animate={{ rotate: isActive ? 180 : 0 }}
-                transition={{ ease: 'easeOut' }}
-            >
-                <GoTriangleUp className='adminnewsadd__icon' />
-            </motion.div>
-            <div className='directions__dropdown'>
-                {
-                    isActive && (
-                        <div className='dropdown_element'>
-                            hello
-                        </div>
-                    )
-                }
+        <div className='directions__dropdownlist_container'>
+            <div
+                onClick={(e) => {
+                    e.stopPropagation()
+                    setActive(!isActive)
+                }}
+                className='filter__dropdown'>
+                <div className='directions__label'>Высшие школы</div>
+                <motion.div
+                    initial={false}
+                    animate={{ rotate: isActive ? 180 : 0 }}
+                    transition={{ ease: 'easeOut' }}
+                >
+                    <GoTriangleUp className='adminnewsadd__icon' />
+                </motion.div>
             </div>
+            <AnimatePresence>
+                {isActive && (<motion.div
+                    className='directions__dropdown'
+                    initial='initial'
+                    exit={{ opacity: 0, y: -5 }}
+                    animate='visible'
+                    variants={profileListVars}
+                >
+                    {
+                        isActive && (
+                            schools.map((el, index) => {
+                                return <div
+                                    key={index}
+                                    className='dropdown_element'>
+                                    <div className='dropdown_element__name'>
+                                        {el.name}
+                                    </div>
+                                    <input
+                                        type='checkbox'
+                                        className='directions__checkbox'
+                                    />
+                                </div>
+                            })
+
+                        )
+                    }
+                </motion.div>)}
+            </AnimatePresence>
+
         </div>
     )
 }
 
+const profileListVars = {
+    initial: {
+        opacity: 0,
+        y: -10
+    },
+    visible: {
+        opacity: 1,
+        y: 0
+    }
+}
 
 export default DirectionsInfo

@@ -1,12 +1,10 @@
-.adminmainpage {
-}
-
 .adminmainpage__title {
     margin-top: 20px;
     font-size: 22px; 
 }
 
 .adminmainpage__section {
+    min-width: 350px;
     padding: 20px;
     background-color: aliceblue;
     width: 31%;
@@ -70,4 +68,13 @@
 
 .adminmainpage__section:hover .adminmainpage__sectionIcon {
     transform: scale(1.1);
+}
+
+@media (max-width: 1000px) {
+    .adminmainpage__sections_wrapper {
+        justify-content: center;
+    }
+    .adminmainpage__section {
+        width: 100%;
+    }
 }

@@ -11,7 +11,8 @@ export const fetchGetDirections = createAsyncThunk('directions/fetchGetDirection
             {
                 params: {
                     'search': params.search,
-                    'page': params.page
+                    'page': params.page,
+                    'schools': null
                 },
             }
         )

@@ -1,13 +1,14 @@
 import { createSlice, current } from '@reduxjs/toolkit';
 
 import { fetchGetDirections } from './../queries/Directions/get-directions';
-// import { fetchGetDirectionsSearch } from './../queries/Directions/get-directions-search';
+import { fetchGetSchools } from './../queries/Directions/get-schools';
 
 const DirectionsSlice = createSlice(
     {
         name: 'directions',
 
         initialState: {
+            schools: [],
             directions: [],
             loading: false,
 
@@ -16,10 +17,6 @@ const DirectionsSlice = createSlice(
             prev_page: null,
             next_page: null,
             current_page: 1,
-
-            // search
-            searchDirections: [],
-
         },
 
         reducers: {
@@ -30,7 +27,6 @@ const DirectionsSlice = createSlice(
             builder
                 .addCase(
                     fetchGetDirections.fulfilled, (state, action) => {
-                        console.log(action.payload)
                         state.directions = action.payload.results
                         state.count = action.payload.count
                         state.prev_page = action.payload.previous
@@ -61,6 +57,11 @@ const DirectionsSlice = createSlice(
                 .addCase(
                     fetchGetDirections.pending, (state, action) => {
                         state.loading = true
+                    }
+                )
+                .addCase(
+                    fetchGetSchools.fulfilled, (state, action) => {
+                        state.schools = action.payload
                     }
                 )
         }

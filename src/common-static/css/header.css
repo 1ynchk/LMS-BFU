@@ -158,3 +158,9 @@
 .list_child__icon {
     transform: scale(1.5);
 }
+
+@media (max-width: 1000px) {
+    .header {
+        width: 100%;
+    }
+}
