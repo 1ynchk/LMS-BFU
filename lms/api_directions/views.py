@@ -2,8 +2,14 @@ from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
 
-from .models import Directions
-from .serializers import DirectionsSerializer 
+from .models import (
+    Directions,
+    School
+    )
+from .serializers import (
+    DirectionsSerializer,
+    SchoolSerializer
+    ) 
 from .filters import DirectionsFilter
 from .pagination import DirectionsPagination
 
@@ -18,6 +24,8 @@ class DirectionsPagination(generics.ListAPIView):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = DirectionsFilter 
     serializer_class = DirectionsSerializer
-    
-class DirectionsSearch(generics.ListAPIView): 
-    pass
+
+class SchoolsAll(generics.ListAPIView): 
+    queryset = School.objects.all()
+    pagination_class = None
+    serializer_class = SchoolSerializer 

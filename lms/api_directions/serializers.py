@@ -3,6 +3,7 @@ from rest_framework import serializers
 from .models import (
     Directions,
     Subjects,
+    School,
     DirectionsSubjectsThroughBudgetPaid,
     )
 
@@ -31,3 +32,9 @@ class DirectionsSerializer(serializers.ModelSerializer):
     
     def get_school(self, obj): 
         return obj.school.name if obj.school else None
+    
+class SchoolSerializer(serializers.ModelSerializer):
+    
+    class Meta: 
+        model = School
+        fields = '__all__'
