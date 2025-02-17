@@ -1,7 +1,7 @@
 .directions {
     width: 100%;
     /* overflow-x: hidden; */
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
 }
 
 .directions_search {
@@ -24,25 +24,28 @@
 }
 
 .directions__filters {
-    display: flex;
+    height: 100%;
+    min-width: 230px;
+    width: 30%;
     flex-direction: column;
+    display: flex;
 }
 
 .directions__dropdownlist_container {
+    width: 100%;
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    background-color: aliceblue;
-    width: fit-content;
     padding: 15px 20px;
 }
 
 .filter__dropdown {
+    width: 100%;
     position: relative;
     display: flex;
     align-items: center;
-    background-color: aliceblue;
-    width: fit-content;
+    /* justify-content: space-between; */
 }
 
 .directions__label {
@@ -53,21 +56,15 @@
 }
 
 .directions__dropdown {
-    overflow-y: scroll; 
-    height: 600px;
-    min-width: 100%;
-    background-color: aliceblue;
-    position: absolute;
+    margin-top: 20px;
+    width: 100%;
     z-index: 2;
-    top: 50px;
-    left: 0;
 }
 
 .dropdown_element {
-    width: 320px;
-    padding: 15px 20px;
+    padding: 10px 0px;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
 }
 
@@ -78,6 +75,7 @@
 .directions__checkbox {
     width: 20px;
     height: 20px;
+    margin-right: 10px;
 }
 
 .directions__nav {
@@ -99,8 +97,9 @@
     width: 150px;
 }
 
-
 .directions__wrapper {
+    overflow-y: hidden;
+    height: min-content;
     width: 100%;
     overflow-x: auto;
     white-space: nowrap;
@@ -184,4 +183,31 @@
 .directions__search:disabled {
     background-color: grey;
     cursor: default;
+}
+
+.filters_counter {
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px; 
+    border-radius: 50px;
+    color: white;
+    background-color: rgb(32, 20, 94);
+}
+
+.directions__common_wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.subsections__subtitle.directions_subtitle {
+    margin-left: 20px;
+}
+
+.directions__error {
+    margin-top: 30px;
+    font-size: 22px;
+    color: grey;
 }

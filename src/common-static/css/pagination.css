@@ -1,15 +1,12 @@
 .pagination {
     width: 100%;
     margin-top: 20px;
-    display: flex;
-    justify-content: center;
 }
 
 .pagination__container {
     color: grey;
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 .pagination_page {

@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 const Subsection = ({links}) => {
 
-    const [isConcealed, setConcealed] = useState(false)
+    const [isConcealed, setConcealed] = useState(true)
 
     return (
         <div>

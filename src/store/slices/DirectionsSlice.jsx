@@ -2,6 +2,7 @@ import { createSlice, current } from '@reduxjs/toolkit';
 
 import { fetchGetDirections } from './../queries/Directions/get-directions';
 import { fetchGetSchools } from './../queries/Directions/get-schools';
+import { fetchGetSubjects } from './../queries/Directions/get-subjects';
 
 const DirectionsSlice = createSlice(
     {
@@ -10,6 +11,7 @@ const DirectionsSlice = createSlice(
         initialState: {
             schools: [],
             directions: [],
+            subjects: [],
             loading: false,
 
             // pagination
@@ -17,10 +19,31 @@ const DirectionsSlice = createSlice(
             prev_page: null,
             next_page: null,
             current_page: 1,
+
+            // filters
+            schoolsFilter: [],
+            formatedSchools: '',
+            choisenSubjects: [],
+            formatedSubjects: ''
         },
 
         reducers: {
-
+            setChosenSchools(state, action) {
+                state.schoolsFilter = action.payload
+                if (action.payload.length != 0) {
+                    state.formatedSchools = action.payload.join(',')
+                } else {
+                    state.formatedSchools = ''
+                }
+            },
+            setChosenSubjects(state, action) {
+                state.choisenSubjects = action.payload
+                if (action.payload.length != 0) {
+                    state.formatedSubjects = action.payload.join(',')
+                } else {
+                    state.formatedSubjects = ''
+                }
+            }
         },
 
         extraReducers: (builder) => {
@@ -64,8 +87,15 @@ const DirectionsSlice = createSlice(
                         state.schools = action.payload
                     }
                 )
+                .addCase(
+                    fetchGetSubjects.fulfilled, (state, action) => {
+                        state.subjects = action.payload
+                    }
+                )
         }
     }
 )
+
+export const { setChosenSchools, setChosenSubjects } = DirectionsSlice.actions
 
 export default DirectionsSlice.reducer

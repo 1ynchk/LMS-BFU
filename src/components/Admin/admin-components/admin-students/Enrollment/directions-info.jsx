@@ -3,17 +3,18 @@ import '../../../admin-static/css/admin-directions.css'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchGetDirections } from './../../../../../store/queries/Directions/get-directions';
-import { fetchGetSchools } from './../../../../../store/queries/Directions/get-schools';
 
 import Pagination from '../../../../../base-components/pagination';
 import { IoIosSearch } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { GoTriangleUp } from "react-icons/go";
+import { motion } from 'framer-motion';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-const DirectionsInfo = (props) => {
+import FilterSchools from '../../../../../base-components/filters-search/directions-filters/Schools-filter';
+import SubjectsEGE from '../../../../../base-components/filters-search/directions-filters/Subjects-filter';
+
+const DirectionsInfo = () => {
     const dispatch = useDispatch()
     const directions = useSelector(state => state.directions.directions)
     const loading = useSelector(state => state.directions.loading)
@@ -28,13 +29,32 @@ const DirectionsInfo = (props) => {
     // search
     const [search, setSearch] = useState(null)
 
+    // filters
+    const formatedSchools = useSelector(state => state.directions.formatedSchools)
+    const formatedSubjects = useSelector(state => state.directions.formatedSubjects)
+    let [filters, setFilters] = useState({ 'schools': null })
+
+    console.log(sortedDirections)
+
     useEffect(() => {
-        dispatch(fetchGetDirections({ 'page': 1, 'search': null }))
+        setFilters(
+            {
+                'schools': formatedSchools,
+                'subjects': formatedSubjects
+            }
+        )
+    }, [formatedSchools, formatedSubjects])
+
+    useEffect(() => {
+        dispatch(fetchGetDirections({ 'page': 1 }))
     }, [])
 
     useEffect(() => {
         if (!loading && directions.length != 0) {
             setSortedDirections([...directions].sort((a, b) => a.id - b.id))
+        }
+        if (directions.length == 0) {
+            setSortedDirections([])
         }
     }, [loading])
 
@@ -42,7 +62,7 @@ const DirectionsInfo = (props) => {
         const delayDebounce = setTimeout(
             () => {
                 if (search != null && search.trim()) {
-                    dispatch(fetchGetDirections({ 'page': 1, 'search': search }))
+                    dispatch(fetchGetDirections({ 'page': 1, 'search': search, 'filters': filters }))
                 }
             }, 600
         )
@@ -51,7 +71,7 @@ const DirectionsInfo = (props) => {
 
     const handleClearSearch = () => {
         setSearch(null)
-        dispatch(fetchGetDirections({ 'page': 1, 'search': null }))
+        dispatch(fetchGetDirections({ 'page': 1, 'search': null, 'filters': filters }))
     }
 
     return (
@@ -91,31 +111,8 @@ const DirectionsInfo = (props) => {
                 </button>
 
             </div>
-            <div className='directions__filters'>
-                <FilterSchools />
-            </div>
-            <div className='directions__wrapper'>
 
-                <div className='directions__nav'>
-                    <div className='directions__nav_title_id'>ID</div>
-                    <div className='directions__nav_title_name'>Школа</div>
-                    <div className='directions__nav_title_name'>Название</div>
-                    <div className='directions__nav_title'>Предметы бюджет</div>
-                    <div className='directions__nav_title'>Баллы бюджет</div>
-                    <div className='directions__nav_title'>Предметы платн.</div>
-                    <div className='directions__nav_title'>Баллы платн.</div>
-                </div>
-                {
-                    loading != true && sortedDirections.map(el => {
-                        return <Direction
-                            key={el.id}
-                            id={el.id}
-                            name={el.name}
-                            subjects_budget_paid={el.subjects_budget_paid}
-                            school={el.school}
-                        />
-                    })
-                }
+            <div className='directions__common_wrapper'>
                 {
                     loading && (
                         <div className='directions__loading'>
@@ -123,18 +120,65 @@ const DirectionsInfo = (props) => {
                         </div>
                     )
                 }
+                {
+                    loading != true && sortedDirections.length == 0 && (
+                        <div className='directions__error'>
+                            К сожалению, ничего не было найдено по вашему запросу
+                        </div>
+                    )
+                }
+                {
+                    loading != true && sortedDirections.length != 0 && (
+                        <div className='directions__wrapper'>
+                            <div className='directions__nav'>
+                                <div className='directions__nav_title_id'>ID</div>
+                                <div className='directions__nav_title_name'>Школа</div>
+                                <div className='directions__nav_title_name'>Название</div>
+                                <div className='directions__nav_title'>Предметы бюджет</div>
+                                <div className='directions__nav_title'>Баллы бюджет</div>
+                                <div className='directions__nav_title'>Предметы платн.</div>
+                                <div className='directions__nav_title'>Баллы платн.</div>
+                            </div>
+
+
+
+                            {
+                                loading != true && sortedDirections.map(el => {
+                                    return <Direction
+                                        key={el.id}
+                                        id={el.id}
+                                        name={el.name}
+                                        subjects_budget_paid={el.subjects_budget_paid}
+                                        school={el.school}
+                                    />
+                                })
+                            }
+
+                            {
+                                loading != true && sortedDirections.length != 0 && (
+                                    <Pagination
+                                        filters={filters}
+                                        search={search}
+                                        prev_page={prev_page}
+                                        next_page={next_page}
+                                        page_size={5}
+                                        count={count}
+                                        current_page={current_page}
+                                    />)
+                            }
+                        </div>)
+                }
+                <div className='directions__filters'>
+                    <div className='subsections__subtitle directions_subtitle'>Фильтры</div>
+                    <FilterSchools
+                        search={search} />
+                    <SubjectsEGE
+                        search={search} />
+                </div>
 
             </div>
-            <div className='pagination__container'>
-                <Pagination
-                    search={search}
-                    prev_page={prev_page}
-                    next_page={next_page}
-                    page_size={5}
-                    count={count}
-                    current_page={current_page}
-                />
-            </div>
+
+
         </motion.div>
     )
 }
@@ -144,7 +188,7 @@ const Direction = (props) => {
         id,
         name,
         subjects_budget_paid,
-        school
+        school,
     } = props
 
     const [sortedSubjectsBudget, setSortedSubjectsBudget] = useState([])
@@ -200,90 +244,6 @@ const Direction = (props) => {
     )
 }
 
-const FilterSchools = () => {
-    const [isActive, setActive] = useState(false)
-    const dispatch = useDispatch()
-    const schools = useSelector(state => state.directions.schools)
 
-    useEffect(() => {
-        dispatch(fetchGetSchools())
-    }, [])
-
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (!e.target.closest('.directions__dropdown') &&
-                !e.target.closest('.directions__dropdownlist_container')) {
-                setActive(false)
-            }
-        }
-
-        document.addEventListener('click', handleClickOutside)
-
-        return () => {
-            document.removeEventListener('click', handleClickOutside)
-        }
-
-    }, [])
-
-    return (
-        <div className='directions__dropdownlist_container'>
-            <div
-                onClick={(e) => {
-                    e.stopPropagation()
-                    setActive(!isActive)
-                }}
-                className='filter__dropdown'>
-                <div className='directions__label'>Высшие школы</div>
-                <motion.div
-                    initial={false}
-                    animate={{ rotate: isActive ? 180 : 0 }}
-                    transition={{ ease: 'easeOut' }}
-                >
-                    <GoTriangleUp className='adminnewsadd__icon' />
-                </motion.div>
-            </div>
-            <AnimatePresence>
-                {isActive && (<motion.div
-                    className='directions__dropdown'
-                    initial='initial'
-                    exit={{ opacity: 0, y: -5 }}
-                    animate='visible'
-                    variants={profileListVars}
-                >
-                    {
-                        isActive && (
-                            schools.map((el, index) => {
-                                return <div
-                                    key={index}
-                                    className='dropdown_element'>
-                                    <div className='dropdown_element__name'>
-                                        {el.name}
-                                    </div>
-                                    <input
-                                        type='checkbox'
-                                        className='directions__checkbox'
-                                    />
-                                </div>
-                            })
-
-                        )
-                    }
-                </motion.div>)}
-            </AnimatePresence>
-
-        </div>
-    )
-}
-
-const profileListVars = {
-    initial: {
-        opacity: 0,
-        y: -10
-    },
-    visible: {
-        opacity: 1,
-        y: 0
-    }
-}
 
 export default DirectionsInfo

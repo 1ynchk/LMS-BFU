@@ -14,21 +14,11 @@ import { FaDoorOpen } from "react-icons/fa6";
 import { AiOutlineProfile } from "react-icons/ai";
 
 import { motion, AnimatePresence } from 'framer-motion'
+import { profileListVars } from './../common-static/motion/profile';
 
 import { fetchLogout } from './../store/queries/Login/Logout';
 
 import { AdminNavigation } from '../components/Admin/admin-components/AdminHeaderNav'
-
-const profileListVars = {
-    initial: {
-        opacity: 0,
-        y: -10
-    },
-    visible: {
-        opacity: 1,
-        y: 0
-    }
-}
 
 const Profile = () => {
 

@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PhotoBLL } from "../../../bll/Common-bll/Photo";
 import { Photo } from "../../../../base-components/Photo";
 import { InputWarning } from "../../../../base-components/input-warning";
+import { listVars } from "../../../../common-static/motion/open-categories";
 
 const AdminNewsAdd = () => {
 
@@ -238,17 +239,6 @@ const Categories = (
             </AnimatePresence>
         </div>
     )
-}
-
-const listVars = {
-    initial: {
-        height: 0,
-        opacity: 0
-    },
-    visible: {
-        opacity: 1,
-        height: 'auto'
-    }
 }
 
 export default AdminNewsAdd

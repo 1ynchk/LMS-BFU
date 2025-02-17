@@ -5,7 +5,9 @@ import { host } from "../../root";
 
 export const fetchGetSchools = createAsyncThunk('directions/fetchGetSchools',
     async () => {
-        const response = await axios.get(`${host}/api_directions/get-schools/`, {withCredentials: true})
+        const response = await axios.get(
+            `${host}/api_directions/get-schools/`, 
+            {withCredentials: true})
 
         return response.data
     })
