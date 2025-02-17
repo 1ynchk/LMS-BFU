@@ -38,3 +38,9 @@ class SchoolSerializer(serializers.ModelSerializer):
     class Meta: 
         model = School
         fields = '__all__'
+        
+class SubjectsSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Subjects
+        fields = '__all__'

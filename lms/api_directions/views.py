@@ -4,11 +4,13 @@ from rest_framework.pagination import PageNumberPagination
 
 from .models import (
     Directions,
-    School
+    School,
+    Subjects
     )
 from .serializers import (
     DirectionsSerializer,
-    SchoolSerializer
+    SchoolSerializer,
+    SubjectsSerializer
     ) 
 from .filters import DirectionsFilter
 from .pagination import DirectionsPagination
@@ -29,3 +31,8 @@ class SchoolsAll(generics.ListAPIView):
     queryset = School.objects.all()
     pagination_class = None
     serializer_class = SchoolSerializer 
+    
+class SubjectsAll(generics.ListAPIView):
+    queryset = Subjects.objects.all()
+    pagination_class = None
+    serializer_class = SubjectsSerializer

@@ -5,8 +5,17 @@ from .models import Subjects, Directions
 
 class DirectionsFilter(django_filters.FilterSet):
     search = django_filters.CharFilter(method='filter_search') 
-    filter_by_schools = django_filters.CharFilter(method='filter_by_schools')
+    schools = django_filters.CharFilter(method='filter_by_schools')
+    subjects = django_filters.CharFilter(method='filter_by_subjects')
 
+    def filter_by_subjects(self, queryset, name, value): 
+        if value: 
+            subjects_id = value.split(',')
+            response = queryset.filter(subjects_budget_paid__id__in=subjects_id, )\
+                .distinct()
+            return response
+        return queryset
+        
     def filter_by_schools(self, queryset, name, value): 
         if value: 
             schools_ids = value.split(',')
