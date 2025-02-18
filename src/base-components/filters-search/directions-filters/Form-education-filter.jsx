@@ -5,15 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GoTriangleUp } from "react-icons/go";
 import { listVars } from '../../../common-static/motion/open-categories';
 
-import { fetchGetDirections } from '../../../store/queries/Directions/get-directions';
-import { setChosenFormEducation, setChosenSchools } from '../../../store/slices/DirectionsSlice';
+import { setChosenFormEducation } from '../../../store/slices/DirectionsSlice';
 
 
 const FilterForms = (props) => {
-    const {
-        search,
-    } = props
-
     const forms = [
         { 'id': 'Z', 'name': 'Заочная' },
         { 'id': 'O', 'name': 'Очная' },
@@ -21,48 +16,13 @@ const FilterForms = (props) => {
 
     const [isActive, setActive] = useState(false)
     const dispatch = useDispatch()
-    const formatedSchools = useSelector(state => state.directions.formatedSchools)
-    const formatedSubjects = useSelector(state => state.directions.formatedSubjects)
-    const formatedFormEducation = useSelector(state => state.directions.formatedFormEducation)
     const formEducationFilter = useSelector(state => state.directions.formEducationFilter)
-
-    const [isFirstLoad, setFirstLoad] = useState(true)
 
     useEffect(() => {
         return () => {
             dispatch(setChosenFormEducation([]))
         }
     }, [])
-
-    // useEffect(() => {
-    //     if (formEducationFilter.length != 0) {
-    //         dispatch(fetchGetDirections(
-    //             {
-    //                 'page': 1,
-    //                 'search': search,
-    //                 'filters': {
-    //                     'schools': formatedSchools,
-    //                     'subjects': formatedSubjects,
-    //                     'form_education': formatedFormEducation
-    //                 }
-    //             }
-    //         ))
-    //         setFirstLoad(false)
-    //     }
-    //     if (formEducationFilter.length == 0 && isFirstLoad == false) {
-    //         dispatch(fetchGetDirections(
-    //             {
-    //                 'page': 1,
-    //                 'search': search,
-    //                 'filters': {
-    //                     'schools': null,
-    //                     'subjects': formatedSubjects,
-    //                     'form_education': formatedFormEducation
-    //                 }
-    //             }
-    //         ))
-    //     }
-    // }, [formatedFormEducation])
 
     return (
         <div className='directions__dropdownlist_container'>

@@ -6,6 +6,7 @@ import { CommonInputs } from '../../../../bll/Inputs-bll/common-inputs'
 import CommonInfo from './Common-info'
 import StudentDocuments from './Student-documents'
 import DirectionsInfo from './directions-info'
+import Confirmation from './confirmation'
 import {
     UseStudentDocuments,
     UseStudentRussianDocuments,
@@ -47,6 +48,7 @@ const AdminStudentsEnrollment = () => {
 
     // documents
     const [documentsInfo, setDocumentsInfo] = useState(false)
+    const [citizenshipType, setCitizenshipType] = useState('russian')
 
     const {
         citizenship,
@@ -93,7 +95,7 @@ const AdminStudentsEnrollment = () => {
     } = UseStudentForeignDocuments()
 
     // choisen direction 
-    const [isDirection, setIsDirection] = useState()
+    const [direction, setDirection] = useState(null)
 
     const {
         handleDragLeave,
@@ -174,6 +176,8 @@ const AdminStudentsEnrollment = () => {
             break
         case queryParams == 'documents':
             content = <StudentDocuments
+                citizenshipType={citizenshipType}
+                setCitizenshipType={setCitizenshipType}
                 edNumber={edNumber}
                 setEdNumber={setEdNumber}
                 edDateIssuance={edDateIssuance}
@@ -212,10 +216,14 @@ const AdminStudentsEnrollment = () => {
                 setDocumentsInfo={setDocumentsInfo} />
             break
         case queryParams == 'direction':
-            content = <DirectionsInfo />
+            content = <DirectionsInfo
+                direction={direction}
+                setDirection={setDirection} />
             break
         case queryParams == 'confirm':
-            content = null
+            content = <Confirmation
+                        
+            />
             break
     }
 

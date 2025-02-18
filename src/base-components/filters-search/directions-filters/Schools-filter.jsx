@@ -11,17 +11,10 @@ import { setChosenSchools } from '../../../store/slices/DirectionsSlice';
 
 
 const FilterSchools = (props) => {
-    const {
-        search,
-    } = props
     const [isActive, setActive] = useState(false)
     const dispatch = useDispatch()
     const schools = useSelector(state => state.directions.schools)
     const choisenSchools = useSelector(state => state.directions.schoolsFilter)
-    const formatedSchools = useSelector(state => state.directions.formatedSchools)
-    const formatedSubjects = useSelector(state => state.directions.formatedSubjects)
-    const formatedFormEducation = useSelector(state => state.directions.formatedFormEducation)
-    const [isFirstLoad, setFirstLoad] = useState(true)
 
     useEffect(() => {
         dispatch(fetchGetSchools())
@@ -30,36 +23,6 @@ const FilterSchools = (props) => {
             dispatch(setChosenSchools([]))
         }
     }, [])
-
-    // useEffect(() => {
-    //     if (choisenSchools.length != 0) {
-    //         dispatch(fetchGetDirections(
-    //             {
-    //                 'page': 1,
-    //                 'search': search,
-    //                 'filters': {
-    //                     'schools': formatedSchools,
-    //                     'subjects': formatedSubjects,
-    //                     'form_education': formatedFormEducation
-    //                 }
-    //             }
-    //         ))
-    //         setFirstLoad(false)
-    //     }
-    //     if (choisenSchools.length == 0 && isFirstLoad == false) {
-    //         dispatch(fetchGetDirections(
-    //             {
-    //                 'page': 1,
-    //                 'search': search,
-    //                 'filters': {
-    //                     'schools': null,
-    //                     'subjects': formatedSubjects,
-    //                     'form_education': formatedFormEducation
-    //                 }
-    //             }
-    //         ))
-    //     }
-    // }, [choisenSchools])
 
     return (
         <div className='directions__dropdownlist_container'>

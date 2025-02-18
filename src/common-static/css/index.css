@@ -140,6 +140,7 @@ a {
 
 @media (max-width: 1000px) {
     .common__container {
+        padding: 0;
         border-top-right-radius: 0px;
         width: 100%;
     }

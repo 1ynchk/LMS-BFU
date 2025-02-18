@@ -8,12 +8,12 @@ import {
     UnnecessaryInput,
     DateInput
 } from '../../../../bll/Inputs-bll/common-inputs';
+import { useNavigate } from 'react-router-dom';
 
 const StudentDocuments = (props) => {
-
+    const navigate = useNavigate()
     const [isPassportSerial, setIsPassportSerial] = useState(true)
     const [isCodeSubDepartment, setIsCodeSubDepartment] = useState(true)
-    const [citizenshipType, setCitizenshipType] = useState('russian')
     const serialRef = useRef(null)
     const codeSubDepRef = useRef(null)
     const russianStudentRef = useRef(null)
@@ -30,17 +30,18 @@ const StudentDocuments = (props) => {
         passportSerial, setPassportSerial, passportNumber,
         setPassportNumber, snils, setSnils,
         INN, setINN, edNumber, setEdNumber, edDateIssuance,
-        setEdDateIssuance, edIssuedBy, setEdIssuedBy
+        setEdDateIssuance, edIssuedBy, setEdIssuedBy, 
+        citizenshipType, setCitizenshipType
     } = props
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
+        navigate('/admin/students/enrollment/?stage=direction')
     }
 
     useEffect(() => {
-        if (citizenship == null || issuedBy == null || dateIssuance == '' || edIssuedBy == null 
-            || codeSubDepartment == null || passportSerial == null 
+        if (citizenship == null || issuedBy == null || dateIssuance == '' || edIssuedBy == null
+            || codeSubDepartment == null || passportSerial == null
             || passportNumber == null || citizenship == '' || edNumber == null
             || passportSerial == '' || passportNumber == '' || edNumber == ''
             || edIssuedBy == '' || dateIssuance == '' || edDateIssuance == ''
@@ -59,8 +60,8 @@ const StudentDocuments = (props) => {
                 console.log('hello')
                 if (fpNumber == null || fpNumber == '' || new Date(fpDateIssuance) > new Date()
                     || new Date(dateIssuance) < new Date('1950-01-01') || fpDateIssuance == ''
-                    || new Date(fpExpireDate) > new Date() || new Date(fpExpireDate) < new Date('1950-01-01') 
-                    || fpExpireDate == '' || fpIssuedBy == null || fpIssuedBy == '' || mcNumber == null 
+                    || new Date(fpExpireDate) > new Date() || new Date(fpExpireDate) < new Date('1950-01-01')
+                    || fpExpireDate == '' || fpIssuedBy == null || fpIssuedBy == '' || mcNumber == null
                     || mcNumber == '' || new Date(mcDateEntry) > new Date()
                     || new Date(mcDateEntry) < new Date('1950-01-01') || mcDateEntry == ''
                 ) {
@@ -70,7 +71,7 @@ const StudentDocuments = (props) => {
                 }
             }
         }
-    }, [citizenshipType, citizenship, issuedBy, dateIssuance, codeSubDepartment, edNumber, 
+    }, [citizenshipType, citizenship, issuedBy, dateIssuance, codeSubDepartment, edNumber,
         passportNumber, passportSerial, snils, INN, edDateIssuance, edIssuedBy, fpNumber,
         fpDateIssuance, fpExpireDate, fpIssuedBy, mcNumber, mcDateEntry
     ])

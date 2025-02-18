@@ -11,17 +11,10 @@ import { fetchGetSubjects } from '../../../store/queries/Directions/get-subjects
 
 
 const SubjectsEGE = (props) => {
-    const {
-        search
-    } = props
     const [isActive, setActive] = useState(false)
     const dispatch = useDispatch()
     const subjects = useSelector(state => state.directions.subjects)
     const choisenSubjects = useSelector(state => state.directions.choisenSubjects)
-    const formatedSubjects = useSelector(state => state.directions.formatedSubjects)
-    const formatedSchools = useSelector(state => state.directions.formatedSchools)
-    const formatedFormEducation = useSelector(state => state.directions.formatedFormEducation)
-    const [isFirstLoad, setFirstLoad] = useState(true)
 
     useEffect(() => {
         dispatch(fetchGetSubjects())
@@ -30,36 +23,6 @@ const SubjectsEGE = (props) => {
             dispatch(setChosenSubjects([]))
         }
     }, [])
-
-    // useEffect(() => {
-    //     if (choisenSubjects.length != 0) {
-    //         dispatch(fetchGetDirections(
-    //             {
-    //                 'page': 1,
-    //                 'search': search,
-    //                 'filters': {
-    //                     'subjects': formatedSubjects,
-    //                     'schools': formatedSchools,
-    //                     'form_education': formatedFormEducation
-    //                 }
-    //             }
-    //         ))
-    //         setFirstLoad(false)
-    //     }
-    //     if (choisenSubjects.length == 0 && isFirstLoad == false) {
-    //         dispatch(fetchGetDirections(
-    //             {
-    //                 'page': 1,
-    //                 'search': search,
-    //                 'filters': {
-    //                     'subjects': null,
-    //                     'schools': formatedSchools,
-    //                     'form_education': formatedFormEducation
-    //                 }
-    //             }
-    //         ))
-    //     }
-    // }, [choisenSubjects])
 
     return (
         <div className='directions__dropdownlist_container'>

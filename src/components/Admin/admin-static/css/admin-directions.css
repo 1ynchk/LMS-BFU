@@ -1,7 +1,6 @@
 .directions {
     width: 100%;
-    /* overflow-x: hidden; */
-    /* overflow-y: hidden; */
+    position: relative;
 }
 
 .directions_search {
@@ -14,7 +13,13 @@
     border-radius: 5px;
 }
 
+.directions__table_wrapper {
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
 .directions__search_container {
+    width: 95%;
     position: relative;
 }
 
@@ -24,15 +29,14 @@
 }
 
 .directions__filters {
-    height: 100%;
-    min-width: 230px;
-    width: 30%;
-    flex-direction: column;
     display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px 15px;
 }
 
 .directions__dropdownlist_container {
-    width: 100%;
+    width: 250px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -41,11 +45,13 @@
 }
 
 .filter__dropdown {
-    width: 100%;
+    border-radius: 10px;
+    padding: 15px 20px;
+    background-color: aliceblue;
+    width: 250px;
     position: relative;
     display: flex;
     align-items: center;
-    /* justify-content: space-between; */
 }
 
 .directions__label {
@@ -57,8 +63,6 @@
 
 .directions__dropdown {
     margin-top: 20px;
-    width: 100%;
-    z-index: 2;
 }
 
 .dropdown_element {
@@ -86,8 +90,6 @@
     padding: 15px 20px;
     background-color: rgba(128, 128, 128, 0.3);
 }
-
-
 
 .directions__nav_title {
     width: 100px;
@@ -118,6 +120,16 @@
     align-items: center;
     padding: 20px;
     margin-top: 10px;
+    transition: .5s ease;
+    cursor: pointer;
+}
+
+.direction.direction_checked {
+    background-color: rgb(32, 20, 94);
+}
+
+.direction:hover {
+    box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.4);
 }
 
 .direction__title_id {
@@ -191,7 +203,7 @@
     justify-content: center;
     align-items: center;
     width: 25px;
-    height: 25px; 
+    height: 25px;
     border-radius: 50px;
     color: white;
     background-color: rgb(32, 20, 94);
@@ -202,10 +214,6 @@
     justify-content: space-between;
 }
 
-.subsections__subtitle.directions_subtitle {
-    margin-left: 20px;
-}
-
 .directions__error {
     margin-top: 30px;
     font-size: 22px;
@@ -213,13 +221,43 @@
 }
 
 .subsection__btn.filters_btn {
-    width: 80%;
-    padding: 10px 5px;
-}
-
-.filters_btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    min-width: 200px;
+    padding: 10px 5px;
+}
+
+.filters_btns {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    justify-content: space-between;
+    width: 500px;
+}
+
+.directions__choisen_direction_container {
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 30px;
+    display: flex;
+}
+
+.direction_choisen_direction {
+    margin-left: 10px;
+    font-size: 22px;
+}
+
+.directions__discard {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-left: 10px;
+    color: red;
+    font-size: 30px;
+}
+
+.directions_choisen_direction_wrapper {
+    display: flex;
+    align-items: center;
 }
