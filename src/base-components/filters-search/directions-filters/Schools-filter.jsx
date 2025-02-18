@@ -20,6 +20,7 @@ const FilterSchools = (props) => {
     const choisenSchools = useSelector(state => state.directions.schoolsFilter)
     const formatedSchools = useSelector(state => state.directions.formatedSchools)
     const formatedSubjects = useSelector(state => state.directions.formatedSubjects)
+    const formatedFormEducation = useSelector(state => state.directions.formatedFormEducation)
     const [isFirstLoad, setFirstLoad] = useState(true)
 
     useEffect(() => {
@@ -30,33 +31,35 @@ const FilterSchools = (props) => {
         }
     }, [])
 
-    useEffect(() => {
-        if (choisenSchools.length != 0) {
-            dispatch(fetchGetDirections(
-                {
-                    'page': 1,
-                    'search': search,
-                    'filters': {
-                        'schools': formatedSchools,
-                        'subjects': formatedSubjects
-                    }
-                }
-            ))
-            setFirstLoad(false)
-        }
-        if (choisenSchools.length == 0 && isFirstLoad == false) {
-            dispatch(fetchGetDirections(
-                {
-                    'page': 1,
-                    'search': search,
-                    'filters': {
-                        'schools': null,
-                        'subjects': formatedSubjects
-                    }
-                }
-            ))
-        }
-    }, [choisenSchools])
+    // useEffect(() => {
+    //     if (choisenSchools.length != 0) {
+    //         dispatch(fetchGetDirections(
+    //             {
+    //                 'page': 1,
+    //                 'search': search,
+    //                 'filters': {
+    //                     'schools': formatedSchools,
+    //                     'subjects': formatedSubjects,
+    //                     'form_education': formatedFormEducation
+    //                 }
+    //             }
+    //         ))
+    //         setFirstLoad(false)
+    //     }
+    //     if (choisenSchools.length == 0 && isFirstLoad == false) {
+    //         dispatch(fetchGetDirections(
+    //             {
+    //                 'page': 1,
+    //                 'search': search,
+    //                 'filters': {
+    //                     'schools': null,
+    //                     'subjects': formatedSubjects,
+    //                     'form_education': formatedFormEducation
+    //                 }
+    //             }
+    //         ))
+    //     }
+    // }, [choisenSchools])
 
     return (
         <div className='directions__dropdownlist_container'>

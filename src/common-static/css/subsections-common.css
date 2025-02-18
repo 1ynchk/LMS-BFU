@@ -142,7 +142,7 @@
 }
 
 .subsection__btn:disabled {
-    cursor: pointer;
+    cursor: default;
     background-color: #808080;
 }
 

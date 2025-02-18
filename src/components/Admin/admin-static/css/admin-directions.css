@@ -211,3 +211,15 @@
     font-size: 22px;
     color: grey;
 }
+
+.subsection__btn.filters_btn {
+    width: 80%;
+    padding: 10px 5px;
+}
+
+.filters_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

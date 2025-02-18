@@ -13,7 +13,7 @@ const Pagination = (props) => {
         prev_page,
         next_page,
         current_page,
-        search, 
+        search,
         filters
     } = props
     const [pages, setPages] = useState([1])
@@ -33,31 +33,37 @@ const Pagination = (props) => {
     }, [count])
 
     const handlePrev = () => {
-        dispatch(fetchGetDirections({ 
-            'page': current_page - 1, 
-            'search': search, 
+        dispatch(fetchGetDirections({
+            'page': current_page - 1,
+            'search': search,
             'filters': {
-                'schools': filters.schools
+                'schools': filters.schools,
+                'subjects': filters.subjects,
+                'form_education': filters.form_education
             }
         }))
     }
 
     const hadnleNext = () => {
-        dispatch(fetchGetDirections({ 
-            'page': current_page + 1, 
-            'search': search, 
+        dispatch(fetchGetDirections({
+            'page': current_page + 1,
+            'search': search,
             'filters': {
-                'schools': filters.schools
-            } 
+                'schools': filters.schools,
+                'subjects': filters.subjects,
+                'form_education': filters.form_education
+            }
         }))
     }
 
     const handleClickPage = (el) => {
-        dispatch(fetchGetDirections({ 
-            'page': el, 
+        dispatch(fetchGetDirections({
+            'page': el,
             'search': search,
             'filters': {
-                'schools': filters.schools
+                'schools': filters.schools,
+                'subjects': filters.subjects,
+                'form_education': filters.form_education
             }
         }))
     }

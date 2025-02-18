@@ -24,7 +24,9 @@ const DirectionsSlice = createSlice(
             schoolsFilter: [],
             formatedSchools: '',
             choisenSubjects: [],
-            formatedSubjects: ''
+            formatedSubjects: '',
+            formEducationFilter: [],
+            formatedFormEducation: ''
         },
 
         reducers: {
@@ -43,6 +45,22 @@ const DirectionsSlice = createSlice(
                 } else {
                     state.formatedSubjects = ''
                 }
+            },
+            setChosenFormEducation(state, action) {
+                state.formEducationFilter = action.payload
+                if (action.payload.length != 0) {
+                    state.formatedFormEducation = action.payload.join(',')
+                } else {
+                    state.formatedFormEducation = ''
+                }
+            },
+            setFiltersClear(state, action) {
+                state.schoolsFilter = []
+                state.choisenSubjects = []
+                state.formEducationFilter = []
+                state.formatedFormEducation = ''
+                state.formatedSchools = ''
+                state.formatedSubjects = ''
             }
         },
 
@@ -96,6 +114,10 @@ const DirectionsSlice = createSlice(
     }
 )
 
-export const { setChosenSchools, setChosenSubjects } = DirectionsSlice.actions
+export const {
+    setChosenSchools,
+    setChosenSubjects,
+    setChosenFormEducation,
+    setFiltersClear } = DirectionsSlice.actions
 
 export default DirectionsSlice.reducer

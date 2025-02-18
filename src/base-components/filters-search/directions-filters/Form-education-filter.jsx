@@ -6,60 +6,63 @@ import { GoTriangleUp } from "react-icons/go";
 import { listVars } from '../../../common-static/motion/open-categories';
 
 import { fetchGetDirections } from '../../../store/queries/Directions/get-directions';
-import { setChosenSubjects } from '../../../store/slices/DirectionsSlice';
-import { fetchGetSubjects } from '../../../store/queries/Directions/get-subjects';
+import { setChosenFormEducation, setChosenSchools } from '../../../store/slices/DirectionsSlice';
 
 
-const SubjectsEGE = (props) => {
+const FilterForms = (props) => {
     const {
-        search
+        search,
     } = props
+
+    const forms = [
+        { 'id': 'Z', 'name': 'Заочная' },
+        { 'id': 'O', 'name': 'Очная' },
+    ]
+
     const [isActive, setActive] = useState(false)
     const dispatch = useDispatch()
-    const subjects = useSelector(state => state.directions.subjects)
-    const choisenSubjects = useSelector(state => state.directions.choisenSubjects)
-    const formatedSubjects = useSelector(state => state.directions.formatedSubjects)
     const formatedSchools = useSelector(state => state.directions.formatedSchools)
+    const formatedSubjects = useSelector(state => state.directions.formatedSubjects)
     const formatedFormEducation = useSelector(state => state.directions.formatedFormEducation)
+    const formEducationFilter = useSelector(state => state.directions.formEducationFilter)
+
     const [isFirstLoad, setFirstLoad] = useState(true)
 
     useEffect(() => {
-        dispatch(fetchGetSubjects())
-
         return () => {
-            dispatch(setChosenSubjects([]))
+            dispatch(setChosenFormEducation([]))
         }
     }, [])
 
     // useEffect(() => {
-    //     if (choisenSubjects.length != 0) {
+    //     if (formEducationFilter.length != 0) {
     //         dispatch(fetchGetDirections(
     //             {
     //                 'page': 1,
     //                 'search': search,
     //                 'filters': {
-    //                     'subjects': formatedSubjects,
     //                     'schools': formatedSchools,
+    //                     'subjects': formatedSubjects,
     //                     'form_education': formatedFormEducation
     //                 }
     //             }
     //         ))
     //         setFirstLoad(false)
     //     }
-    //     if (choisenSubjects.length == 0 && isFirstLoad == false) {
+    //     if (formEducationFilter.length == 0 && isFirstLoad == false) {
     //         dispatch(fetchGetDirections(
     //             {
     //                 'page': 1,
     //                 'search': search,
     //                 'filters': {
-    //                     'subjects': null,
-    //                     'schools': formatedSchools,
+    //                     'schools': null,
+    //                     'subjects': formatedSubjects,
     //                     'form_education': formatedFormEducation
     //                 }
     //             }
     //         ))
     //     }
-    // }, [choisenSubjects])
+    // }, [formatedFormEducation])
 
     return (
         <div className='directions__dropdownlist_container'>
@@ -69,7 +72,7 @@ const SubjectsEGE = (props) => {
                     setActive(!isActive)
                 }}
                 className='filter__dropdown'>
-                <div className='directions__label'>Предметы</div>
+                <div className='directions__label'>Форма обучения</div>
                 <motion.div
                     initial={false}
                     animate={{ rotate: isActive ? 180 : 0 }}
@@ -78,9 +81,9 @@ const SubjectsEGE = (props) => {
                     <GoTriangleUp className='adminnewsadd__icon' />
                 </motion.div>
                 {
-                    choisenSubjects.length != 0 && (
+                    formEducationFilter.length != 0 && (
                         <div className='filters_counter'>
-                            {choisenSubjects.length}
+                            {formEducationFilter.length}
                         </div>
                     )
                 }
@@ -99,20 +102,20 @@ const SubjectsEGE = (props) => {
                 >
                     {
                         isActive && (
-                            subjects.map((el, index) => {
+                            forms.map((el, index) => {
                                 return <div
                                     key={index}
                                     className='dropdown_element'>
                                     <input
                                         onChange={() => {
-                                            if (choisenSubjects.includes(+el.id)) {
-                                                dispatch(setChosenSubjects(choisenSubjects.filter(ind => ind != +el.id)))
+                                            if (formEducationFilter.includes(el.id)) {
+                                                dispatch(setChosenFormEducation(formEducationFilter.filter(ind => ind != el.id)))
                                             } else {
-                                                dispatch(setChosenSubjects([...choisenSubjects, +el.id]))
+                                                dispatch(setChosenFormEducation([...formEducationFilter, el.id]))
                                             }
                                         }
                                         }
-                                        checked={choisenSubjects.includes(+el.id)}
+                                        checked={formEducationFilter.includes(el.id)}
                                         type='checkbox'
                                         className='directions__checkbox'
                                     />
@@ -121,7 +124,6 @@ const SubjectsEGE = (props) => {
                                     </div>
                                 </div>
                             })
-
                         )
                     }
                 </motion.div>)}
@@ -131,4 +133,4 @@ const SubjectsEGE = (props) => {
     )
 }
 
-export default SubjectsEGE
+export default FilterForms

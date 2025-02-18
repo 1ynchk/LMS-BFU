@@ -7,12 +7,13 @@ import { fetchGetDirections } from './../../../../../store/queries/Directions/ge
 import Pagination from '../../../../../base-components/pagination';
 import { IoIosSearch } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
-
 import { motion } from 'framer-motion';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 import FilterSchools from '../../../../../base-components/filters-search/directions-filters/Schools-filter';
 import SubjectsEGE from '../../../../../base-components/filters-search/directions-filters/Subjects-filter';
+import FilterForms from '../../../../../base-components/filters-search/directions-filters/Form-education-filter';
+import { setFiltersClear } from '../../../../../store/slices/DirectionsSlice';
 
 const DirectionsInfo = () => {
     const dispatch = useDispatch()
@@ -30,20 +31,24 @@ const DirectionsInfo = () => {
     const [search, setSearch] = useState(null)
 
     // filters
+    const schoolsFilter = useSelector(state => state.directions.schoolsFilter)
+    const choisenSubjects = useSelector(state => state.directions.choisenSubjects)
+    const formEducationFilter = useSelector(state => state.directions.formEducationFilter)
     const formatedSchools = useSelector(state => state.directions.formatedSchools)
     const formatedSubjects = useSelector(state => state.directions.formatedSubjects)
+    const formatedFormEducation = useSelector(state => state.directions.formatedFormEducation)
     let [filters, setFilters] = useState({ 'schools': null })
 
-    console.log(sortedDirections)
 
     useEffect(() => {
         setFilters(
             {
                 'schools': formatedSchools,
-                'subjects': formatedSubjects
+                'subjects': formatedSubjects,
+                'form_education': formatedFormEducation
             }
         )
-    }, [formatedSchools, formatedSubjects])
+    }, [formatedSchools, formatedSubjects, formatedFormEducation])
 
     useEffect(() => {
         dispatch(fetchGetDirections({ 'page': 1 }))
@@ -62,7 +67,11 @@ const DirectionsInfo = () => {
         const delayDebounce = setTimeout(
             () => {
                 if (search != null && search.trim()) {
-                    dispatch(fetchGetDirections({ 'page': 1, 'search': search, 'filters': filters }))
+                    dispatch(fetchGetDirections({
+                        'page': 1,
+                        'search': search,
+                        'filters': filters,
+                    }))
                 }
             }, 600
         )
@@ -71,6 +80,15 @@ const DirectionsInfo = () => {
 
     const handleClearSearch = () => {
         setSearch(null)
+        dispatch(fetchGetDirections({ 'page': 1, 'search': null, 'filters': filters }))
+    }
+
+    const handleClearFilters = () => {
+        dispatch(setFiltersClear())
+        dispatch(fetchGetDirections({ 'page': 1, 'search': null, 'filters': null }))
+    }
+
+    const handleFilters = () => {
         dispatch(fetchGetDirections({ 'page': 1, 'search': null, 'filters': filters }))
     }
 
@@ -111,7 +129,6 @@ const DirectionsInfo = () => {
                 </button>
 
             </div>
-
             <div className='directions__common_wrapper'>
                 {
                     loading && (
@@ -139,9 +156,6 @@ const DirectionsInfo = () => {
                                 <div className='directions__nav_title'>Предметы платн.</div>
                                 <div className='directions__nav_title'>Баллы платн.</div>
                             </div>
-
-
-
                             {
                                 loading != true && sortedDirections.map(el => {
                                     return <Direction
@@ -174,6 +188,27 @@ const DirectionsInfo = () => {
                         search={search} />
                     <SubjectsEGE
                         search={search} />
+                    <FilterForms
+                        search={search} />
+                    <div
+                        className='filters_btn'>
+                        <button
+                            disabled={
+                                schoolsFilter.length == 0 
+                                && choisenSubjects.length == 0 
+                                && formEducationFilter.length == 0 ? 
+                                    true : false}
+                            onClick={() => handleClearFilters()}
+                            className='subsection__btn filters_btn'>
+                            Сбросить фильтры
+                        </button>
+                        <button
+                            onClick={() => handleFilters()}
+                            className='subsection__btn filters_btn'>
+                            Выбрать
+                        </button>
+                    </div>
+
                 </div>
 
             </div>
