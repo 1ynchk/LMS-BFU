@@ -5,6 +5,11 @@ from api_directions.BLL.models.change_file_name import change_file_name
 # Create your models here.
 class Directions(models.Model):
     '''Таблица для направлений'''
+
+    form_education = [
+        ('O', 'Очная'),
+        ('Z', 'Заочная')
+    ]
     
     photo = models.FileField(
         default='media/default_images/news_default.png',
@@ -22,6 +27,7 @@ class Directions(models.Model):
     paid_places = models.IntegerField()
     school = models.ForeignKey('School', on_delete=models.CASCADE, null=True)
     learning_time = models.DecimalField(max_digits=3, decimal_places=2)
+    form_ed = models.CharField(max_length=20, choices=form_education)
     
     def __str__(self):
         return self.name

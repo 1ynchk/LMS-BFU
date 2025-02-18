@@ -16,6 +16,8 @@ from .filters import DirectionsFilter
 from .pagination import DirectionsPagination
 
 class DirectionsPagination(generics.ListAPIView):
+    '''Получение списка направлений'''
+    
     queryset = Directions \
         .objects \
         .select_related('school') \
@@ -28,11 +30,15 @@ class DirectionsPagination(generics.ListAPIView):
     serializer_class = DirectionsSerializer
 
 class SchoolsAll(generics.ListAPIView): 
+    '''Получение списка высших школ'''
+    
     queryset = School.objects.all()
     pagination_class = None
     serializer_class = SchoolSerializer 
     
 class SubjectsAll(generics.ListAPIView):
+    '''Получение списка всех предметов'''
+    
     queryset = Subjects.objects.all()
     pagination_class = None
     serializer_class = SubjectsSerializer

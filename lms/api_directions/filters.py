@@ -7,6 +7,7 @@ class DirectionsFilter(django_filters.FilterSet):
     search = django_filters.CharFilter(method='filter_search') 
     schools = django_filters.CharFilter(method='filter_by_schools')
     subjects = django_filters.CharFilter(method='filter_by_subjects')
+    form_education = django_filters.CharFilter(method='filter_by_form_education')
 
     def filter_by_subjects(self, queryset, name, value): 
         if value: 
@@ -14,6 +15,13 @@ class DirectionsFilter(django_filters.FilterSet):
             response = queryset.filter(subjects_budget_paid__id__in=subjects_id, )\
                 .distinct()
             return response
+        return queryset
+
+    def filter_by_form_education(self, queryset, name, value):
+        if value: 
+            forms = value.split(',')
+            response = queryset.filter(form_ed__in=forms) 
+            return response 
         return queryset
         
     def filter_by_schools(self, queryset, name, value): 
