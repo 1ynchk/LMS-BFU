@@ -50,7 +50,7 @@ export const UseStudentDocuments = () => {
     const [edNumber, setEdNumber] = useState(null)
     const [edDateIssuance, setEdDateIssuance] = useState('')
     const [edIssuedBy, setEdIssuedBy] = useState(null)
-    
+
     return {
         citizenship,
         setCitizenship,
@@ -63,11 +63,11 @@ export const UseStudentDocuments = () => {
         passportSerial,
         setPassportSerial,
         passportNumber,
-        setPassportNumber, 
+        setPassportNumber,
 
         edNumber,
-        setEdNumber, 
-        edDateIssuance, 
+        setEdNumber,
+        edDateIssuance,
         setEdDateIssuance,
         edIssuedBy,
         setEdIssuedBy
@@ -109,7 +109,22 @@ export const UseStudentForeignDocuments = () => {
         setMcDateEntry
     }
 }
+export const DisabledField = (props) => {
+    let { label, value } = props
 
+    return (
+        <div className='adminenrollment__container'>
+            <div
+                className="subsection__label">
+                {label}
+            </div>
+            <input
+                disabled={true}
+                value={value == null ? '' : value}
+                className="subsection__input confirmation" />
+        </div>
+    )
+}
 export const InputText = (props) => {
     let { label, value, setter, max_length, isDisabled } = props
 

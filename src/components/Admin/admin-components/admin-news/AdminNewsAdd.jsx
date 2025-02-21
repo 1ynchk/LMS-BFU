@@ -34,9 +34,6 @@ const AdminNewsAdd = () => {
     const [typeSubmit, setTypeSubmit] = useState(null)
     const [categories, setCategories] = useState([])
 
-    // refs
-
-
     // photo bll component
     const {
         filePicker,

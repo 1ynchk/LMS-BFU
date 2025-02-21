@@ -123,6 +123,11 @@
     margin-bottom: 10px;
 }
 
+.subsection__input.confirmation:disabled {
+    color: rgb(50, 50, 50);
+    background-color: white;
+}
+
 .subsection__input:disabled {
     background-color: rgba(128, 128, 128, 0.35);
 }

@@ -12,6 +12,8 @@ export const Photo = (
         setSelectedFile(e.target.files[0])
     }
 
+    console.log(selectedFile)
+
     return (
         <div className="subsections__container photo_container">
             <div className="subsection__label">Фотография</div>
@@ -34,6 +36,7 @@ export const Photo = (
                             }
                             <span
                                 onClick={() => {
+                                    console.log('file is deleted')
                                     setSelectedFile(null)
                                 }}
                                 className="adminnewsadd__fileName_cross">

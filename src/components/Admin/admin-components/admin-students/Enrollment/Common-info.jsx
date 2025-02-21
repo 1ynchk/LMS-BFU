@@ -27,33 +27,22 @@ const CommonInfo = (props) => {
     const [isOtchestvoActive, setOtchestvoActive] = useState(true)
 
     const {
-        gender,
-        setGender,
-        accountPhoto,
-        setAccountPhoto,
-        name,
-        setName,
-        surname,
-        setSurname,
-        otchestvo,
-        setOtchesctvo,
-        number,
-        setNumber,
-        email,
-        setEmail,
-        password,
-        setPassword,
-        commonInfo,
-        setCommonInfo,
-        datebirth,
-        setDatebirth,
-    } = props
+        gender, setGender, accountPhoto,
+        setAccountPhoto, name, setName, surname,
+        setSurname, otchestvo, setOtchesctvo, number,
+        setNumber, email, setEmail, password,
+        setPassword, commonInfo, setCommonInfo, datebirth,
+        setDatebirth } = props
 
     const {
         filePicker,
         dropZone,
         selectedFile,
-        setSelectedFile, } = PhotoBLL()
+        setSelectedFile,
+        handleDragLeave,
+        handleDrop,
+        handleDragOver
+    } = PhotoBLL()
 
     const handleForm = (e) => {
         e.preventDefault()
@@ -68,6 +57,8 @@ const CommonInfo = (props) => {
         if (selectedFile != null) {
             setAccountPhoto(selectedFile)
             return
+        } else {
+            setAccountPhoto(null)
         }
     }, [selectedFile])
 
@@ -95,6 +86,9 @@ const CommonInfo = (props) => {
 
     return (
         <motion.form
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -115,9 +109,9 @@ const CommonInfo = (props) => {
                 />
                 <DateInput value={datebirth} setter={setDatebirth} label={'Дата рождения'} />
 
+                <GenderInput value={gender} setter={setGender} />
             </div>
 
-            <GenderInput value={gender} setter={setGender} />
 
             <div className='subsections__subtitle'>Контактная информация</div>
             <div className='adminenrollment__wrapper row'>

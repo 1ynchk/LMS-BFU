@@ -31,8 +31,14 @@ const StudentDocuments = (props) => {
         setPassportNumber, snils, setSnils,
         INN, setINN, edNumber, setEdNumber, edDateIssuance,
         setEdDateIssuance, edIssuedBy, setEdIssuedBy, 
-        citizenshipType, setCitizenshipType
+        citizenshipType, setCitizenshipType, commonInfo
     } = props
+
+    useEffect(() => {
+        if (!commonInfo) {
+            navigate('/admin/students/enrollment/')
+        }
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()

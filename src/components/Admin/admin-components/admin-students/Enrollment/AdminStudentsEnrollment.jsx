@@ -12,9 +12,6 @@ import {
     UseStudentRussianDocuments,
     UseStudentForeignDocuments
 } from '../../../../bll/Inputs-bll/common-inputs'
-import { PhotoBLL } from '../../../../bll/Common-bll/Photo'
-
-import { FaLongArrowAltRight } from "react-icons/fa";
 
 const AdminStudentsEnrollment = () => {
 
@@ -97,13 +94,7 @@ const AdminStudentsEnrollment = () => {
     // choisen direction 
     const [direction, setDirection] = useState(null)
 
-    const {
-        handleDragLeave,
-        handleDragOver,
-        handleDrop } = PhotoBLL()
-
     useEffect(() => {
-
         const handleBeforeUnload = (e) => {
             e.preventDefault()
             e.returnValue = ""
@@ -152,7 +143,6 @@ const AdminStudentsEnrollment = () => {
     switch (true) {
         case queryParams == null:
             content = <CommonInfo
-                setEdIssuedBy
                 gender={gender}
                 setGender={setGender}
                 accountPhoto={accountPhoto}
@@ -176,6 +166,7 @@ const AdminStudentsEnrollment = () => {
             break
         case queryParams == 'documents':
             content = <StudentDocuments
+                commonInfo={commonInfo}
                 citizenshipType={citizenshipType}
                 setCitizenshipType={setCitizenshipType}
                 edNumber={edNumber}
@@ -222,17 +213,42 @@ const AdminStudentsEnrollment = () => {
             break
         case queryParams == 'confirm':
             content = <Confirmation
-                        
+                gender={gender}
+                accountPhoto={accountPhoto}
+                name={name}
+                surname={surname}
+                otchestvo={otchestvo}
+                number={number}
+                email={email}
+                password={password}
+                datebirth={datebirth}
+                citizenship={citizenship}
+                issuedBy={issuedBy}
+                dateIssuance={dateIssuance}
+                codeSubDepartment={codeSubDepartment}
+                passportSerial={passportSerial}
+                passportNumber={passportNumber}
+                edNumber={edNumber}
+                edDateIssuance={edDateIssuance}
+                edIssuedBy={edIssuedBy}
+                snils={snils}
+                INN={INN}
+                fpNumber={fpNumber}
+                fpDateIssance={fpDateIssuance}
+                fpExpireDate={fpExpireDate}
+                fpIssuedBy={fpIssuedBy}
+                mcNumber={mcNumber}
+                mcDateEntry={mcDateEntry}
+                direction={direction}
+                citizenshipType={citizenshipType}
             />
             break
     }
 
+    console.log(queryParams)
+
     return (
-        <div
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            className="adminenrollment">
+        <div className="adminenrollment">
 
             <div className="subsection__name">Зачисление</div>
             <div className='adminenrollment__stages'>
@@ -240,14 +256,22 @@ const AdminStudentsEnrollment = () => {
                     to='/admin/students/enrollment/'
                     className='adminenrollment__section'>Общая информация</NavLink>
                 <NavLink
-                    // to={commonInfo ? '/admin/students/enrollment/?stage=documents' : undefined}
-                    to='/admin/students/enrollment/?stage=documents'
+                    to={commonInfo ? '/admin/students/enrollment/?stage=documents' : null }
+                    // to='/admin/students/enrollment/?stage=documents'
                     className='adminenrollment__section'>Документы</NavLink>
                 <NavLink
-                    to='/admin/students/enrollment/?stage=direction'
+                    to={commonInfo
+                        && documentsInfo ? '/admin/students/enrollment/?stage=directions' :
+                        `/admin/students/enrollment/?stage=${queryParams}`
+                    }
+                    // to='/admin/students/enrollment/?stage=direction'
                     className='adminenrollment__section'>Направление</NavLink>
                 <NavLink
-                    to='/admin/students/enrollment/?stage=confirm'
+                    to={
+                        commonInfo
+                            && documentsInfo
+                            && direction != null ? '/admin/students/enrollment/?stage=documents' : undefined}
+                    // to='/admin/students/enrollment/?stage=confirm'
                     className='adminenrollment__section'>Подтверждение</NavLink>
             </div>
             {content}
