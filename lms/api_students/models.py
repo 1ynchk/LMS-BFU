@@ -3,22 +3,10 @@ from django.db import models
 class StudentEducationDocument(models.Model):
     '''Документ о предыдущем образовании'''
 
-    category_exams_choices = [
-        ('ЕГЭ', "Единый Государственный экзамен"),
-        ('ВЭ', "ВСтупительные экзамены")
-    ]
-    
-    category_documents = [
-        ('Копия', 'Копия'),
-        ('Копия', 'Копия')
-    ]
-    
     user = models.ForeignKey('api_users.Users', on_delete=models.CASCADE)
     number = models.CharField(max_length=55)
     date_issuance = models.DateField()
     issued_by = models.CharField(max_length=155)
-    category_exams = models.CharField(choices=category_exams_choices)
-    category_documents = models.CharField(choices=category_documents)
     
     def __str__(self): 
         otchestvo = self.user.otchestvo if self.user.otchestvo != 'Отсутствует' else '' 
