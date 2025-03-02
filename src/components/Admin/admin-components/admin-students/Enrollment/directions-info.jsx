@@ -98,6 +98,8 @@ const DirectionsInfo = (props) => {
         dispatch(fetchGetDirections({ 'page': 1, 'search': search, 'filters': filters }))
     }
 
+    
+
     return (
         <motion.div
             initial={{ x: -20, opacity: 0 }}

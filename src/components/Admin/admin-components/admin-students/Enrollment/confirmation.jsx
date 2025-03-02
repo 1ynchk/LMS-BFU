@@ -1,7 +1,15 @@
 
 import { DisabledField } from "../../../../bll/Inputs-bll/common-inputs"
+import { useDispatch } from 'react-redux';
+
+import { fetchEnrollmentStudent } from './../../../../../store/queries/Enrollment/post-enrollment-student';
+import { useCSRF } from './../../../../contexts/csrf-context';
 
 const Confirmation = (props) => {
+
+    const { csrftoken } = useCSRF()
+
+    console.log(csrftoken)
 
     const {
         gender, accountPhoto, name,
@@ -9,13 +17,67 @@ const Confirmation = (props) => {
         email, password, datebirth,
         citizenship, issuedBy, dateIssuance,
         codeSubDepartment, passportSerial,
-        passportNumber, edNumber, edDateIssance,
+        passportNumber, edNumber, edDateIssuance,
         edIssuedBy, snils, INN, fpNumber,
         fpDateIssance, fpExpireDate, fpIssuedBy,
         mcNumber, mcDateEntry, direction, citizenshipType
     } = props
 
-    console.log(direction)
+    const dispatch = useDispatch()
+
+    const submitStudent = () => {
+        let formData = new FormData()
+        let request = {
+            'common': {
+                'surname': surname,
+                'name': name,
+                'otchestvo': otchestvo,
+                'gender': gender,
+                'number': number,
+                'email': email,
+                'password': password,
+                'datebirth': datebirth
+            },
+            'documents': {
+                'type_citizenship': citizenshipType,
+                'passport': {
+                    'citizenship': citizenship,
+                    'serial': passportSerial,
+                    'number': passportNumber,
+                    'issued_by': issuedBy,
+                    'date_issuance': dateIssuance,
+                    'code_subdepartment': codeSubDepartment,
+                },
+                'education_document': {
+                    'number': edNumber,
+                    'date_issuance': edDateIssuance,
+                    'issued_by': edIssuedBy
+                },
+                'ancillary_document': {
+                    'russian': {
+                        'snils': snils,
+                        'INN': INN
+                    },
+                    'foreign': {
+                        'foreign_passport': {
+                            'number': fpNumber,
+                            'date_issuance': fpDateIssance,
+                            'date_expire': fpExpireDate,
+                            'issued_by': fpIssuedBy
+                        },
+                        'migration_card': {
+                            'number': mcNumber,
+                            'date_entry': mcDateEntry
+                        }
+                    }
+                }
+            }
+        }
+        formData.append('account_photo', accountPhoto)
+        formData.append('info', request)
+
+        dispatch(fetchEnrollmentStudent({'formData': formData, 'csrftoken': csrftoken}))
+    }
 
     return (
         <div className="enrollment__confirmation">
@@ -59,7 +121,7 @@ const Confirmation = (props) => {
 
             <div className='adminenrollment__wrapper'>
                 <DisabledField label='Номер' value={edNumber} />
-                <DisabledField label='Дата выдачи' value={edDateIssance} />
+                <DisabledField label='Дата выдачи' value={edDateIssuance} />
                 <DisabledField label='Выдан' value={edIssuedBy} />
             </div>
 
@@ -104,10 +166,21 @@ const Confirmation = (props) => {
                 <div className='subsections__subtitle'>Выбранное направление:</div>
                 <div className='directions_choisen_direction_wrapper'>
                     <div className='direction_choisen_direction'>
-                        {direction.name}
+                        {direction == null ? '' : direction.name}
                     </div>
                 </div>
             </div>
+
+            <div
+                onClick={() => { }}
+                className="adminnewsadd__btn_container">
+                <button
+                    onClick={() => submitStudent()}
+                    className="subsection__btn">
+                    Подтвердить
+                </button>
+            </div>
+
 
         </div>
     )

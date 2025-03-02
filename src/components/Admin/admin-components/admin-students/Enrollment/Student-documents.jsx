@@ -34,11 +34,11 @@ const StudentDocuments = (props) => {
         citizenshipType, setCitizenshipType, commonInfo
     } = props
 
-    useEffect(() => {
-        if (!commonInfo) {
-            navigate('/admin/students/enrollment/')
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (!commonInfo) {
+    //         navigate('/admin/students/enrollment/')
+    //     }
+    // }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()

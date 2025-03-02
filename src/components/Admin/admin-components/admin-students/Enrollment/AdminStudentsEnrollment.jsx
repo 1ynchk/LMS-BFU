@@ -245,8 +245,6 @@ const AdminStudentsEnrollment = () => {
             break
     }
 
-    console.log(queryParams)
-
     return (
         <div className="adminenrollment">
 
@@ -256,22 +254,25 @@ const AdminStudentsEnrollment = () => {
                     to='/admin/students/enrollment/'
                     className='adminenrollment__section'>Общая информация</NavLink>
                 <NavLink
-                    to={commonInfo ? '/admin/students/enrollment/?stage=documents' : null }
-                    // to='/admin/students/enrollment/?stage=documents'
+                    // to={commonInfo ? '/admin/students/enrollment/?stage=documents' : null}
+                    to='/admin/students/enrollment/?stage=documents'
                     className='adminenrollment__section'>Документы</NavLink>
                 <NavLink
-                    to={commonInfo
-                        && documentsInfo ? '/admin/students/enrollment/?stage=directions' :
-                        `/admin/students/enrollment/?stage=${queryParams}`
-                    }
-                    // to='/admin/students/enrollment/?stage=direction'
+                    // to={commonInfo
+                    //     && documentsInfo ? '/admin/students/enrollment/?stage=direction' :
+                    //     `/admin/students/enrollment/${queryParams == null || queryParams == 'null' ? '' : `?stage=${queryParams}`}`
+
+                    // }
+                    to='/admin/students/enrollment/?stage=direction'
                     className='adminenrollment__section'>Направление</NavLink>
                 <NavLink
-                    to={
-                        commonInfo
-                            && documentsInfo
-                            && direction != null ? '/admin/students/enrollment/?stage=documents' : undefined}
-                    // to='/admin/students/enrollment/?stage=confirm'
+                    // to={
+                    //     commonInfo
+                    //         && documentsInfo
+                    //         && direction != null ? '/admin/students/enrollment/?stage=confirm' :
+                    //         `/admin/students/enrollment/${queryParams == null || queryParams == 'null' ? '' : `?stage=${queryParams}`}`
+                    // }
+                    to='/admin/students/enrollment/?stage=confirm'
                     className='adminenrollment__section'>Подтверждение</NavLink>
             </div>
             {content}
