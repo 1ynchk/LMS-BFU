@@ -7,6 +7,8 @@ import CommonInfo from './Common-info'
 import StudentDocuments from './Student-documents'
 import DirectionsInfo from './directions-info'
 import Confirmation from './confirmation'
+import EnrollmentPopup from './Enrollment-popup'
+
 import {
     UseStudentDocuments,
     UseStudentRussianDocuments,
@@ -14,7 +16,6 @@ import {
 } from '../../../../bll/Inputs-bll/common-inputs'
 
 const AdminStudentsEnrollment = () => {
-
     const location = useLocation()
     const [queryParams, setQueryParams] = useState(new URLSearchParams(location.search).get('stage'))
     let content = null
@@ -208,11 +209,15 @@ const AdminStudentsEnrollment = () => {
             break
         case queryParams == 'direction':
             content = <DirectionsInfo
+                commonInfo={commonInfo}
+                documentsInfo={documentsInfo}
                 direction={direction}
                 setDirection={setDirection} />
             break
         case queryParams == 'confirm':
             content = <Confirmation
+                commonInfo={commonInfo}
+                documentsInfo={documentsInfo}
                 gender={gender}
                 accountPhoto={accountPhoto}
                 name={name}
@@ -247,32 +252,24 @@ const AdminStudentsEnrollment = () => {
 
     return (
         <div className="adminenrollment">
-
+            <EnrollmentPopup />
             <div className="subsection__name">Зачисление</div>
             <div className='adminenrollment__stages'>
                 <NavLink
                     to='/admin/students/enrollment/'
                     className='adminenrollment__section'>Общая информация</NavLink>
                 <NavLink
-                    // to={commonInfo ? '/admin/students/enrollment/?stage=documents' : null}
-                    to='/admin/students/enrollment/?stage=documents'
+                    to={commonInfo ? '/admin/students/enrollment/?stage=documents' : null}
                     className='adminenrollment__section'>Документы</NavLink>
                 <NavLink
-                    // to={commonInfo
-                    //     && documentsInfo ? '/admin/students/enrollment/?stage=direction' :
-                    //     `/admin/students/enrollment/${queryParams == null || queryParams == 'null' ? '' : `?stage=${queryParams}`}`
-
-                    // }
-                    to='/admin/students/enrollment/?stage=direction'
+                    to={commonInfo
+                        && documentsInfo ? '/admin/students/enrollment/?stage=direction' :
+                        `/admin/students/enrollment/${queryParams == null || queryParams == 'null' ? '' : `?stage=${queryParams}`}`}
                     className='adminenrollment__section'>Направление</NavLink>
                 <NavLink
-                    // to={
-                    //     commonInfo
-                    //         && documentsInfo
-                    //         && direction != null ? '/admin/students/enrollment/?stage=confirm' :
-                    //         `/admin/students/enrollment/${queryParams == null || queryParams == 'null' ? '' : `?stage=${queryParams}`}`
-                    // }
-                    to='/admin/students/enrollment/?stage=confirm'
+                    to={commonInfo && documentsInfo
+                        && direction != null ? '/admin/students/enrollment/?stage=confirm' :
+                        `/admin/students/enrollment/${queryParams == null || queryParams == 'null' ? '' : `?stage=${queryParams}`}`}
                     className='adminenrollment__section'>Подтверждение</NavLink>
             </div>
             {content}

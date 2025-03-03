@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import { host } from "../../root";
 
-export const fetchCheckLogin = createAsyncThunk('user/fetchCheckLogin', async (token) => {
+export const fetchCheckLogin = createAsyncThunk('user/fetchCheckLogin', async () => {
 
     const data = await axios.get(
         `${host}/api_users/login/check/`,

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux'
-import { useCSRF } from '../contexts/csrf-context';
 
 import logo from '../../common-static/images/logo.png'
 import eye from '../../common-static/images/eye.png'
@@ -11,7 +10,6 @@ import { checkEmail, checkPswrd } from '../bll/Login-bll/check-pswrd-email';
 import { fetchLogin } from './../../store/queries/Login/Login';
 
 const LoginPanel = () => {
-    const { csrftoken } = useCSRF()
     const [btnActive, setBtnActive] = useState(true)
     const dispatch = useDispatch()
 
@@ -28,7 +26,7 @@ const LoginPanel = () => {
         const email = document.getElementById('loginpanel_email').value
         const pswrd = document.getElementById('loginpanel_pswrd').value
 
-        dispatch(fetchLogin({ email, pswrd, csrftoken }))
+        dispatch(fetchLogin({ email, pswrd }))
     }
 
     return (

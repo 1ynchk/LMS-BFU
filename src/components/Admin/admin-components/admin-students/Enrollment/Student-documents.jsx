@@ -34,11 +34,11 @@ const StudentDocuments = (props) => {
         citizenshipType, setCitizenshipType, commonInfo
     } = props
 
-    // useEffect(() => {
-    //     if (!commonInfo) {
-    //         navigate('/admin/students/enrollment/')
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (!commonInfo) {
+            navigate('/admin/students/enrollment/')
+        }
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -63,7 +63,6 @@ const StudentDocuments = (props) => {
                     setDocumentsInfo(true)
                 }
             } else {
-                console.log('hello')
                 if (fpNumber == null || fpNumber == '' || new Date(fpDateIssuance) > new Date()
                     || new Date(dateIssuance) < new Date('1950-01-01') || fpDateIssuance == ''
                     || new Date(fpExpireDate) > new Date() || new Date(fpExpireDate) < new Date('1950-01-01')

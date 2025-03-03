@@ -10,22 +10,25 @@ import { IoIosSearch } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 import { AnimatePresence, motion } from 'framer-motion';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { MdArrowBackIosNew } from "react-icons/md";
 
 import FilterSchools from '../../../../../base-components/filters-search/directions-filters/Schools-filter';
 import SubjectsEGE from '../../../../../base-components/filters-search/directions-filters/Subjects-filter';
 import FilterForms from '../../../../../base-components/filters-search/directions-filters/Form-education-filter';
 import { setFiltersClear } from '../../../../../store/slices/DirectionsSlice';
+import { useNavigate } from 'react-router-dom';
 
 const DirectionsInfo = (props) => {
 
     const {
+        commonInfo,
         setDirection,
-        direction
+        direction,
+        documentsInfo
     } = props
 
     const dispatch = useDispatch()
     const directions = useSelector(state => state.directions.directions)
+    const navigate = useNavigate()
     const loading = useSelector(state => state.directions.loading)
     const [sortedDirections, setSortedDirections] = useState([])
 
@@ -47,6 +50,12 @@ const DirectionsInfo = (props) => {
     const formatedFormEducation = useSelector(state => state.directions.formatedFormEducation)
     let [filters, setFilters] = useState({ 'schools': null })
     const [isFiltersActive, setFiltersActive] = useState(false)
+
+    useEffect(() => {
+        if (!commonInfo || !documentsInfo) {
+            navigate('/admin/students/enrollment/')
+        }
+    }, [])
 
     useEffect(() => {
         setFilters(
@@ -86,8 +95,6 @@ const DirectionsInfo = (props) => {
         return () => clearTimeout(delayDebounce)
     }, [search])
 
-
-
     const handleClearFilters = () => {
         dispatch(setFiltersClear())
         setSearch(null)
@@ -98,7 +105,9 @@ const DirectionsInfo = (props) => {
         dispatch(fetchGetDirections({ 'page': 1, 'search': search, 'filters': filters }))
     }
 
-    
+    const handleSubmit = () => {
+        navigate('/admin/students/enrollment/?stage=confirm')
+    }
 
     return (
         <motion.div
@@ -215,6 +224,7 @@ const DirectionsInfo = (props) => {
             </AnimatePresence>
             <div className='adminnewsadd__btn_container'>
                 <button
+                    onClick={() => handleSubmit()}
                     disabled={direction == null ? true : false}
                     className='subsection__btn'>
                     {direction == null ? 'Направление не выбрано' : 'Продолжить'}

@@ -13,7 +13,6 @@ const LoginRoot = () => {
     const auth = localStorage.getItem('auth')
 
     useEffect(() => {
-        console.log(role)
         if (auth && role) {
             navigate(`/${role}/main-page/`)
         } 

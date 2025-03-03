@@ -82,7 +82,7 @@ const CommonInfo = (props) => {
         } else {
             setCommonInfo(true)
         }
-    }, [name, otchestvo, surname, email, accountPhoto, number])
+    }, [name, otchestvo, surname, email, accountPhoto, number, datebirth])
 
     return (
         <motion.form

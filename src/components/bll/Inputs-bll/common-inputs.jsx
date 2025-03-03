@@ -206,6 +206,14 @@ export const UnnecessaryInput = (props) => {
 export const NumberPhoneImput = (props) => {
     const { value, _ref, setter } = props
 
+    const handleChange = (e) => {
+        let newValue = e.target.value.replace(/[^\d]/g, '')
+        if (!newValue.startsWith('7')) {
+            newValue = '7' + newValue
+        }
+        setter('+' + newValue)
+    }
+
     return (
         <div className='adminenrollment__container'>
             <div className="subsection__label">Номер телефона</div>
@@ -214,26 +222,49 @@ export const NumberPhoneImput = (props) => {
                 value={value}
                 ref={_ref}
                 onFocus={(e) => {
-                    if (e.target.value == '+7 ') {
+                    if (!e.target.value.startsWith('+7')) {
                         setter('+7')
                     }
                 }}
                 onKeyDown={(e) => {
-                    if (e.key == 'Backspace' && e.target.value === '+7') {
+                    if (e.key === 'Backspace' && e.target.value === '+7') {
                         e.preventDefault()
                     }
                 }}
-                onChange={(e) => {
-                    if (/^\d*$/.test(e.target.value.slice(1))) {
-                        setter(e.target.value)
-                    }
-                }}
-                className="subsection__input" />
+                onChange={handleChange}
+                className="subsection__input"
+            />
+            {value.length < 12 && (
+                <InputWarning text='Номер телефона должен быть не короче 11 символов' />
+            )}
+        </div>
+    )
+}
+
+const OnlyNumbers = (props) => {
+
+    const {
+        value, setter, label
+    } = props
+
+    const handleChange = (e) => {
+        let newValue = e.target.value.replace(/[^\d]/g, '')
+        setter(newValue)
+    }
+
+    return (
+        <div className='adminenrollment__container'>
+            <div className="subsection__label">{label}</div>
+            <input
+                maxLength={12}
+                value={value}
+                onChange={handleChange}
+                className="subsection__input"
+            />
             {
-                value == '+7 ' || value.length < 12
-                && (
+                value == null || value == '' && (
                     <InputWarning
-                        text='Номер телефона должен быть не короче 11 символов' />
+                        text='Это обязательное поле' />
                 )
             }
         </div>

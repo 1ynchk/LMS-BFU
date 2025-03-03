@@ -3,13 +3,10 @@ import { DisabledField } from "../../../../bll/Inputs-bll/common-inputs"
 import { useDispatch } from 'react-redux';
 
 import { fetchEnrollmentStudent } from './../../../../../store/queries/Enrollment/post-enrollment-student';
-import { useCSRF } from './../../../../contexts/csrf-context';
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Confirmation = (props) => {
-
-    const { csrftoken } = useCSRF()
-
-    console.log(csrftoken)
 
     const {
         gender, accountPhoto, name,
@@ -20,10 +17,18 @@ const Confirmation = (props) => {
         passportNumber, edNumber, edDateIssuance,
         edIssuedBy, snils, INN, fpNumber,
         fpDateIssance, fpExpireDate, fpIssuedBy,
-        mcNumber, mcDateEntry, direction, citizenshipType
+        mcNumber, mcDateEntry, direction, citizenshipType,
+        documentsInfo, commonInfo
     } = props
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (!commonInfo || !documentsInfo || direction == null) {
+            navigate('/admin/students/enrollment/')
+        }
+    }, [])
 
     const submitStudent = () => {
         let formData = new FormData()
@@ -38,6 +43,7 @@ const Confirmation = (props) => {
                 'password': password,
                 'datebirth': datebirth
             },
+            'direction': direction,
             'documents': {
                 'type_citizenship': citizenshipType,
                 'passport': {
@@ -74,9 +80,9 @@ const Confirmation = (props) => {
             }
         }
         formData.append('account_photo', accountPhoto)
-        formData.append('info', request)
+        formData.append('info', JSON.stringify(request))
 
-        dispatch(fetchEnrollmentStudent({'formData': formData, 'csrftoken': csrftoken}))
+        dispatch(fetchEnrollmentStudent({ 'formData': formData }))
     }
 
     return (
