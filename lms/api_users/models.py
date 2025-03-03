@@ -6,6 +6,7 @@ from django_ulid.models import default, ULIDField
 from api_users.BLL.models.change_file_name import change_file_name
 
 class Users(AbstractUser):
+    '''Модель учетной записи пользователя'''
 
     role_choices = [
         ('admin', "Admin"),
@@ -23,6 +24,7 @@ class Users(AbstractUser):
     name = models.CharField(max_length=155, null=False)
     surname = models.CharField(max_length=155, null=False)
     otchestvo = models.CharField(max_length=155, null=False)
+    username = models.CharField(max_length=100, unique=False)
     avatar = models.FileField(
         upload_to=change_file_name, 
         default='media/default_images/user_avatar.png',
@@ -39,6 +41,7 @@ class Users(AbstractUser):
         return f'{self.surname} {self.name} {otchestvo}'   
 
 class UsersPassport(models.Model): 
+    '''Модель паспорта пользователя'''
 
     gender_choices = [
         ('М', 'Мужской'),
@@ -51,15 +54,17 @@ class UsersPassport(models.Model):
     citizenship = models.CharField(max_length=200, null=False)
     issued_by = models.CharField(max_length=255, null=False)
     date_issuance = models.DateField()
-    code_subdepartment = models.IntegerField()
+    code_subdepartment = models.CharField(max_length=20)
     serial = models.CharField(max_length=55)
-    number = models.CharField(max_length=55)
+    number = models.CharField(max_length=55, unique=True)
     
     def __str__(self): 
         otchestvo = self.user.otchestvo if self.user.otchestvo != 'Отсутствует' else '' 
         return f'{self.user.surname} {self.user.name} {otchestvo}'
 
 class UsersPermissions(models.Model): 
+    '''Модель разрешений пользователя'''
+    
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     change_news = models.BooleanField(default=False)
     make_courses = models.BooleanField(default=False)

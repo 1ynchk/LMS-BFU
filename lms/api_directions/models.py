@@ -14,7 +14,7 @@ class Directions(models.Model):
     photo = models.FileField(
         default='media/default_images/news_default.png',
         upload_to=change_file_name
-    )  
+    ) 
     name = models.CharField(max_length=155)
     slug = models.CharField(max_length=155)
     description = models.CharField(max_length=3000)
@@ -22,12 +22,12 @@ class Directions(models.Model):
         'Subjects', 
         through='DirectionsSubjectsThroughBudgetPaid',
         related_name='subject_budget')
-    
     budget_places = models.IntegerField()
     paid_places = models.IntegerField()
     school = models.ForeignKey('School', on_delete=models.CASCADE, null=True)
     learning_time = models.DecimalField(max_digits=3, decimal_places=2)
     form_ed = models.CharField(max_length=20, choices=form_education)
+    students = models.ManyToManyField('api_users.Users', through='DirectionsStudentsThrough')
     
     def __str__(self):
         return self.name
@@ -64,4 +64,13 @@ class DirectionsSubjectsThroughBudgetPaid(models.Model):
     subject = models.ForeignKey(Subjects, on_delete=models.CASCADE)
     points = models.IntegerField()
     type_points = models.CharField(choices=type_points, max_length=30)
+
+class DirectionsStudentsThrough(models.Model): 
+    '''
+        Many-to-Many таблица для связи таблицы 
+        пользователей студентов и таблицы направлений
+    '''
+    
+    user = models.ForeignKey('api_users.Users', on_delete=models.CASCADE) 
+    direction = models.ForeignKey(Directions, on_delete=models.CASCADE)
     

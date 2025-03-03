@@ -14,7 +14,8 @@ class DirectionsSerializer(serializers.ModelSerializer):
     
     class Meta: 
         model = Directions
-        fields = '__all__'
+        exclude = ['students']
+        
         
     def get_subjects_budget_paid(self, obj):
         subjects_data = []

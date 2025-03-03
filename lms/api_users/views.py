@@ -12,14 +12,6 @@ def csrf(request):
 
     token = get_token(request)
     response = JsonResponse({'csrftoken': token}) 
-    response.set_cookie(
-        'csrftoken',
-        token,
-        httponly=True,
-        secure=True,
-        path='/',
-        samesite='None'
-    )
     return response
 
 @api_view(http_method_names=['POST'])

@@ -64,7 +64,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CSRF_USE_SESSIONS = True
+# CSRF_USE_SESSIONS = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None  
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+SECURE_BROWSER_XSS_FILTER = True  
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True
@@ -72,12 +81,14 @@ SESSION_COOKIE_SECURE = True
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
 CORS_ALLOWED_ORIGINS = [
-  'http://localhost:3000',
   'http://127.0.0.1:3000'
 ]
 
+CORS_ALLOW_ORIGINS = [
+    "http://127.0.0.1:3000", 
+    ]
+
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
 
