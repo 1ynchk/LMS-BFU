@@ -1,6 +1,9 @@
 .subsections {
     overflow: hidden;
-    
+}
+
+.subsection {
+    width: 100%;
 }
 
 .subsections__span {

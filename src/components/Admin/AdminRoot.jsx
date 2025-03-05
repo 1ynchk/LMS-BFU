@@ -13,6 +13,7 @@ import AdminNewsAdd from './admin-components/admin-news/AdminNewsAdd';
 import AdminSection from '../../base-components/admin/AdminSection';
 import AdminStudentsEnrollment from './admin-components/admin-students/Enrollment/AdminStudentsEnrollment';
 import { linksAdminStudents, linksAdminNews } from '../../data/AdminSections/subsections';
+import AdminStudentsList from './admin-components/admin-students/StudentsList/AdminStudentsList';
 
 const AdminRoot = () => {
 
@@ -53,6 +54,7 @@ const AdminRoot = () => {
                         links={linksAdminStudents}
                     />}>
                         <Route exact path='enrollment/' element={<AdminStudentsEnrollment />} />
+                        <Route exact path='all/' element={<AdminStudentsList/>}/>
                     </Route>
                 </Routes>
             </div>

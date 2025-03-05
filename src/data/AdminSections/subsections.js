@@ -10,7 +10,7 @@ export const linksAdminNews = [
     ]
 
 export const linksAdminStudents = [
-        { title: 'Все студенты', link: '/admin/students/all/' },
+        { title: 'Список студентов', link: '/admin/students/all/' },
         { title: 'Зачисление', link: '/admin/students/enrollment/' },
         { title: 'Расписание новостей', link: '/admin/schedule/students/' },
         { title: 'Успеваемость', link: '/admin/students/assessments/' },
