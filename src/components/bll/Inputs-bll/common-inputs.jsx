@@ -14,7 +14,20 @@ export const CommonInputs = () => {
     const [accountPhoto, setAccountPhoto] = useState(null)
     const [gender, setGender] = useState('Мужской')
 
+    const clearStateCommonInfo = () => {
+        setName(null)
+        setSurname(null)
+        setOtchesctvo(null)
+        setNumber('+7 ')
+        setEmail(null)
+        setPassword(generatePassword())
+        setDatebirth('')
+        setAccountPhoto(null)
+        setGender('Мужской')
+    }
+
     return {
+        clearStateCommonInfo,
         gender,
         setGender,
         accountPhoto,
@@ -51,7 +64,20 @@ export const UseStudentDocuments = () => {
     const [edDateIssuance, setEdDateIssuance] = useState('')
     const [edIssuedBy, setEdIssuedBy] = useState(null)
 
+    const clearStateStudentDocuments = () => {
+        setCitizenship(null)
+        setIssuedBy(null)
+        setDateIssuence('')
+        setCodeSubDepartment(null)
+        setPassportNumber(null)
+        setPassportSerial(null)
+        setEdDateIssuance('')
+        setEdNumber(null)
+        setEdIssuedBy(null)
+    }
+
     return {
+        clearStateStudentDocuments,
         citizenship,
         setCitizenship,
         issuedBy,
@@ -78,11 +104,17 @@ export const UseStudentRussianDocuments = () => {
     const [snils, setSnils] = useState(null)
     const [INN, setINN] = useState(null)
 
+    const clearStateRussianDocs = () => {
+        setSnils(null)
+        setINN(null)
+    }
+
     return {
         snils,
         setSnils,
         INN,
-        setINN
+        setINN,
+        clearStateRussianDocs
     }
 }
 
@@ -94,7 +126,17 @@ export const UseStudentForeignDocuments = () => {
     const [mcNumber, setMcNumber] = useState(null)
     const [mcDateEntry, setMcDateEntry] = useState('')
 
+    const clearStateForeignDocs = () => {
+        setFpNumber(null)
+        setFpDateIssuance('')
+        setFpExpireDate('')
+        setFpIssuedBy(null)
+        setMcNumber(null)
+        setMcDateEntry('')
+    }
+
     return {
+        clearStateForeignDocs,
         fpNumber,
         setFpNumber,
         fpDateIssuance,

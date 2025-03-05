@@ -154,6 +154,7 @@
 }
 
 .enrollment_popup__btn_container {
+    height: 100%;
    display: flex;
    justify-content: space-between; 
    width: 100%;
@@ -166,3 +167,7 @@
 .enrollment_popup__btn_container.centred_btn_container {
     justify-content: center;
 } 
+
+.enrollment_popup__container.space_around {
+    justify-content: space-around;
+}

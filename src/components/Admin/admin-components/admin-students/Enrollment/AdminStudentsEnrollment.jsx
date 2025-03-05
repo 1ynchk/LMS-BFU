@@ -42,6 +42,7 @@ const AdminStudentsEnrollment = () => {
         setPassword,
         datebirth,
         setDatebirth,
+        clearStateCommonInfo
     } = CommonInputs()
 
     // documents
@@ -67,14 +68,16 @@ const AdminStudentsEnrollment = () => {
         edDateIssuance,
         setEdDateIssuance,
         edIssuedBy,
-        setEdIssuedBy
+        setEdIssuedBy,
+        clearStateStudentDocuments
     } = UseStudentDocuments()
 
     const {
         snils,
         setSnils,
         INN,
-        setINN
+        setINN,
+        clearStateRussianDocs
     } = UseStudentRussianDocuments()
 
     const {
@@ -89,7 +92,8 @@ const AdminStudentsEnrollment = () => {
         mcNumber,
         setMcNumber,
         mcDateEntry,
-        setMcDateEntry
+        setMcDateEntry,
+        clearStateForeignDocs
     } = UseStudentForeignDocuments()
 
     // choisen direction 
@@ -252,7 +256,13 @@ const AdminStudentsEnrollment = () => {
 
     return (
         <div className="adminenrollment">
-            <EnrollmentPopup />
+            <EnrollmentPopup
+                clearStateForeignDocs={clearStateForeignDocs}
+                clearStateRussianDocs={clearStateRussianDocs}
+                clearStateStudentDocuments={clearStateStudentDocuments}
+                clearStateCommonInfo={clearStateCommonInfo}
+                setDirection={setDirection}
+            />
             <div className="subsection__name">Зачисление</div>
             <div className='adminenrollment__stages'>
                 <NavLink

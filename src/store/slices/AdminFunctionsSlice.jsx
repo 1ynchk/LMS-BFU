@@ -26,18 +26,18 @@ const AdminFunctionsSlice = createSlice(
                     fetchEnrollmentStudent.fulfilled, (state, action) => {
                         state.loading = false
                         state.isRejected = false
-                        state.isPopup = true
                     }
                 )
                 .addCase(
                     fetchEnrollmentStudent.pending, (state, action) => {
                         state.loading = true
+                        state.isPopup = true
                     }
                 )
                 .addCase(
                     fetchEnrollmentStudent.rejected, (state, action) => {
+                        console.log(action)
                         state.loading = false
-                        state.isPopup = true
                         state.isRejected = true
                     }
                 )

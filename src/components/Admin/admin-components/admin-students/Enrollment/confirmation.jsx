@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { fetchEnrollmentStudent } from './../../../../../store/queries/Enrollment/post-enrollment-student';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 const Confirmation = (props) => {
 
@@ -86,7 +87,11 @@ const Confirmation = (props) => {
     }
 
     return (
-        <div className="enrollment__confirmation">
+        <motion.div
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="enrollment__confirmation">
 
             <div className='subsections__subtitle'>Общая информация</div>
 
@@ -188,7 +193,7 @@ const Confirmation = (props) => {
             </div>
 
 
-        </div>
+        </motion.div>
     )
 }
 
