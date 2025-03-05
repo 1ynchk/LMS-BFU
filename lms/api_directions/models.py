@@ -28,6 +28,8 @@ class Directions(models.Model):
     learning_time = models.DecimalField(max_digits=3, decimal_places=2)
     form_ed = models.CharField(max_length=20, choices=form_education)
     students = models.ManyToManyField('api_users.Users', through='DirectionsStudentsThrough')
+    price_russian = models.IntegerField(null=True)
+    price_foreign = models.IntegerField(null=True)
     
     def __str__(self):
         return self.name

@@ -13,7 +13,6 @@ from .serializers import (
     SubjectsSerializer
     ) 
 from .filters import DirectionsFilter
-from .pagination import DirectionsPagination
 
 class DirectionsPagination(generics.ListAPIView):
     '''Получение списка направлений'''

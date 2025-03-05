@@ -1,27 +1,31 @@
 import json
-from rest_framework import status
+
 from django.db import transaction
 from django.db.models import Q
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 
+from rest_framework.decorators import api_view
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
+
+from django_filters.rest_framework import DjangoFilterBackend
 
 from common_bll.decorators import only_admin
 from api_users.models import (
     Users,
-    UsersPassport,
-    )
+    UsersPassport,)
 
 from api_students.models import (
     StudentForeignDocuments,
     StudentRussianDocuments,
-    StudentEducationDocument
-)
+    StudentEducationDocument, 
+    Student)
 
 from api_directions.models import (
-    Directions,
-    DirectionsStudentsThrough
-    )
+    Directions,)
+
+from .serializer import (
+    StudentSerializer)
 
 @api_view(http_method_names=['POST'])
 @only_admin
@@ -119,10 +123,15 @@ def enrollment_student(request):
             )
 
             if data["documents"]["type_citizenship"] == 'russian':
-                ancillary_document = StudentRussianDocuments(
+                ancillary_document = StudentRussianDocuments.objects.create(
                     user=user_obj,
                     snils=data["documents"]["ancillary_document"]["russian"]["snils"],
                     inn=data["documents"]["ancillary_document"]["russian"]["INN"]
+                )
+                student_obj = Student.objects.create(
+                user=user_obj,
+                education_document=user_education_documents,
+                russian_document=ancillary_document
                 )
             else:
                 ancillary_document = StudentForeignDocuments.objects.create(
@@ -135,5 +144,26 @@ def enrollment_student(request):
                     mc_number=data["documents"]["ancillary_document"]["foreign"]["migration_card"]["number"],
                     mc_date_entry=data["documents"]["ancillary_document"]["foreign"]["migration_card"]["date_entry"]
                 )
-            
+                student_obj = Student.objects.create(
+                user=user_obj,
+                education_document=user_education_documents,
+                foreign_document=ancillary_document
+                )
+                                
             return Response({'status': 'ok', 'comment': 'student has been created successfully'}) 
+
+class StudentPaginationList(generics.ListAPIView):
+    '''Получение списка студентов'''
+    
+    queryset = Student.objects \
+        .select_related(
+            'user',
+            'education_document',
+            'russian_document',
+            'foreign_document' 
+            ) \
+        .order_by('id') \
+        .all() 
+    pagination_class = PageNumberPagination
+    filter_backends = (DjangoFilterBackend,)
+    serializer_class = StudentSerializer 

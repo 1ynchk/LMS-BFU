@@ -126,5 +126,151 @@
             "name": "Университетский колледж",
             "description": "Описание для Университетского колледжа"
         }
-    }   
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 1,
+        "fields": {
+            "name": "Математика профильная"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 2,
+        "fields": {
+            "name": "Математика"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 3,
+        "fields": {
+            "name": "Информатика"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 4,
+        "fields": {
+            "name": "Русский язык"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 5,
+        "fields": {
+            "name": "Английский язык"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 6,
+        "fields": {
+            "name": "Немецкий язык"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 7,
+        "fields": {
+            "name": "Французский язык"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 8,
+        "fields": {
+            "name": "Испанский язык"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 9,
+        "fields": {
+            "name": "Физика"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 10,
+        "fields": {
+            "name": "Химия"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 11,
+        "fields": {
+            "name": "Биология"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 12,
+        "fields": {
+            "name": "География"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 13,
+        "fields": {
+            "name": "Обществознание"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 14,
+        "fields": {
+            "name": "Литература"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 15,
+        "fields": {
+            "name": "История"
+        }
+    },
+    {
+        "model": "api_directions.Subjects",
+        "pk": 16,
+        "fields": {
+            "name": "Комплексный экзамен"
+        }
+    }, 
+   {
+        "model": "api_directions.Directions",
+        "pk": 1,
+        "fields": {
+            "name": "Примерное направление",
+            "slug": "primer-napravlenie",
+            "description": "Описание направления",
+            "budget_places": 10,
+            "paid_places": 20,
+            "school": 1,
+            "learning_time": 4.0,
+            "form_ed": "O"
+        }
+    },
+    {
+        "model": "api_directions.DirectionsSubjectsThroughBudgetPaid",
+        "pk": 1,
+        "fields": {
+            "direction": 1,
+            "subject": 1,
+            "points": 75,
+            "type_points": "B"
+        }
+    },
+    {
+        "model": "api_directions.DirectionsSubjectsThroughBudgetPaid",
+        "pk": 2,
+        "fields": {
+            "direction": 1,
+            "subject": 2,
+            "points": 65,
+            "type_points": "P"
+        }
+    } 
 ]
